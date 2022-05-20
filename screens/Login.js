@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
           style={[styles.input, styles.inputBottom]}
         />
       </View>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={() => navigation.navigate('Reset Password')}>
         <Text style={styles.resetPass}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
       <View style={styles.buttonContainer}>

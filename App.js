@@ -1,4 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Import des différentes pages utilisées par la barre de navigation
 import Home from './screens/Home';
@@ -9,7 +10,9 @@ import Account from './screens/Account';
 // import de la page de connexion
 import LoginPage from './screens/Login';
 
-import { createStackNavigator } from '@react-navigation/stack';
+// import de la page pour reset le mot de passe
+import ResetPass from './ResetPass';
+
 
 const Stack = createStackNavigator();
 
@@ -22,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Paramètres" component={Paramaters} />
         <Stack.Screen name="Compte" component={Account} />
         <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="Reset Password" component={ResetPass} />
       </Stack.Navigator>
     </NavigationContainer>
   );
