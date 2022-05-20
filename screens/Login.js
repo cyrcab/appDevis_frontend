@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 20,
     textAlign: 'center',
+    fontWeight: '600',
   },
 });
 

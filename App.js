@@ -11,7 +11,7 @@ import Account from './screens/Account';
 import LoginPage from './screens/Login';
 
 // import de la page pour reset le mot de passe
-import ResetPass from './ResetPass';
+import ResetPass from './screens/ResetPass';
 
 
 const Stack = createStackNavigator();

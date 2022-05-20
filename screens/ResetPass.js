@@ -22,8 +22,7 @@ const ResetPass = () => {
           value={emailToReset}
           style={styles.input}
           onChangeText={setEmailToReset}
-          textContentType="emailAdress"
-          
+          textContentType='emailAddress'
         />
       </View>
       <View style={styles.buttonContaier}>
@@ -47,6 +46,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#EEEFF5',
   },
 
   // input style
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 30,
     padding: 5,
+    backgroundColor: 'white',
   },
   inputContainer: {
     paddingHorizontal: 30,
