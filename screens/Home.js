@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+
+import FastAction from '../components/FastAction';
 
 const Home = ({ navigation }) => {
   return (
@@ -19,8 +27,21 @@ const Home = ({ navigation }) => {
           <Text>Paramètres</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.fastActionContainer}>
+        <Text>Actions rapides</Text>
+        <FastAction title="List des devis" />
+        <FastAction title="Faire un devis" />
+        <FastAction title="Liste des catégories" />
+        <FastAction title="Liste des offres" />
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  fastActionContainer: {
+    marginTop: 40,
+  },
+});
 
 export default Home;
