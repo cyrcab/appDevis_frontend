@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text } from 'react-native';
 
 const NavBar = () => {
   return (
@@ -14,9 +8,5 @@ const NavBar = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  
-})
 
 export default NavBar;
