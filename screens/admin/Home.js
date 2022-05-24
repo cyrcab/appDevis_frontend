@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <FastActionContainer>
-        <Text>Actions rapides</Text>
+        <Subtitle>Actions rapides</Subtitle>
         <FastActionList />
       </FastActionContainer>
       <NavBar />
@@ -42,10 +42,17 @@ const HomeContainer = styled.SafeAreaView`
 
 const FastActionContainer = styled.View`
   height: 60%;
-  border: 1px solid black;
+  ${'' /* border: 1px solid black; */}
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Subtitle = styled.Text`
+  align-self: flex-start;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 3%;
 `;
 
 export default Home;

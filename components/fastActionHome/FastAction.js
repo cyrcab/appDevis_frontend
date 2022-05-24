@@ -4,13 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import styled from 'styled-components/native';
+
 const FastAction = ({ title, link, logo }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
+    <MainContainer
       activeOpacity={0.6}
-      style={[styles.main, styles.shadowProps]}
       onPress={() => {
         navigation.navigate(link);
       }}
@@ -23,9 +24,20 @@ const FastAction = ({ title, link, logo }) => {
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
       </View>
-    </TouchableOpacity>
+    </MainContainer>
   );
 };
+
+const MainContainer = styled.TouchableOpacity`
+  width: 45%;
+  height: 45%;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  background: #fdfdff;
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(31, 19, 0, 0.3);
+`;
 
 const styles = StyleSheet.create({
   main: {
