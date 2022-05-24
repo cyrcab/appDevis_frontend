@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 import FastActionList from '../../components/fastActionHome/FastActionList';
@@ -8,7 +8,7 @@ import NavBar from '../../components/navBar/NavBar';
 
 const Home = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.homeContainer}>
+    <HomeContainer>
       <View>
         <Text>This is the Home Page</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -24,28 +24,28 @@ const Home = ({ navigation }) => {
           <Text>Paramètres</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.fastActionContainer}>
+      <FastActionContainer>
         <Text>Actions rapides</Text>
         <FastActionList />
-      </View>
+      </FastActionContainer>
       <NavBar />
-    </SafeAreaView>
+    </HomeContainer>
   );
 };
 
-const HomeContainer = styled.View``;
+const HomeContainer = styled.SafeAreaView`
+  backgroundcolor: '#EEEFF5';
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
-const styles = StyleSheet.create({
-  homeContainer: {
-    flex: 1,
-    backgroundColor: '#EEEFF5',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  fastActionContainer: {
-    flex: 0.5,
-    marginTop: 40,
-  },
-});
+const FastActionContainer = styled.View`
+  height: 60%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default Home;

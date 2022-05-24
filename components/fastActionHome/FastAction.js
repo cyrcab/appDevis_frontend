@@ -8,10 +8,13 @@ const FastAction = ({ title, link, logo }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity activeOpacity={0.6} style={[styles.main, styles.shadowProps]} onPress={() => {
-      navigation.navigate(link)
-      
-    }}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      style={[styles.main, styles.shadowProps]}
+      onPress={() => {
+        navigation.navigate(link);
+      }}
+    >
       <View style={styles.iconSection}>
         <View style={styles.iconContainer}>
           <Icon name={logo} size={30} color="white" />
