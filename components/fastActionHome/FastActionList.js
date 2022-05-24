@@ -2,9 +2,11 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import FastAction from './FastAction';
 
+import styled from 'styled-components/native';
+
 const FastActionList = () => {
   return (
-    <View style={styles.main}>
+    <MainContainer>
       <FastAction
         title="Liste des devis"
         logo="th-list"
@@ -21,18 +23,17 @@ const FastActionList = () => {
         logo="database"
         link="Liste des offres"
       />
-    </View>
+    </MainContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  main: {
-    width: '90%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    alignContent: 'space-around',
-  },
-});
+const MainContainer = styled.View`
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+`;
 
 export default FastActionList;
