@@ -8,10 +8,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint"
+    "lint": "eslint . --ext .js"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@babel/parser": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
@@ -27,9 +29,10 @@
     "react-native-web": "0.17.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.18.0",
     "@react-native-community/eslint-config": "^3.0.2",
-    "eslint": "^8.15.0"
+    "eslint": "^8.16.0",
+    "prettier": "^2.6.2"
   },
   "private": true
 }

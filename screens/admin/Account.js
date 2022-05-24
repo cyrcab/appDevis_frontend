@@ -9,6 +9,6 @@ const Account = () => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default Account;

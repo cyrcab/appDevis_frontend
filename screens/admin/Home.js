@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.homeContainer}>
       <View>
-        <Text>This is the Home Page</Text>
+        <Text style={{ fontSize: 20 }}>This is the Home Page</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Text>Paramaters page</Text>
         </TouchableOpacity>
