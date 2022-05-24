@@ -6,8 +6,6 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Modal,
-  Pressable,
 } from 'react-native';
 
 const ResetPass = () => {
@@ -22,7 +20,7 @@ const ResetPass = () => {
           value={emailToReset}
           style={styles.input}
           onChangeText={setEmailToReset}
-          textContentType='emailAddress'
+          textContentType="emailAddress"
         />
       </View>
       <View style={styles.buttonContaier}>
