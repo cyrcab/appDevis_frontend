@@ -7,11 +7,11 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import FastAction from '../components/FastAction';
+import FastActionList from '../../components/fastActionHome/FastActionList';
 
 const Home = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.homeContainer}>
       <View>
         <Text>This is the Home Page</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -29,17 +29,20 @@ const Home = ({ navigation }) => {
       </View>
       <View style={styles.fastActionContainer}>
         <Text>Actions rapides</Text>
-        <FastAction title="List des devis" />
-        <FastAction title="Faire un devis" />
-        <FastAction title="Liste des catégories" />
-        <FastAction title="Liste des offres" />
+        <FastActionList />
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  homeContainer: {
+    flex: 1,
+    backgroundColor: '#EEEFF5',
+    alignItems: 'center',
+  },
   fastActionContainer: {
+    flex: 0.5,
     marginTop: 40,
   },
 });
