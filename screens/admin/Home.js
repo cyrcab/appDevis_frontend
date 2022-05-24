@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
 
 import FastActionList from '../../components/fastActionHome/FastActionList';
+
+import NavBar from '../../components/navBar/NavBar';
 
 const Home = ({ navigation }) => {
   return (
@@ -31,15 +28,19 @@ const Home = ({ navigation }) => {
         <Text>Actions rapides</Text>
         <FastActionList />
       </View>
+      <NavBar />
     </SafeAreaView>
   );
 };
+
+const HomeContainer = styled.View``;
 
 const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     backgroundColor: '#EEEFF5',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   fastActionContainer: {
     flex: 0.5,
