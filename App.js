@@ -2,14 +2,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Import des différentes pages utilisées par la barre de navigation
-import EstimateCreation from './screens/admin/estimates/EstimateCreation';
-
-// // import de la page de connexion
+// import de la page de connexion
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
 
-// // import de la page pour reset le mot de passe
-// import ResetPass from './screens/admin/ResetPass';
+// import des différentes stack de navigation
+import EstimateCreation from './screens/admin/estimates/EstimateCreation';
+import EstimateList from './screens/admin/estimates/EstimateList';
+import OfferList from './screens/admin/offer/OfferList';
+import CategoryList from './screens/admin/category/CategoryList';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -28,6 +28,27 @@ export default function App() {
           <Stack.Screen
             name="Création de devis"
             component={EstimateCreation}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des devis"
+            component={EstimateList}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des catégories"
+            component={CategoryList}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des offres"
+            component={OfferList}
             options={{
               headerShown: true,
             }}
