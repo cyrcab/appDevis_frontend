@@ -2,11 +2,18 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import FastActionList from '../../components/fastActionHome/FastActionList';
 
-import NavBar from '../../components/navBar/NavBar';
+import EstimateList from './estimates/EstimateList';
+import OfferList from './offer/OfferList';
+import CategoryList from './category/CategoryList';
+import EstimateCreation from './estimates/EstimateCreation';
 
-const Home = ({ navigation }) => {
+// import NavBar from '../../components/navBar/NavBar';
+
+export const Home = ({ navigation }) => {
   return (
     <HomeContainer>
       <View>
@@ -28,7 +35,7 @@ const Home = ({ navigation }) => {
         <Subtitle>Actions rapides</Subtitle>
         <FastActionList />
       </FastActionContainer>
-      <NavBar />
+      {/* <NavBar /> */}
     </HomeContainer>
   );
 };
@@ -37,7 +44,6 @@ const HomeContainer = styled.SafeAreaView`
   backgroundcolor: '#EEEFF5';
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
 const FastActionContainer = styled.View`
@@ -55,4 +61,16 @@ const Subtitle = styled.Text`
   margin-left: 3%;
 `;
 
-export default Home;
+const HomeStack = createNativeStackNavigator();
+
+export const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Accueil" component={Home} />
+      <HomeStack.Screen name="Liste des devis" component={EstimateList} />
+      <HomeStack.Screen name="Création de devis" component={EstimateCreation} />
+      <HomeStack.Screen name="Liste des catégories" component={CategoryList} />
+      <HomeStack.Screen name="Liste des offres" component={OfferList} />
+    </HomeStack.Navigator>
+  );
+};
