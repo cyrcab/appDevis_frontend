@@ -8,7 +8,7 @@ import ResetPass from '../admin/ResetPass';
 const LoginStack = createNativeStackNavigator();
 const LoginStackScreen = () => {
   return (
-    <LoginStack.Navigator>
+    <LoginStack.Navigator screenOptions={{ headerShown: false }}>
       <LoginStack.Screen name="Login" component={Login} />
       <LoginStack.Screen name="Reset Password" component={ResetPass} />
     </LoginStack.Navigator>

@@ -1,12 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import des différentes pages utilisées par la barre de navigation
-import HomeStackScreen from './screens/helpers/HomeStackScreen';
-// import Paramaters from './screens/admin/Paramaters';
-// import Notifications from './screens/admin/Notifications';
-// import Account from './screens/admin/Account';
+import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 
 // // import de la page de connexion
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
@@ -16,19 +13,26 @@ import LoginStackScreen from './screens/helpers/LoginStackScreen';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const fakeUser = {
-    isSignedIn: false,
+    isSignedIn: true,
   };
 
   return (
     <NavigationContainer>
       {fakeUser.isSignedIn ? (
-        <BottomNavBar>
-          <Tab.Screen name="Home" component={HomeStackScreen} />
-        </BottomNavBar>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="App devis" component={BottomNavBar} />
+          <Stack.Screen
+            name="Création de devis"
+            component={EstimateCreation}
+            options={{
+              headerShown: true,
+            }}
+          />
+        </Stack.Navigator>
       ) : (
         <LoginStackScreen />
       )}
