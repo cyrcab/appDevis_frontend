@@ -1,50 +1,62 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-// Import des différentes pages utilisées par la barre de navigation
-import Home from './screens/admin/Home';
-import Paramaters from './screens/admin/Paramaters';
-import Notifications from './screens/admin/Notifications';
-import Account from './screens/admin/Account';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // import de la page de connexion
-import LoginPage from './screens/admin/Login';
+import LoginStackScreen from './screens/helpers/LoginStackScreen';
 
-// import de la page pour reset le mot de passe
-import ResetPass from './screens/admin/ResetPass';
-
-// import des pages pour les actions rapides
+// import des différentes stack de navigation
+import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 import EstimateList from './screens/admin/estimates/EstimateList';
 import OfferList from './screens/admin/offer/OfferList';
 import CategoryList from './screens/admin/category/CategoryList';
-import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 
-const Stack = createStackNavigator();
+import BottomNavBar from './components/navBar/BottomNavbar';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const fakeUser = {
+    isSignedIn: true,
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          // options={{
-          //   headerLeft: () => {
-          //     HeaderBackButton: 'disabled';
-          //   },
-          // }}
-        />
-        <Stack.Screen name="Paramètres" component={Paramaters} />
-        <Stack.Screen name="Compte" component={Account} />
-        <Stack.Screen name="Notifications" component={Notifications} />
-        <Stack.Screen name="Reset Password" component={ResetPass} />
-        <Stack.Screen name="Liste des devis" component={EstimateList} />
-        <Stack.Screen name="Création de devis" component={EstimateCreation} />
-        <Stack.Screen name="Liste des catégories" component={CategoryList} />
-        <Stack.Screen name="Liste des offres" component={OfferList} />
-      </Stack.Navigator>
+      {fakeUser.isSignedIn ? (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="App devis" component={BottomNavBar} />
+          <Stack.Screen
+            name="Création de devis"
+            component={EstimateCreation}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des devis"
+            component={EstimateList}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des catégories"
+            component={CategoryList}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des offres"
+            component={OfferList}
+            options={{
+              headerShown: true,
+            }}
+          />
+        </Stack.Navigator>
+      ) : (
+        <LoginStackScreen />
+      )}
     </NavigationContainer>
   );
 }

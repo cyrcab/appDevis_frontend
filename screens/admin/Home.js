@@ -1,50 +1,42 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text } from 'react-native';
+import styled from 'styled-components/native';
 
+// import des composants
 import FastActionList from '../../components/fastActionHome/FastActionList';
 
-const Home = ({ navigation }) => {
+const Home = () => {
   return (
-    <SafeAreaView style={styles.homeContainer}>
+    <HomeContainer>
       <View>
-        <Text style={{ fontSize: 20 }}>This is the Home Page</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text>Paramaters page</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
-          <Text>Notifications</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Compte')}>
-          <Text>Compte</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Paramètres')}>
-          <Text>Paramètres</Text>
-        </TouchableOpacity>
+        <Text>This is the Home Page</Text>
       </View>
-      <View style={styles.fastActionContainer}>
-        <Text>Actions rapides</Text>
+      <FastActionContainer>
+        <Subtitle>Actions rapides</Subtitle>
         <FastActionList />
-      </View>
-    </SafeAreaView>
+      </FastActionContainer>
+    </HomeContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  homeContainer: {
-    flex: 1,
-    backgroundColor: '#EEEFF5',
-    alignItems: 'center',
-  },
-  fastActionContainer: {
-    flex: 0.5,
-    marginTop: 40,
-  },
-});
+const HomeContainer = styled.SafeAreaView`
+  backgroundcolor: '#EEEFF5';
+  display: flex;
+  flex-direction: column;
+`;
+
+const FastActionContainer = styled.View`
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Subtitle = styled.Text`
+  align-self: flex-start;
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 3%;
+`;
 
 export default Home;
