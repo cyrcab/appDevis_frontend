@@ -1,62 +1,12 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// import de la page de connexion
-import LoginStackScreen from './screens/helpers/LoginStackScreen';
-
-// import des différentes stack de navigation
-import EstimateCreation from './screens/admin/estimates/EstimateCreation';
-import EstimateList from './screens/admin/estimates/EstimateList';
-import OfferList from './screens/admin/offer/OfferList';
-import CategoryList from './screens/admin/category/CategoryList';
-
-import BottomNavBar from './components/navBar/BottomNavbar';
-
-const Stack = createNativeStackNavigator();
+import AppContainer from './AppContainer';
+import { Provider } from 'react-redux';
+import store from './app/store';
 
 export default function App() {
-  const fakeUser = {
-    isSignedIn: true,
-  };
-
   return (
-    <NavigationContainer>
-      {fakeUser.isSignedIn ? (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="App devis" component={BottomNavBar} />
-          <Stack.Screen
-            name="Création de devis"
-            component={EstimateCreation}
-            options={{
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="Liste des devis"
-            component={EstimateList}
-            options={{
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="Liste des catégories"
-            component={CategoryList}
-            options={{
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="Liste des offres"
-            component={OfferList}
-            options={{
-              headerShown: true,
-            }}
-          />
-        </Stack.Navigator>
-      ) : (
-        <LoginStackScreen />
-      )}
-    </NavigationContainer>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
   );
 }

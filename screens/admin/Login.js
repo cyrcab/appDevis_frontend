@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { CONNECT } from '../../features/userSlice';
 import {
   View,
   Text,
@@ -9,8 +11,20 @@ import {
 } from 'react-native';
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  const connectUser = () => {
+    if (userName && password) {
+      dispatch(
+        CONNECT({
+          userName,
+          isConnected: true,
+        }),
+      );
+    }
+  };
 
   return (
     <SafeAreaView style={styles.main}>
@@ -43,10 +57,7 @@ const Login = ({ navigation }) => {
         <Text style={styles.resetPass}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Home')}
-        >
+        <TouchableOpacity style={styles.button} onPress={connectUser}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
       </View>
