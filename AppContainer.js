@@ -20,7 +20,6 @@ const Stack = createNativeStackNavigator();
 const AppContainer = () => {
   const user = useSelector((state) => state.auth);
 
-  console.log(user);
   return (
     <NavigationContainer>
       {user.isConnected ? (
