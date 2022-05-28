@@ -29,19 +29,28 @@ const AccountParameterList = () => {
   };
 
   return (
-    <Main>
+    <ListWrapper>
       <FlatList
         data={PARAMETERS}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        horizontal="false"
       />
-    </Main>
+    </ListWrapper>
   );
 };
 
-const Main = styled.View`
+const ListWrapper = styled.View`
+  padding: 5% 0 5% 5%;
+  display: flex;
+  align-items: center;
   border: 1px solid black;
+  width: 90%;
   height: 60%;
+  align-self: center;
+  border-radius: 30px;
+  background: #fdfdff;
+  margin-top: 5%;
 `;
 
 export default AccountParameterList;
