@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import auth from '../helpers/auth';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const connectUser = () => {
+    console.log(process.env.REACT_APP_API_URL);
     if (userName && password) {
       dispatch(
         CONNECT({
@@ -24,6 +26,7 @@ const Login = ({ navigation }) => {
         }),
       );
     }
+    auth(userName, password);
   };
 
   return (
