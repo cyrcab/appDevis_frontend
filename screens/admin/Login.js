@@ -9,24 +9,22 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import auth from '../helpers/auth';
+import connectUser from '../helpers/authentification/connectUser';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState('');
+  const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
 
-  const connectUser = () => {
-    console.log(process.env.REACT_APP_API_URL);
-    if (userName && password) {
+  const handleLoginUser = async () => {
+    const user = await connectUser(mail, password);
+    if (user) {
       dispatch(
         CONNECT({
-          userName,
-          isConnected: true,
+          ...user,
         }),
       );
     }
-    auth(userName, password);
   };
 
   return (
@@ -39,10 +37,11 @@ const Login = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <Text style={styles.textInput}>User</Text>
         <TextInput
-          onChangeText={setUserName}
-          value={userName}
+          onChangeText={setMail}
+          value={mail}
           clearButtonMode="while-editing"
           style={styles.input}
+          textContentType="emailAddress"
         />
       </View>
       <View style={[styles.inputContainer, styles.mdpInput]}>
@@ -60,7 +59,7 @@ const Login = ({ navigation }) => {
         <Text style={styles.resetPass}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={connectUser}>
+        <TouchableOpacity style={styles.button} onPress={handleLoginUser}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
       </View>
