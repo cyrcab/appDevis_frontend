@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
+import { Alert, Text } from 'react-native';
 
 import FirstButton from '../../../components/styled-components/FirstButton';
 
 const UpdateMail = () => {
   const [password, setPassword] = useState({
     value: '',
-    isCorrect: false,
+    isCorrect: true,
   });
   const [isEnterPass, setIsEnterPass] = useState(false);
+  // const [areTheSame, setAreTheSame] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState('');
 
@@ -26,6 +28,27 @@ const UpdateMail = () => {
     }
   }, [isEnterPass]);
 
+  const showPassErrorAlert = () => {
+    Alert.alert(
+      'Mauvais mot de passe',
+      "Le mot de passe rentré n'est pas bon, merci de le saisir à nouveau",
+      [
+        {
+          text: 'ok',
+          onPress: () => setPassword({ ...password, value: '' }),
+          style: 'destructive',
+        },
+      ],
+    );
+  };
+
+  const [areTheSame, setAreTheSame] = useState(false);
+  const testNewPassword = () => {
+    if (newPassword === newPasswordConfirmation) {
+      setAreTheSame(true);
+    }
+  };
+
   return (
     <Main>
       <Title>Changement de mot de passe</Title>
@@ -35,7 +58,11 @@ const UpdateMail = () => {
           value={password.value}
           onChangeText={(text) => setPassword({ ...password, value: text })}
           secureTextEntry={true}
-          onEndEditing={() => setIsEnterPass(true)}
+          clearButtonMode="while-editing"
+          onEndEditing={() => {
+            setIsEnterPass(true);
+            !password.isCorrect ? showPassErrorAlert() : null;
+          }}
         />
       </InputContainer>
       <InputContainer>
@@ -44,6 +71,7 @@ const UpdateMail = () => {
           value={newPassword}
           onChangeText={setNewPassword}
           editable={password.isCorrect}
+          clearButtonMode="while-editing"
         />
       </InputContainer>
       <InputContainer>
@@ -53,11 +81,18 @@ const UpdateMail = () => {
           onChangeText={setNewPasswordConfirmation}
           style={{ marginBottom: marginForFocusedInput }}
           onFocus={() => setIsFocused(true)}
-          onEndEditing={() => setIsFocused(false)}
+          onEndEditing={() => {
+            setIsFocused(false);
+            testNewPassword();
+          }}
           editable={password.isCorrect}
+          clearButtonMode="while-editing"
         />
       </InputContainer>
       <FirstButton text="Changer" />
+      {newPassword && newPasswordConfirmation && !areTheSame ? (
+        <Text>Les mots de passes ne concordent pas</Text>
+      ) : null}
     </Main>
   );
 };
