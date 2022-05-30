@@ -15,10 +15,13 @@ const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
 
   const handleLoginUser = async () => {
     const user = await connectUser(mail, password);
-    if (user) {
+    if (Array.isArray(user)) {
+      setErrors([...user]);
+    } else {
       dispatch(
         CONNECT({
           ...user,
@@ -35,7 +38,7 @@ const Login = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.textInput}>User</Text>
+        <Text style={styles.textInput}>Adresse mail</Text>
         <TextInput
           onChangeText={setMail}
           value={mail}
@@ -43,6 +46,9 @@ const Login = ({ navigation }) => {
           style={styles.input}
           textContentType="emailAddress"
         />
+        {errors.length > 0 && errors.some((e) => e.errorCode === 2) ? (
+          <Text>{errors.filter((el) => el.errorCode === 2)[0].message}</Text>
+        ) : null}
       </View>
       <View style={[styles.inputContainer, styles.mdpInput]}>
         <Text style={styles.textInput}>Mot de passe</Text>
@@ -54,6 +60,9 @@ const Login = ({ navigation }) => {
           clearButtonMode="while-editing"
           style={[styles.input, styles.inputBottom]}
         />
+        {errors.length > 0 && errors.some((e) => e.errorCode === 3) ? (
+          <Text>{errors.filter((el) => el.errorCode === 3)[0].message}</Text>
+        ) : null}
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Reset Password')}>
         <Text style={styles.resetPass}>Mot de passe oublié ?</Text>
@@ -62,6 +71,9 @@ const Login = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={handleLoginUser}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
+        {errors.length > 0 && errors.some((e) => e.errorCode === 1) ? (
+          <Text>{errors.filter((el) => el.errorCode === 1)[0].message}</Text>
+        ) : null}
       </View>
     </SafeAreaView>
   );

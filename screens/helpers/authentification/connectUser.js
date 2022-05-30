@@ -1,6 +1,7 @@
 import auth from './auth';
 
 const connectUser = async (mail, password) => {
+  const errors = [];
   try {
     if (mail && password) {
       const credentials = {
@@ -11,13 +12,37 @@ const connectUser = async (mail, password) => {
       if (user) {
         return user;
       } else {
-        console.log('erreur: Pas de compte avec cette adresse');
+        const noUserError = {
+          message: "Ce mail n'est pas utilisé",
+          errorCode: 1,
+        };
+        errors.push(noUserError);
+        return errors;
       }
     } else {
-      console.log('merci de rentrer des infos dans les champs');
+      if (!mail) {
+        const noMailInput = {
+          message: 'Merci de rentrer une adresse mail valide',
+          errorCode: 2,
+        };
+        errors.push(noMailInput);
+      }
+      if (!password) {
+        const noPassInput = {
+          message: 'Merci de rentrer un mot de passe valide',
+          errorCode: 3,
+        };
+        errors.push(noPassInput);
+      }
+      return errors;
     }
   } catch (error) {
-    console.log(error);
+    const functionError = {
+      message: error.message,
+      errorCode: 4,
+    };
+    errors.push(functionError);
+    return errors;
   }
 };
 
