@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
-const ItemInfos = ({ title }) => {
+const ItemInfos = ({ title, link }) => {
+  const navigation = useNavigation();
+
   return (
     <TouchableWrapper>
-      <Main>
+      <Main
+        onPress={() => {
+          navigation.navigate(link);
+        }}
+      >
         <Content>{title}</Content>
         <Icon name="chevron-right" size={25} color="#A8A39A" />
       </Main>
