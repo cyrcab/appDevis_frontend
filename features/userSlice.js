@@ -8,6 +8,7 @@ export const userSlice = createSlice({
     isConnected: false,
     mail: null,
     role_id: null,
+    role_name: null,
   },
   reducers: {
     CONNECT: (state, action) => {
@@ -18,6 +19,7 @@ export const userSlice = createSlice({
       state.lastName = lastName;
       state.mail = mail;
       state.role_id = role_id;
+      state.role_name = action.payload.Role.Name;
     },
     DISCONNECT: (state) => {
       state.isConnected = false;
@@ -25,6 +27,7 @@ export const userSlice = createSlice({
       state.lastName = null;
       state.mail = null;
       state.role_id = null;
+      state.role_name = null;
     },
   },
 });
