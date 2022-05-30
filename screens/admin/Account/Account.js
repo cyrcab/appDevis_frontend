@@ -12,7 +12,7 @@ const Account = () => {
   return (
     <Main>
       <View>
-        <AccountInfos name={user.userName} />
+        <AccountInfos user={user} />
         <AccountParameterList />
       </View>
     </Main>

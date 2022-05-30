@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 
 // import de la page de connexion
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
@@ -12,8 +13,6 @@ import OfferList from './screens/admin/offer/OfferList';
 import CategoryList from './screens/admin/category/CategoryList';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
-
-import { useSelector } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
