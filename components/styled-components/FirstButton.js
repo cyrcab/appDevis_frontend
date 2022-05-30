@@ -12,7 +12,7 @@ const FirstButton = ({ text }) => {
 const ButtonContainer = styled.TouchableOpacity`
   background: #083d77;
   width: 30%;
-  padding: 10px 20px;
+  padding: 15px 20px;
   border-radius: 30px;
   display: flex;
   align-items: center;
