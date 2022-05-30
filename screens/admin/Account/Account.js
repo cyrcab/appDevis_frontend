@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 
@@ -11,16 +10,15 @@ const Account = () => {
 
   return (
     <Main>
-      <View>
-        <AccountInfos user={user} />
-        <AccountParameterList />
-      </View>
+      <AccountInfos user={user} />
+      <AccountParameterList />
     </Main>
   );
 };
 
 const Main = styled.SafeAreaView`
   background: #eeeff5;
+  height: 100%;
 `;
 
 export default Account;

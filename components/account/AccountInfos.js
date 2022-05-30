@@ -26,6 +26,7 @@ const Main = styled.View`
   display: flex;
   align-items: center;
   margin-top: 5%;
+  background: #eeeff5;
 `;
 const IconContainer = styled.View`
   display: flex;

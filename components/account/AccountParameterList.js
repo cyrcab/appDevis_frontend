@@ -29,7 +29,7 @@ const ListWrapper = styled.View`
   align-items: center;
   border: 1px solid black;
   width: 90%;
-  height: 60%;
+  height: 50%;
   align-self: center;
   border-radius: 30px;
   background: #fdfdff;
