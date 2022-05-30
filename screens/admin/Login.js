@@ -9,18 +9,22 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import connectUser from '../helpers/authentification/connectUser';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState('');
+  const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
 
-  const connectUser = () => {
-    if (userName && password) {
+  const handleLoginUser = async () => {
+    const user = await connectUser(mail, password);
+    if (Array.isArray(user) || !user.isConnected) {
+      setErrors([...user]);
+    } else {
       dispatch(
         CONNECT({
-          userName,
-          isConnected: true,
+          ...user,
         }),
       );
     }
@@ -34,13 +38,19 @@ const Login = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.textInput}>User</Text>
+        <Text style={styles.textInput}>Adresse mail</Text>
         <TextInput
-          onChangeText={setUserName}
-          value={userName}
+          onChangeText={setMail}
+          value={mail}
           clearButtonMode="while-editing"
           style={styles.input}
+          textContentType="emailAddress"
         />
+        {errors.length > 0 && errors.some((e) => e.errorCode === 2) ? (
+          <Text style={styles.errorText}>
+            {errors.filter((el) => el.errorCode === 2)[0].message}
+          </Text>
+        ) : null}
       </View>
       <View style={[styles.inputContainer, styles.mdpInput]}>
         <Text style={styles.textInput}>Mot de passe</Text>
@@ -52,14 +62,23 @@ const Login = ({ navigation }) => {
           clearButtonMode="while-editing"
           style={[styles.input, styles.inputBottom]}
         />
+        {errors.length > 0 && errors.some((e) => e.errorCode === 3) ? (
+          <Text style={styles.errorText}>
+            {errors.filter((el) => el.errorCode === 3)[0].message}
+          </Text>
+        ) : null}
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Reset Password')}>
         <Text style={styles.resetPass}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={connectUser}>
+        <TouchableOpacity style={styles.button} onPress={handleLoginUser}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
+        {errors.length > 0 &&
+        errors.some((e) => e.errorCode !== 2 && e.errorCode !== 3) ? (
+          <Text style={styles.errorText}>{errors[0].message}</Text>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -120,6 +139,11 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: 'center',
     fontWeight: '600',
+  },
+
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
   },
 });
 
