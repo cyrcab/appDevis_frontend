@@ -19,7 +19,7 @@ const Login = ({ navigation }) => {
 
   const handleLoginUser = async () => {
     const user = await connectUser(mail, password);
-    if (Array.isArray(user)) {
+    if (Array.isArray(user) || !user.isConnected) {
       setErrors([...user]);
     } else {
       dispatch(
@@ -47,7 +47,9 @@ const Login = ({ navigation }) => {
           textContentType="emailAddress"
         />
         {errors.length > 0 && errors.some((e) => e.errorCode === 2) ? (
-          <Text>{errors.filter((el) => el.errorCode === 2)[0].message}</Text>
+          <Text style={styles.errorText}>
+            {errors.filter((el) => el.errorCode === 2)[0].message}
+          </Text>
         ) : null}
       </View>
       <View style={[styles.inputContainer, styles.mdpInput]}>
@@ -61,7 +63,9 @@ const Login = ({ navigation }) => {
           style={[styles.input, styles.inputBottom]}
         />
         {errors.length > 0 && errors.some((e) => e.errorCode === 3) ? (
-          <Text>{errors.filter((el) => el.errorCode === 3)[0].message}</Text>
+          <Text style={styles.errorText}>
+            {errors.filter((el) => el.errorCode === 3)[0].message}
+          </Text>
         ) : null}
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Reset Password')}>
@@ -71,8 +75,9 @@ const Login = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={handleLoginUser}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
-        {errors.length > 0 && errors.some((e) => e.errorCode === 1) ? (
-          <Text>{errors.filter((el) => el.errorCode === 1)[0].message}</Text>
+        {errors.length > 0 &&
+        errors.some((e) => e.errorCode !== 2 && e.errorCode !== 3) ? (
+          <Text style={styles.errorText}>{errors[0].message}</Text>
         ) : null}
       </View>
     </SafeAreaView>
@@ -134,6 +139,11 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: 'center',
     fontWeight: '600',
+  },
+
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
   },
 });
 

@@ -8,16 +8,13 @@ const connectUser = async (mail, password) => {
         mail: mail,
         password: password,
       };
-      const user = await auth(credentials);
-      if (user) {
-        return user;
-      } else {
-        const noUserError = {
-          message: "Ce mail n'est pas utilisé",
-          errorCode: 1,
-        };
-        errors.push(noUserError);
+      const { userDatas, requestLoginErrors } = await auth(credentials);
+      if (requestLoginErrors) {
+        errors.push(requestLoginErrors.response.data);
         return errors;
+      }
+      if (userDatas) {
+        return userDatas;
       }
     } else {
       if (!mail) {

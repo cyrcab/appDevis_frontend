@@ -1,14 +1,15 @@
 import axios from '../axios.config';
 
 const auth = async (credentials) => {
-  let dataToReturn;
+  let userDatas;
+  let requestLoginErrors;
   await axios
     .post('/api/users/login', credentials)
     .then((response) => response.data)
-    .then((data) => (dataToReturn = { ...data }))
-    .catch((err) => err);
+    .then((data) => (userDatas = { ...data }))
+    .catch((err) => (requestLoginErrors = { ...err }));
 
-  return dataToReturn;
+  return { userDatas, requestLoginErrors };
 };
 
 export default auth;
