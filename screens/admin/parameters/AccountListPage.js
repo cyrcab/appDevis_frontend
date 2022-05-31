@@ -8,20 +8,36 @@ import SearchBar from '../../../components/styled-components/SearchBar';
 
 const AccountListPage = () => {
   const [userList, setUserList] = useState([]);
+  const [searchedWord, setSearchedWord] = useState('');
 
   useEffect(() => {
     axios
       .get('/api/users')
       .then((response) => response.data)
-      .then((data) => setUserList(data))
+      .then((data) => {
+        if (searchedWord !== '') {
+          console.log(searchedWord);
+          setUserList(
+            data.filter(
+              (e) =>
+                e.firstName.includes(searchedWord.toLowerCase()) ||
+                e.firstName.includes(searchedWord.toUpperCase()) ||
+                e.lastName.includes(searchedWord.toLowerCase()) ||
+                e.lastName.includes(searchedWord.toUpperCase()),
+            ),
+          );
+        } else {
+          setUserList(data);
+        }
+      })
       .catch((err) => console.log(err));
-  }, []);
+  }, [searchedWord]);
 
   return (
     <Main>
-      <Title>Ceci est la page de paramètres des comptes</Title>
+      <Title>Utilisateurs</Title>
       <SearchBarWrapper>
-        <SearchBar />
+        <SearchBar value={searchedWord} setValue={setSearchedWord} />
       </SearchBarWrapper>
       <ListContainer>
         <ListElems elems={userList} />
@@ -42,14 +58,13 @@ const Main = styled.SafeAreaView`
 `;
 const Title = styled.Text`
   font-size: 25px;
+  margin-top: 3%;
 `;
 const ButtonWrapper = styled.View`
   width: 70%;
-  margin-top: 5%;
 `;
 const ListContainer = styled.View`
-  max-height: 70%;
-  height: 50%;
+  height: 60%;
 `;
 const SearchBarWrapper = styled.View`
   width: 80%;

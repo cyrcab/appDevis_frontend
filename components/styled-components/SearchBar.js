@@ -3,10 +3,14 @@ import styled from 'styled-components/native';
 styled;
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const SearchBar = () => {
+const SearchBar = ({ value, setValue }) => {
   return (
     <Main>
-      <InputSearch placeholder="Rechercher" />
+      <InputSearch
+        placeholder="Rechercher"
+        value={value}
+        onChangeText={setValue}
+      />
       <IconContainer>
         <Icon name="search" size={30} color="#8c8787" />
       </IconContainer>
