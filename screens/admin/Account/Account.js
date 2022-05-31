@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 
 import AccountInfos from '../../../components/account/AccountInfos';
-import AccountParameterList from '../../../components/account/AccountParameterList';
+import AccountParameterList from '../../../components/ParameterList';
+
+import { PARAMETERS } from '../../../app/datas/accountParametersList';
 
 const Account = () => {
   const user = useSelector((state) => state.auth);
@@ -11,7 +13,7 @@ const Account = () => {
   return (
     <Main>
       <AccountInfos user={user} />
-      <AccountParameterList />
+      <AccountParameterList parameters={PARAMETERS} />
     </Main>
   );
 };

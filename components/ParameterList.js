@@ -2,11 +2,9 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
-import ItemInfos from './ItemInfos';
+import ItemInfos from './account/ItemInfos';
 
-import { PARAMETERS } from './datas/parametersList';
-
-const AccountParameterList = () => {
+const ParameterList = ({ parameters }) => {
   const renderItem = ({ item }) => {
     return <ItemInfos title={item.title} link={item.link} />;
   };
@@ -14,7 +12,7 @@ const AccountParameterList = () => {
   return (
     <ListWrapper>
       <FlatList
-        data={PARAMETERS}
+        data={parameters}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         horizontal="false"
@@ -36,4 +34,4 @@ const ListWrapper = styled.View`
   margin-top: 5%;
 `;
 
-export default AccountParameterList;
+export default ParameterList;
