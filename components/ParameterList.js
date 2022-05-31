@@ -6,7 +6,13 @@ import ItemInfos from './account/ItemInfos';
 
 const ParameterList = ({ parameters }) => {
   const renderItem = ({ item }) => {
-    return <ItemInfos title={item.title} link={item.link} />;
+    return (
+      <ItemInfos
+        title={item.title}
+        link={item.link}
+        autorisedRole={item.autorisedRole}
+      />
+    );
   };
 
   return (

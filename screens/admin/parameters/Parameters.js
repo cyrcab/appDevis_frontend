@@ -8,19 +8,18 @@ import ParameterList from '../../../components/ParameterList';
 import { PARAMETERS } from '../../../app/datas/parametersList';
 
 const Paramaters = () => {
-  // const dispatch = useDispatch();
-  // const disconnectUser = () => {
-  //   dispatch(DISCONNECT());
-  // };
+  const dispatch = useDispatch();
+  const disconnectUser = () => {
+    dispatch(DISCONNECT());
+  };
 
   return (
     <Main>
-      {/* <View>
-        <Text>This is the parameters page</Text>
-        <Button onPress={disconnectUser} title="Déconnexion" />
-      </View> */}
       <Title>Paramètres de l'application</Title>
       <ParameterList parameters={PARAMETERS} />
+      <View>
+        <Button onPress={disconnectUser} title="Déconnexion" />
+      </View>
     </Main>
   );
 };
