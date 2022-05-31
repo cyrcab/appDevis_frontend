@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Alert, Text } from 'react-native';
 
-import FirstButton from '../../../components/styled-components/FirstButton';
+import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
 const UpdateMail = () => {
   const [mail, setMail] = useState({
