@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const RenderUsersInList = ({ user, iconName }) => {
+  const navigation = useNavigation();
+
   return (
     <Main>
       <IconWrapper>
@@ -12,12 +15,20 @@ const RenderUsersInList = ({ user, iconName }) => {
         <InfoName>
           {user.firstName} {user.lastName}
         </InfoName>
-        <Role>{user.role_name}</Role>
+        <Role>{user.Role.Name}</Role>
         <EstimateNumber>
-          {user.numberOfEstimates} devis effectués
+          {user._count.Estimate === 0
+            ? 'Pas encore de devis effectué'
+            : `${user._count.Estimate} devis effectués`}
         </EstimateNumber>
       </InfosSection>
-      <Params>
+      <Params
+        onPress={() =>
+          navigation.navigate('Utilisateur admin view', {
+            user: user,
+          })
+        }
+      >
         <Icon name="ellipsis-h" size={30} />
       </Params>
     </Main>
