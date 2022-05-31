@@ -5,14 +5,14 @@ import { Alert, Text } from 'react-native';
 import FirstButton from '../../../components/styled-components/FirstButton';
 
 const UpdateMail = () => {
-  const [password, setPassword] = useState({
+  const [mail, setMail] = useState({
     value: '',
     isCorrect: true,
   });
-  const [isEnterPass, setIsEnterPass] = useState(false);
+  const [isEnterMail, setIsEnterMail] = useState(false);
   // const [areTheSame, setAreTheSame] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState('');
+  const [newMail, setNewMail] = useState('');
+  const [newMailConfirmation, setNewMailConfirmation] = useState('');
 
   const [isFocused, setIsFocused] = useState(false);
   const marginForFocusedInput = isFocused ? 300 : 0;
@@ -21,21 +21,21 @@ const UpdateMail = () => {
     // c'est ici que l'on va tester si le mot de passe rentré est le bon
     // il faut néanmoins sécuriser la route histoire que n'importe qui ne puisse pas
     // modifier n'importe quel mot de passe
-    if (isEnterPass) {
-      console.log('password is in input');
+    if (isEnterMail) {
+      console.log('password is input');
     } else {
-      console.log('no password in input');
+      console.log('no password input');
     }
-  }, [isEnterPass]);
+  }, [isEnterMail]);
 
-  const showPassErrorAlert = () => {
+  const showMailErrorAlert = () => {
     Alert.alert(
-      'Mauvais mot de passe',
-      "Le mot de passe rentré n'est pas bon, merci de le saisir à nouveau",
+      'Mauvaise adresse mail',
+      "L'adresse mail rentrée n'est pas la bonne, merci d'essayer à nouveau",
       [
         {
           text: 'ok',
-          onPress: () => setPassword({ ...password, value: '' }),
+          onPress: () => setMail({ ...mail, value: '' }),
           style: 'destructive',
         },
       ],
@@ -44,54 +44,56 @@ const UpdateMail = () => {
 
   const [areTheSame, setAreTheSame] = useState(false);
   const testNewPassword = () => {
-    if (newPassword === newPasswordConfirmation) {
+    if (newMail === newMailConfirmation) {
       setAreTheSame(true);
     }
   };
 
   return (
     <Main>
-      <Title>Changement de mot de passe</Title>
+      <Title>Changement d'adresse mail</Title>
       <InputContainer>
-        <TextInput>Rentrez votre mot de passe :</TextInput>
+        <TextInput>Rentrez votre adresse mail actuelle :</TextInput>
         <Input
-          value={password.value}
-          onChangeText={(text) => setPassword({ ...password, value: text })}
-          secureTextEntry={true}
+          value={mail.value}
+          keyboardType="email-address"
+          onChangeText={(text) => setMail({ ...mail, value: text })}
           clearButtonMode="while-editing"
           onEndEditing={() => {
-            setIsEnterPass(true);
-            !password.isCorrect ? showPassErrorAlert() : null;
+            setIsEnterMail(true);
+            !mail.isCorrect ? showMailErrorAlert() : null;
           }}
         />
       </InputContainer>
       <InputContainer>
-        <TextInput>Rentrez votre nouveau mot de passe :</TextInput>
+        <TextInput>Rentrez votre nouvelle adresse mail :</TextInput>
         <Input
-          value={newPassword}
-          onChangeText={setNewPassword}
-          editable={password.isCorrect}
+          value={newMail}
+          keyboardType="email-address"
+          onChangeText={setNewMail}
+          editable={mail.isCorrect}
           clearButtonMode="while-editing"
         />
       </InputContainer>
       <InputContainer>
-        <TextInput>Rentrez votre nouveau mot de passe :</TextInput>
+        <TextInput>Confirmez votre nouvelle adresse mail :</TextInput>
         <Input
-          value={newPasswordConfirmation}
-          onChangeText={setNewPasswordConfirmation}
+          value={newMailConfirmation}
+          keyboardType="email-address"
+          onChangeText={setNewMailConfirmation}
           style={{ marginBottom: marginForFocusedInput }}
           onFocus={() => setIsFocused(true)}
           onEndEditing={() => {
             setIsFocused(false);
             testNewPassword();
           }}
-          editable={password.isCorrect}
+          editable={mail.isCorrect}
           clearButtonMode="while-editing"
         />
       </InputContainer>
       <FirstButton text="Changer" />
-      {newPassword && newPasswordConfirmation && !areTheSame ? (
-        <Text>Les mots de passes ne concordent pas</Text>
+      {newMail && newMailConfirmation && !areTheSame ? (
+        <Text>Les adresses ne concordent pas</Text>
       ) : null}
     </Main>
   );

@@ -2,12 +2,12 @@ export const PARAMETERS = [
   {
     id: 1,
     title: 'Modifier le mot de passe',
-    link: 'updateMail',
+    link: 'updatePass',
   },
   {
     id: 2,
     title: "Modifier l'adresse mail",
-    link: 'updatePass',
+    link: 'updateMail',
   },
   {
     id: 3,
