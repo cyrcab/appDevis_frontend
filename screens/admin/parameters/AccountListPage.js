@@ -4,6 +4,7 @@ import axios from '../../helpers/axios.config';
 
 import ListElems from '../../../components/ListElems';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
+import SearchBar from '../../../components/styled-components/SearchBar';
 
 const AccountListPage = () => {
   const [userList, setUserList] = useState([]);
@@ -19,6 +20,9 @@ const AccountListPage = () => {
   return (
     <Main>
       <Title>Ceci est la page de paramètres des comptes</Title>
+      <SearchBarWrapper>
+        <SearchBar />
+      </SearchBarWrapper>
       <ListContainer>
         <ListElems elems={userList} />
       </ListContainer>
@@ -44,7 +48,12 @@ const ButtonWrapper = styled.View`
   margin-top: 5%;
 `;
 const ListContainer = styled.View`
+  max-height: 70%;
   height: 50%;
+`;
+const SearchBarWrapper = styled.View`
+  width: 80%;
+  margin: 5% 0;
 `;
 
 export default AccountListPage;
