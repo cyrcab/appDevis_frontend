@@ -10,10 +10,12 @@ const ItemInfos = ({ title, link, autorisedRole }) => {
   const navigation = useNavigation();
 
   const userHadAutorisation = () => {
-    let isAutorised = false;
+    let isAutorised = true;
 
-    if (user.role_name.toLowerCase() === autorisedRole.toLowerCase()) {
-      return (isAutorised = true);
+    if (autorisedRole) {
+      if (user.role_name.toLowerCase() !== autorisedRole.toLowerCase()) {
+        return (isAutorised = false);
+      }
     }
     return isAutorised;
   };
