@@ -45,6 +45,7 @@ const Login = ({ navigation }) => {
           clearButtonMode="while-editing"
           style={styles.input}
           textContentType="emailAddress"
+          keyboardType="email-address"
         />
         {errors.length > 0 && errors.some((e) => e.errorCode === 2) ? (
           <Text style={styles.errorText}>
