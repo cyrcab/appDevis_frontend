@@ -16,7 +16,6 @@ const AccountListPage = () => {
       .then((response) => response.data)
       .then((data) => {
         if (searchedWord !== '') {
-          console.log(searchedWord);
           setUserList(
             data.filter(
               (e) =>
@@ -41,10 +40,10 @@ const AccountListPage = () => {
       </SearchBarWrapper>
       <ListContainer>
         <ListElems elems={userList} />
+        <ButtonWrapper>
+          <AddButton text="Ajouter un utilisateur" />
+        </ButtonWrapper>
       </ListContainer>
-      <ButtonWrapper>
-        <AddButton text="Ajouter un utilisateur" />
-      </ButtonWrapper>
     </Main>
   );
 };
@@ -61,10 +60,13 @@ const Title = styled.Text`
   margin-top: 3%;
 `;
 const ButtonWrapper = styled.View`
+  align-self: center;
   width: 70%;
+  margin-top: 5%;
 `;
 const ListContainer = styled.View`
-  height: 60%;
+  height: 70%;
+  width: 100%;
 `;
 const SearchBarWrapper = styled.View`
   width: 80%;
