@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Picker } from '@react-native-picker/picker';
 
 const UserCreation = ({ newUser, setNewUser }) => {
-  const { lastName, firstName, mail } = newUser;
+  const { lastName, firstName, mail, role_id } = newUser;
 
   return (
     <Main>
@@ -14,7 +14,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
           placeholder="Nom"
           autoCapitalize="words"
           placeholderTextColor="#1f1300"
-          value={newUser.lastName}
+          value={lastName}
           onChangeText={(input) => setNewUser({ ...newUser, lastName: input })}
         />
       </InputContainer>
@@ -25,7 +25,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
           placeholder="Prénom"
           autoCapitalize="words"
           placeholderTextColor="#1f1300"
-          value={newUser.firstName}
+          value={firstName}
           onChangeText={(input) => setNewUser({ ...newUser, firstName: input })}
         />
       </InputContainer>
@@ -37,7 +37,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           placeholderTextColor="#1f1300"
-          value={newUser.mail}
+          value={mail}
           onChangeText={(input) => setNewUser({ ...newUser, mail: input })}
         />
       </InputContainer>
@@ -45,7 +45,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
         <TitleWrapper>Role de l'utilisateur</TitleWrapper>
         <Picker
           numberOfLines={2}
-          selectedValue={newUser.role_id}
+          selectedValue={role_id}
           onValueChange={(itemValue, itemIndex) =>
             setNewUser({ ...newUser, role_id: itemValue })
           }

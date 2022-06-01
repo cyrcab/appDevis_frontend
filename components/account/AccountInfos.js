@@ -16,7 +16,7 @@ const AccountInfos = ({ user }) => {
       <InfoContainer>
         <TextName>{mail}</TextName>
         <Text>{nameToDisplay.toUpperCase()}</Text>
-        <Text>{role_name}</Text>
+        <Text>{role_name ? role_name : user.Role.Name}</Text>
       </InfoContainer>
     </Main>
   );

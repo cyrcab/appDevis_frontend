@@ -89,7 +89,9 @@ const UpdatePassword = () => {
           clearButtonMode="while-editing"
         />
       </InputContainer>
-      <FirstButton text="Changer" />
+      <ButtonContainer>
+        <FirstButton text="Changer" isClickable={true} />
+      </ButtonContainer>
       {newPassword && newPasswordConfirmation && !areTheSame ? (
         <Text>Les mots de passes ne concordent pas</Text>
       ) : null}
@@ -125,6 +127,10 @@ const Title = styled.Text`
   margin-bottom: 20%;
   width: 60%;
   text-align: center;
+`;
+const ButtonContainer = styled.View`
+  width: 30%;
+  height: 8%;
 `;
 
 export default UpdatePassword;
