@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
+import { Picker } from '@react-native-picker/picker';
+import { StyleSheet } from 'react-native';
 
 const UserCreation = ({ lastName, firstName, mail }) => {
+  const [selectRole, setSelectRole] = useState();
+
   return (
     <Main>
       <InputContainer>
@@ -28,6 +32,18 @@ const UserCreation = ({ lastName, firstName, mail }) => {
           placeholderTextColor="#1f1300"
         />
       </InputContainer>
+      <SelectWrapper>
+        <TitleWrapper>Role de l'utilisateur</TitleWrapper>
+        <Picker
+          selectedValue={selectRole}
+          onValueChange={(itemValue, itemIndex) => setSelectRole(itemValue)}
+        >
+          <Picker.Item label="Sélectionnez un role" value="aucune" />
+          <Picker.Item label="Admin" value="admin" />
+          <Picker.Item label="Commercial" value="commercial" />
+          <Picker.Item label="consultant" value="consultant" />
+        </Picker>
+      </SelectWrapper>
     </Main>
   );
 };
@@ -52,6 +68,15 @@ const Input = styled.TextInput`
   font-size: 18px;
   height: 70%;
   width: 100%;
+`;
+
+const TitleWrapper = styled.Text`
+  font-size: 22px;
+  text-align: center;
+`;
+const SelectWrapper = styled.View`
+  padding: 15px;
+  margin-top: 5%;
 `;
 
 export default UserCreation;
