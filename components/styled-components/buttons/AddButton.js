@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const AddButton = ({ text }) => {
+const AddButton = ({ text, action }) => {
   return (
-    <Button>
+    <Button onPress={action}>
       <Icon name="plus" size={30} />
       <ButtonText>{text}</ButtonText>
     </Button>

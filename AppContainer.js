@@ -8,14 +8,20 @@ import { useSelector } from 'react-redux';
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
 
 // import des différentes stack de navigation
+// Pages situées sur l'accueil de l'application
 import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 import EstimateList from './screens/admin/estimates/EstimateList';
 import OfferList from './screens/admin/offer/OfferList';
 import CategoryList from './screens/admin/category/CategoryList';
+
+// Pages de gestion des différents paramètres
 import AccountListPage from './screens/admin/parameters/AccountListPage';
 import AccountAdminView from './screens/admin/parameters/AccountAdminView';
 import UpdateMail from './screens/admin/Account/UpdateMail';
 import UpdatePassword from './screens/admin/Account/UpdatePassword';
+
+// Pages de création de contenu
+import CreateAccount from './screens/admin/Account/CreateAccount';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -87,6 +93,14 @@ const AppContainer = () => {
           <Stack.Screen
             name="Changement du mot de passe"
             component={UpdatePassword}
+            options={{
+              headerShown: true,
+              title: '',
+            }}
+          />
+          <Stack.Screen
+            name="Création utilisateur"
+            component={CreateAccount}
             options={{
               headerShown: true,
               title: '',

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import axios from '../../helpers/axios.config';
+import { useNavigation } from '@react-navigation/native';
 
 import ListElems from '../../../components/ListElems';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
 const AccountListPage = () => {
+  const navigation = useNavigation();
   const [userList, setUserList] = useState([]);
   const [searchedWord, setSearchedWord] = useState('');
 
@@ -40,7 +42,10 @@ const AccountListPage = () => {
       <ListContainer>
         <ListElems elems={userList} />
         <ButtonWrapper>
-          <AddButton text="Ajouter un utilisateur" />
+          <AddButton
+            text="Ajouter un utilisateur"
+            action={() => navigation.navigate('Création utilisateur')}
+          />
         </ButtonWrapper>
       </ListContainer>
     </Main>
