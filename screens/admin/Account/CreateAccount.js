@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
+import { Platform } from 'react-native';
+
+import createUser from '../../helpers/createUser';
+
 import UserCreation from '../../../components/styled-components/forms/UserCreation';
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
-import { Platform } from 'react-native';
 
 const CreateAccount = () => {
   const [newUser, setNewUser] = useState({
@@ -39,7 +42,7 @@ const CreateAccount = () => {
         <FirstButton
           text="Créer"
           isClickable={isClickable}
-          action={() => console.log('lol')}
+          action={() => createUser(newUser)}
         />
       </ButtonContainer>
     </Main>

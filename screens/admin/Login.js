@@ -44,6 +44,7 @@ const Login = ({ navigation }) => {
         <TextInput
           onChangeText={setMail}
           value={mail}
+          autoCapitalize="none"
           clearButtonMode="while-editing"
           style={styles.input}
           textContentType="emailAddress"
