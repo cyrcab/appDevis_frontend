@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
@@ -25,8 +26,17 @@ const AppContainer = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar barStyle="light-content" />
       {user.isConnected ? (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#083D77',
+            },
+            headerTintColor: '#EFEFEF',
+          }}
+        >
           <Stack.Screen name="App devis" component={BottomNavBar} />
           <Stack.Screen
             name="Création de devis"

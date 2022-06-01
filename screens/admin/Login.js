@@ -8,6 +8,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import connectUser from '../helpers/authentification/connectUser';
 
@@ -32,6 +33,7 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.main}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <Text style={styles.title}>
           Bonjour, Bienvenue sur l’application devis de Webgo
