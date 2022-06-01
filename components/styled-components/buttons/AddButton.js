@@ -16,7 +16,7 @@ const Button = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  border: 1px solid black;
+  border: 1px solid #1f1300;
   padding: 10px 20px;
   background: #fdfdff;
 `;

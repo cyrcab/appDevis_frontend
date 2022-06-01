@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { Picker } from '@react-native-picker/picker';
-import { StyleSheet } from 'react-native';
 
-const UserCreation = ({ lastName, firstName, mail }) => {
-  const [selectRole, setSelectRole] = useState();
+const UserCreation = ({ newUser, setNewUser }) => {
+  const { lastName, firstName, mail } = newUser;
 
   return (
     <Main>
@@ -12,36 +11,49 @@ const UserCreation = ({ lastName, firstName, mail }) => {
         <Input
           clearButtonMode="while-editing"
           autoCorrect={false}
-          placeholder={lastName}
+          placeholder="Nom"
+          autoCapitalize="words"
           placeholderTextColor="#1f1300"
+          value={newUser.lastName}
+          onChangeText={(input) => setNewUser({ ...newUser, lastName: input })}
         />
       </InputContainer>
       <InputContainer>
         <Input
           clearButtonMode="while-editing"
           autoCorrect={false}
-          placeholder={firstName}
+          placeholder="Prénom"
+          autoCapitalize="words"
           placeholderTextColor="#1f1300"
+          value={newUser.firstName}
+          onChangeText={(input) => setNewUser({ ...newUser, firstName: input })}
         />
       </InputContainer>
       <InputContainer>
         <Input
           clearButtonMode="while-editing"
           autoCorrect={false}
-          placeholder={mail}
+          placeholder="Mail"
+          keyboardType="email-address"
+          autoCapitalize="none"
           placeholderTextColor="#1f1300"
+          value={newUser.mail}
+          onChangeText={(input) => setNewUser({ ...newUser, mail: input })}
         />
       </InputContainer>
       <SelectWrapper>
         <TitleWrapper>Role de l'utilisateur</TitleWrapper>
         <Picker
-          selectedValue={selectRole}
-          onValueChange={(itemValue, itemIndex) => setSelectRole(itemValue)}
+          numberOfLines={2}
+          selectedValue={newUser.role_id}
+          onValueChange={(itemValue, itemIndex) =>
+            setNewUser({ ...newUser, role_id: itemValue })
+          }
         >
-          <Picker.Item label="Sélectionnez un role" value="aucune" />
-          <Picker.Item label="Admin" value="admin" />
-          <Picker.Item label="Commercial" value="commercial" />
-          <Picker.Item label="consultant" value="consultant" />
+          <Picker.Item label="Sélectionnez un role" value={null} />
+          <Picker.Item label="Admin" value={1} />
+          <Picker.Item label="Commercial" value={2} />
+          <Picker.Item label="consultant" value={3} />
         </Picker>
       </SelectWrapper>
     </Main>
@@ -59,7 +71,7 @@ const Main = styled.View`
 const InputContainer = styled.View`
   border-bottom-width: 1px;
   border-bottom-color: #8c8787;
-  height: 15%;
+  height: 12%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -75,8 +87,8 @@ const TitleWrapper = styled.Text`
   text-align: center;
 `;
 const SelectWrapper = styled.View`
-  padding: 15px;
-  margin-top: 5%;
+  margin-top: 10%;
+  padding: 0 10%;
 `;
 
 export default UserCreation;
