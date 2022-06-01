@@ -34,7 +34,6 @@ const AccountListPage = () => {
 
   return (
     <Main>
-      <Title>Utilisateurs</Title>
       <SearchBarWrapper>
         <SearchBar value={searchedWord} setValue={setSearchedWord} />
       </SearchBarWrapper>
@@ -54,10 +53,6 @@ const Main = styled.SafeAreaView`
   display: flex;
   width: 100%;
   align-items: center;
-`;
-const Title = styled.Text`
-  font-size: 25px;
-  margin-top: 3%;
 `;
 const ButtonWrapper = styled.View`
   align-self: center;

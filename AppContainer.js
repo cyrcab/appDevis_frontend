@@ -11,6 +11,10 @@ import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 import EstimateList from './screens/admin/estimates/EstimateList';
 import OfferList from './screens/admin/offer/OfferList';
 import CategoryList from './screens/admin/category/CategoryList';
+import AccountListPage from './screens/admin/parameters/AccountListPage';
+import AccountAdminView from './screens/admin/parameters/AccountAdminView';
+import UpdateMail from './screens/admin/Account/UpdateMail';
+import UpdatePassword from './screens/admin/Account/UpdatePassword';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -50,6 +54,32 @@ const AppContainer = () => {
             component={OfferList}
             options={{
               headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Liste des utilisateurs"
+            component={AccountListPage}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Utilisateur admin view"
+            component={AccountAdminView}
+            options={{ headerShown: true, title: '' }}
+          />
+          <Stack.Screen
+            name="Changement du mail"
+            component={UpdateMail}
+            options={{
+              headerShown: true,
+              title: '',
+            }}
+          />
+          <Stack.Screen
+            name="Changement du mot de passe"
+            component={UpdatePassword}
+            options={{
+              headerShown: true,
+              title: '',
             }}
           />
         </Stack.Navigator>
