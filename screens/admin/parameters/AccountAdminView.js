@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import deleteUser from '../../helpers/deleteUser';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import AccountInfos from '../../../components/account/AccountInfos';
-import AccountParameterList from '../../../components/ParameterList';
+import AccountParameterList from '../../../components/parameters/ParameterList';
 import DeleteButton from '../../../components/styled-components/buttons/DeleteButton';
 
 import { PARAMETERS } from '../../../app/datas/accountParametersList';
@@ -13,7 +13,6 @@ import { PARAMETERS } from '../../../app/datas/accountParametersList';
 const AccountAdminView = ({ route }) => {
   const navigation = useNavigation();
   const { user } = route.params;
-  const [userWantToDelete, setUserWantToDelete] = useState(false);
 
   const handleDeleteUser = async () => {
     const response = await deleteUser(user.id);

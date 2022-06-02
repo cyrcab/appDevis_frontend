@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 import RenderUsersInList from './RenderUsersInList';
 
-const ListElems = ({ elems }) => {
+const UserList = ({ elems }) => {
   const renderItem = ({ item }) => {
     return <RenderUsersInList user={item} iconName="user" />;
   };
@@ -30,4 +30,4 @@ const ListWrapper = styled.View`
 `;
 const InfosText = styled.Text``;
 
-export default ListElems;
+export default UserList;
