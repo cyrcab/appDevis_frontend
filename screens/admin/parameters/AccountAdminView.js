@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import deleteUser from '../../helpers/deleteUser';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import AccountInfos from '../../../components/account/AccountInfos';
 import AccountParameterList from '../../../components/ParameterList';
@@ -9,6 +11,7 @@ import DeleteButton from '../../../components/styled-components/buttons/DeleteBu
 import { PARAMETERS } from '../../../app/datas/accountParametersList';
 
 const AccountAdminView = ({ route }) => {
+  const navigation = useNavigation();
   const { user } = route.params;
 
   const handleDeleteUser = async () => {
@@ -17,11 +20,39 @@ const AccountAdminView = ({ route }) => {
     const { errors, userDatas } = response;
     if (errors) {
       const { isDeleted } = errors;
-      console.log({ isCreated: isDeleted, ...errors });
+      showAlertInfo(isDeleted);
     }
     if (userDatas) {
       const { isDeleted } = userDatas;
-      console.log({ isCreated: isDeleted, ...userDatas });
+      showAlertInfo(isDeleted);
+    }
+  };
+
+  const showAlertInfo = (condition) => {
+    if (condition === true) {
+      return Alert.alert(
+        "L'utilisateur a bien été supprimé ✅",
+        "L'utilisateur a été supprimé avec succès.",
+        [
+          {
+            text: 'Suivant',
+            onPress: () => navigation.navigate('Liste des utilisateurs'),
+            style: 'default',
+          },
+        ],
+      );
+    } else {
+      return Alert.alert(
+        'Utilisateur introuvable ❌',
+        "L'utilisateur a peut être déjà été supprimé",
+        [
+          {
+            text: 'Suivant',
+            onPress: () => navigation.navigate('Liste des utilisateurs'),
+            style: 'default',
+          },
+        ],
+      );
     }
   };
 
