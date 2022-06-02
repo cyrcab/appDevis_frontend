@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 
 import AccountInfos from '../../../components/account/AccountInfos';
-import AccountParameterList from '../../../components/ParameterList';
+import AccountParameterList from '../../../components/parameters/ParameterList';
 
 import { PARAMETERS } from '../../../app/datas/accountParametersList';
 
