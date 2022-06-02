@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import deleteUser from '../../helpers/deleteUser';
 import { Alert } from 'react-native';
@@ -13,6 +13,7 @@ import { PARAMETERS } from '../../../app/datas/accountParametersList';
 const AccountAdminView = ({ route }) => {
   const navigation = useNavigation();
   const { user } = route.params;
+  const [userWantToDelete, setUserWantToDelete] = useState(false);
 
   const handleDeleteUser = async () => {
     const response = await deleteUser(user.id);
@@ -56,12 +57,30 @@ const AccountAdminView = ({ route }) => {
     }
   };
 
+  const deleteConfirmation = () => {
+    Alert.alert(
+      "Suppression d'un utilisateur",
+      'Vous êtes sur le point de supprimer un utilisateur, voulez-vous continuer ?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => Alert.alert("L'utilisateur n'a pas été supprimé"),
+          style: 'cancel',
+        },
+        {
+          text: 'Supprimer',
+          onPress: () => handleDeleteUser(),
+        },
+      ],
+    );
+  };
+
   return (
     <Main>
       <AccountInfos user={user} />
       <AccountParameterList parameters={PARAMETERS} />
       <ButtonContainer>
-        <DeleteButton text="Supprimer" action={handleDeleteUser} />
+        <DeleteButton text="Supprimer" action={deleteConfirmation} />
       </ButtonContainer>
     </Main>
   );
