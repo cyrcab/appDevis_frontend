@@ -17,6 +17,10 @@ const BottomNavbar = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: true,
+        headerStyle: {
+          backgroundColor: '#083D77',
+        },
+        headerTintColor: '#EFEFEF',
         // eslint-disable-next-line react/no-unstable-nested-components
         tabBarIcon: ({ color, size }) => {
           const iconName = {

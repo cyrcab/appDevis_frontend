@@ -1,16 +1,30 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-const ItemInfos = ({ title, link }) => {
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const ItemInfos = ({ title, link, autorisedRole }) => {
+  const user = useSelector((state) => state.auth);
   const navigation = useNavigation();
+
+  const userHadAutorisation = () => {
+    let isAutorised = true;
+
+    if (autorisedRole) {
+      if (user.role_name.toLowerCase() !== autorisedRole.toLowerCase()) {
+        return (isAutorised = false);
+      }
+    }
+    return isAutorised;
+  };
 
   return (
     <TouchableWrapper>
       <Main
         onPress={() => {
-          navigation.navigate(link);
+          userHadAutorisation() ? navigation.navigate(link) : null;
         }}
       >
         <Content>{title}</Content>
