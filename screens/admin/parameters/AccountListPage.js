@@ -67,6 +67,7 @@ const ButtonWrapper = styled.View`
 const ListContainer = styled.View`
   height: 70%;
   width: 100%;
+  border-bottom-width: 1px;
 `;
 const SearchBarWrapper = styled.View`
   width: 80%;

@@ -1,20 +1,17 @@
 import axios from './axios.config';
 
-const createUser = (credentials) => {
-  const generatedPass = Math.random().toString(36).slice(2);
+const createUser = async (credentials) => {
+  // const generatedPass = Math.random().toString(36).slice(2);
+  const generatedPass = 'password';
   let userDatas;
   let errors;
 
-  console.log(generatedPass);
-
-  axios
+  await axios
     .post('/api/users', { ...credentials, password: generatedPass })
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .then((data) => (userDatas = { ...data, password: generatedPass }))
-    .catch((err) => (errors = { ...err }));
+    .then((response) => response.data)
+    .then((data) => (userDatas = { ...data }))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
 
   return { userDatas, errors };
 };

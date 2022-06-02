@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import createUser from '../../helpers/createUser';
 
@@ -8,6 +9,7 @@ import UserCreation from '../../../components/styled-components/forms/UserCreati
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
 const CreateAccount = () => {
+  const navigation = useNavigation();
   const [newUser, setNewUser] = useState({
     mail: null,
     firstName: null,
@@ -33,6 +35,48 @@ const CreateAccount = () => {
     handleButtonStatus();
   }, [newUser.firstName, newUser.lastName, newUser.mail, newUser.role_id]);
 
+  const handleCreateUser = async () => {
+    const response = await createUser(newUser);
+
+    const { errors, userDatas } = response;
+    if (errors) {
+      const { isCreated } = errors;
+      showAlertInfo(isCreated);
+    }
+    if (userDatas) {
+      const { isCreated } = userDatas;
+      showAlertInfo(isCreated);
+    }
+  };
+
+  const showAlertInfo = (condition) => {
+    if (condition === true) {
+      return Alert.alert(
+        "L'utilisateur a bien été créé ✅",
+        "L'utilisateur a été créé avec succès, un mail avec ses indentifiants de connexion vient de lui être envoyé",
+        [
+          {
+            text: 'Suivant',
+            onPress: () => navigation.navigate('Liste des utilisateurs'),
+            style: 'default',
+          },
+        ],
+      );
+    } else {
+      return Alert.alert(
+        'Le mail est déjà utilisé ❌',
+        "Merci d'essayer à nouveau avec un mail qui n'est pas encore utilisé",
+        [
+          {
+            text: 'Cancel',
+            onPress: () => setNewUser({ ...newUser, mail: null }),
+            style: 'default',
+          },
+        ],
+      );
+    }
+  };
+
   return (
     <Main behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <FormContainer>
@@ -42,7 +86,7 @@ const CreateAccount = () => {
         <FirstButton
           text="Créer"
           isClickable={isClickable}
-          action={() => createUser(newUser)}
+          action={handleCreateUser}
         />
       </ButtonContainer>
     </Main>
@@ -65,6 +109,5 @@ const ButtonContainer = styled.View`
   width: 50%;
   height: 8%;
 `;
-const ErrorInfos = styled.Text``;
 
 export default CreateAccount;
