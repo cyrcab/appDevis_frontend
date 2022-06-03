@@ -25,7 +25,7 @@ const RenderUsersInList = ({ user, iconName }) => {
       <Params
         onPress={() =>
           navigation.push('Utilisateur admin view', {
-            ...user,
+            user: user,
           })
         }
       >
