@@ -22,6 +22,7 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 
 // Pages de création de contenu
 import CreateAccount from './screens/admin/Account/CreateAccount';
+import OfferAdminView from './screens/admin/offer/OfferAdminView';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -65,6 +66,8 @@ const AppContainer = () => {
               headerShown: true,
             }}
           />
+
+          {/* Offers */}
           <Stack.Screen
             name="Liste des offres"
             component={OfferList}
@@ -72,6 +75,17 @@ const AppContainer = () => {
               headerShown: true,
             }}
           />
+          <Stack.Screen
+            name="OfferAdminView"
+            component={OfferAdminView}
+            options={{
+              headerShown: true,
+              title: '',
+            }}
+          />
+
+          {/* Parameters */}
+
           <Stack.Screen
             name="Liste des utilisateurs"
             component={AccountListPage}

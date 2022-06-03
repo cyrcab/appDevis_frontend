@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFW from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const Offer = ({ offer, iconName }) => {
@@ -15,15 +16,15 @@ const Offer = ({ offer, iconName }) => {
         <InfoName>{offer.name}</InfoName>
         <Role>{offer.price}</Role>
       </InfosSection>
-      {/* <Params
+      <Params
         onPress={() =>
-          navigation.navigate('Utilisateur admin view', {
-            offer: offer,
+          navigation.push('OfferAdminView', {
+            ...offer,
           })
         }
       >
-        <Icon name="ellipsis-h" size={30} />
-      </Params> */}
+        <IconFW name="ellipsis-h" size={30} />
+      </Params>
     </Main>
   );
 };

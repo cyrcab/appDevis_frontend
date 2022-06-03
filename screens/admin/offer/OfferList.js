@@ -15,10 +15,7 @@ const OfferList = () => {
   useEffect(() => {
     axios
       .get('/api/offers')
-      .then((response) => {
-        console.log(response.data);
-        return response.data;
-      })
+      .then((response) => response.data)
       .then((data) => {
         if (searchedWord !== '') {
           setOfferList(
