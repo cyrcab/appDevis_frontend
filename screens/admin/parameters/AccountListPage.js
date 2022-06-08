@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import axios from '../../helpers/axios.config';
+import axios from '../../helpers/api/axios.config';
 import { useNavigation } from '@react-navigation/native';
 
 import UserList from '../../../components/parameters/UserList';

@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 import FirstButton from '../buttons/FirstButton';
-import { updateOffer } from '../../../screens/helpers/api/fetchApi';
+import { createOffer } from '../../../screens/helpers/api/fetchApi';
 import { Alert } from 'react-native';
 
-const OfferModificationForm = ({ offer }) => {
-  const user = useSelector((state) => state.auth);
-
-  const userName = user.firstName + ' ' + user.lastName;
-
+const OfferCreationForm = () => {
   const [offerDatas, setOfferDatas] = useState({
-    name: offer.name,
-    price: offer.price,
-    description: offer.description,
+    name: null,
+    price: null,
+    description: null,
   });
   const [isClickable, setIsClickable] = useState(false);
 
-  // console.log(offerDatas);
-
   useEffect(() => {
     if (
-      offer.price !== offerDatas.price ||
-      offer.name !== offerDatas.name ||
-      offer.description !== offerDatas.description
+      offerDatas.price !== null ||
+      offerDatas.name !== null ||
+      offerDatas.description !== null
     ) {
       setIsClickable(true);
     } else {
@@ -32,8 +25,7 @@ const OfferModificationForm = ({ offer }) => {
   }, [offer, offerDatas]);
 
   const handleUpdateOffer = async () => {
-    const response = await updateOffer(offer.id, offerDatas, userName);
-    console.log(offerDatas);
+    const response = await createOffer(offerDatas);
 
     const { errors, userDatas } = response;
     if (errors) {
@@ -55,22 +47,13 @@ const OfferModificationForm = ({ offer }) => {
         [
           {
             text: 'Cancel',
-            onPress: () =>
-              setOfferDatas({
-                name: offer.name,
-                price: offer.price,
-                description: offer.description,
-              }),
+            onPress: () => {},
             style: 'default',
           },
         ],
       );
     }
   };
-
-  const { firstName, lastName } = offer.User;
-
-  const userCreator = firstName + ' ' + lastName;
 
   return (
     <Main>
@@ -103,26 +86,6 @@ const OfferModificationForm = ({ offer }) => {
             }
           />
         </InputContainer>
-        {offer.updated_at && (
-          <OtherInfosContainer>
-            <Label>Dernière modification : </Label>
-            <InputInfos>{offer.updated_at.slice(0, 10)}</InputInfos>
-          </OtherInfosContainer>
-        )}
-        {offer.modified_by && (
-          <OtherInfosContainer>
-            <Label>Dernière modification : </Label>
-            <InputInfos>{offer.modified_by}</InputInfos>
-          </OtherInfosContainer>
-        )}
-        <OtherInfosContainer>
-          <Label>Créé par : </Label>
-          <InputInfos>{userCreator}</InputInfos>
-        </OtherInfosContainer>
-        <OtherInfosContainer>
-          <Label>Créée le : </Label>
-          <InputInfos>{offer.created_at.slice(0, 10)}</InputInfos>
-        </OtherInfosContainer>
       </InputsWrapper>
       <ButtonWrapper>
         <FirstButton
@@ -166,19 +129,6 @@ const Label = styled.Text`
   font-size: 18px;
   width: 40%;
 `;
-const OtherInfosContainer = styled.View`
-  border-bottom-width: 1px;
-  border-bottom-color: #8c8787;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  padding: 15px 0;
-`;
-const InputInfos = styled.Text`
-  width: 60%;
-  font-size: 18px;
-`;
 
 const ButtonWrapper = styled.View`
   margin-top: 5%;
@@ -186,4 +136,4 @@ const ButtonWrapper = styled.View`
   height: 10%;
 `;
 
-export default OfferModificationForm;
+export default OfferCreationForm;

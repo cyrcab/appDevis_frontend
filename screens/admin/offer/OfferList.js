@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import axios from '../../helpers/axios.config';
+import axios from '../../helpers/api/axios.config';
 
 import RenderOfferList from '../../../components/offers/RenderOfferList';
 import SearchBar from '../../../components/styled-components/SearchBar';

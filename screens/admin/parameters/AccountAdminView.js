@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import deleteUser from '../../helpers/deleteUser';
+import { deleteUser } from '../../helpers/api/fetchApi';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
