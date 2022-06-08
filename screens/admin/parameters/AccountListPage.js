@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import axios from '../../helpers/axios.config';
+import axios from '../../helpers/api/axios.config';
 import { useNavigation } from '@react-navigation/native';
 
-import ListElems from '../../../components/ListElems';
+import UserList from '../../../components/parameters/UserList';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
@@ -40,7 +40,7 @@ const AccountListPage = () => {
         <SearchBar value={searchedWord} setValue={setSearchedWord} />
       </SearchBarWrapper>
       <ListContainer>
-        <ListElems elems={userList} />
+        <UserList elems={userList} />
         <ButtonWrapper>
           <AddButton
             text="Ajouter un utilisateur"

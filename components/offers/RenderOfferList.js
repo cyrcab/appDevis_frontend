@@ -2,11 +2,11 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
-import RenderUsersInList from './RenderUsersInList';
+import Offer from './Offer';
 
-const ListElems = ({ elems }) => {
+const RenderOfferList = ({ elems }) => {
   const renderItem = ({ item }) => {
-    return <RenderUsersInList user={item} iconName="user" />;
+    return <Offer offer={item} iconName="devices" />;
   };
 
   if (elems[0] !== undefined) {
@@ -30,4 +30,4 @@ const ListWrapper = styled.View`
 `;
 const InfosText = styled.Text``;
 
-export default ListElems;
+export default RenderOfferList;

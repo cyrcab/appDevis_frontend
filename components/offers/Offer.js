@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFW from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const RenderUsersInList = ({ user, iconName }) => {
+const Offer = ({ offer, iconName }) => {
   const navigation = useNavigation();
 
   return (
@@ -12,24 +13,17 @@ const RenderUsersInList = ({ user, iconName }) => {
         <Icon name={iconName} size={50} />
       </IconWrapper>
       <InfosSection>
-        <InfoName>
-          {user.firstName} {user.lastName}
-        </InfoName>
-        <Role>{user.Role.Name}</Role>
-        <EstimateNumber>
-          {user._count.Estimate === 0
-            ? 'Pas encore de devis effectué'
-            : `${user._count.Estimate} devis effectués`}
-        </EstimateNumber>
+        <InfoName>{offer.name}</InfoName>
+        <Role>{offer.price}</Role>
       </InfosSection>
       <Params
         onPress={() =>
-          navigation.navigate('Utilisateur admin view', {
-            user: user,
+          navigation.push('OfferAdminView', {
+            ...offer,
           })
         }
       >
-        <Icon name="ellipsis-h" size={30} />
+        <IconFW name="ellipsis-h" size={30} />
       </Params>
     </Main>
   );
@@ -67,4 +61,4 @@ const Params = styled.TouchableOpacity`
   width: 30%;
 `;
 
-export default RenderUsersInList;
+export default Offer;

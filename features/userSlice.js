@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'auth',
   initialState: {
+    id: null,
     firstName: null,
     lastName: null,
     isConnected: false,
@@ -12,8 +13,9 @@ export const userSlice = createSlice({
   },
   reducers: {
     CONNECT: (state, action) => {
-      const { isConnected, firstName, lastName, mail, role_id } =
+      const { isConnected, firstName, lastName, mail, role_id, id } =
         action.payload;
+      state.id = id;
       state.isConnected = isConnected;
       state.firstName = firstName;
       state.lastName = lastName;
@@ -22,6 +24,7 @@ export const userSlice = createSlice({
       state.role_name = action.payload.Role.Name;
     },
     DISCONNECT: (state) => {
+      state.id = null;
       state.isConnected = false;
       state.firstName = null;
       state.lastName = null;

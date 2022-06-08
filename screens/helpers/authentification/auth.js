@@ -1,4 +1,4 @@
-import axios from '../axios.config';
+import axios from '../api/axios.config';
 
 const auth = async (credentials) => {
   let userDatas;

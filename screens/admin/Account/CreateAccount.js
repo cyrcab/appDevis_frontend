@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import createUser from '../../helpers/createUser';
+import { createUser } from '../../helpers/api/fetchApi';
 
 import UserCreation from '../../../components/styled-components/forms/UserCreation';
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';

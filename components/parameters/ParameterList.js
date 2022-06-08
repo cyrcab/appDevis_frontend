@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
-import ItemInfos from './account/ItemInfos';
+import ItemInfos from '../account/ItemInfos';
 
 const ParameterList = ({ parameters }) => {
   const renderItem = ({ item }) => {
