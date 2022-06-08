@@ -44,12 +44,12 @@ const updateOffer = async (id, dataToUpdate, userWhoUpdate) => {
   return { offerDatas, errors };
 };
 
-const createOffer = async (credentials) => {
+const createOffer = async (credentials, userId) => {
   let userDatas;
   let errors;
 
   await axios
-    .post('/api/offers', { ...credentials})
+    .post('/api/offers', { ...credentials, user_id: userId})
     .then((response) => response.data)
     .then((data) => (userDatas = { ...data }))
     .catch((err) => err.response)

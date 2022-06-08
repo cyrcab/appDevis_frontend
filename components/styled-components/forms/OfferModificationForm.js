@@ -17,8 +17,6 @@ const OfferModificationForm = ({ offer }) => {
   });
   const [isClickable, setIsClickable] = useState(false);
 
-  // console.log(offerDatas);
-
   useEffect(() => {
     if (
       offer.price !== offerDatas.price ||
@@ -33,7 +31,6 @@ const OfferModificationForm = ({ offer }) => {
 
   const handleUpdateOffer = async () => {
     const response = await updateOffer(offer.id, offerDatas, userName);
-    console.log(offerDatas);
 
     const { errors, userDatas } = response;
     if (errors) {
@@ -139,6 +136,7 @@ const Main = styled.View`
   display: flex;
   align-items: center;
   margin: 10% 0;
+  min-height: 100%;
 `;
 const InputsWrapper = styled.View`
   width: 90%;

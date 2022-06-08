@@ -3,8 +3,12 @@ import styled from 'styled-components/native';
 import FirstButton from '../buttons/FirstButton';
 import { createOffer } from '../../../screens/helpers/api/fetchApi';
 import { Alert } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const OfferCreationForm = () => {
+  const navigation = useNavigation();
+  const user = useSelector((state) => state.auth);
   const [offerDatas, setOfferDatas] = useState({
     name: null,
     price: null,
@@ -14,18 +18,18 @@ const OfferCreationForm = () => {
 
   useEffect(() => {
     if (
-      offerDatas.price !== null ||
-      offerDatas.name !== null ||
+      offerDatas.price !== null &&
+      offerDatas.name !== null &&
       offerDatas.description !== null
     ) {
       setIsClickable(true);
     } else {
       setIsClickable(false);
     }
-  }, [offer, offerDatas]);
+  }, [offerDatas]);
 
-  const handleUpdateOffer = async () => {
-    const response = await createOffer(offerDatas);
+  const handleCreateOffer = async () => {
+    const response = await createOffer(offerDatas, user.id);
 
     const { errors, userDatas } = response;
     if (errors) {
@@ -52,6 +56,20 @@ const OfferCreationForm = () => {
           },
         ],
       );
+    } else {
+      return Alert.alert(
+        'Offre Créée ✅',
+        "L'offre a été créée avec succès, vous la retrouverez dans la liste très vite",
+        [
+          {
+            text: 'Suivant',
+            onPress: () => {
+              navigation.goBack();
+            },
+            style: 'default',
+          },
+        ],
+      );
     }
   };
 
@@ -61,7 +79,7 @@ const OfferCreationForm = () => {
         <InputContainer>
           <Label>Prix du pack :</Label>
           <Input
-            value={offerDatas.price.toString()}
+            value={offerDatas.price && offerDatas.price.toString()}
             onChangeText={(price) =>
               setOfferDatas({ ...offerDatas, price: parseInt(price, 10) })
             }
@@ -89,9 +107,9 @@ const OfferCreationForm = () => {
       </InputsWrapper>
       <ButtonWrapper>
         <FirstButton
-          text="Modifier"
+          text="Créer"
           isClickable={isClickable}
-          action={handleUpdateOffer}
+          action={handleCreateOffer}
         />
       </ButtonWrapper>
     </Main>
@@ -102,6 +120,7 @@ const Main = styled.View`
   display: flex;
   align-items: center;
   margin: 10% 0;
+  min-height: 100%;
 `;
 const InputsWrapper = styled.View`
   width: 90%;
