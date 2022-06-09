@@ -21,9 +21,9 @@ const CategoryContainer = ({ title, items }) => {
 };
 
 const Main = styled.View`
-  width: 90%;
-  height: 100%;
-  margin-top: 0;
+  width: 100%;
+  height: 80%;
+  margin-top: 5%;
   border-radius: 25px;
   box-shadow: 0px 0px 4px rgba(31, 19, 0, 0.3);
 `;
@@ -39,7 +39,7 @@ const Title = styled.Text`
 `;
 
 const QuestionSection = styled.View`
-  padding: 5% 0;
+  padding: 5% 0 0 0;
   background: #fdfdff;
   display: flex;
   align-items: center;
@@ -47,6 +47,7 @@ const QuestionSection = styled.View`
 
 const ButtonWrapper = styled.View`
   padding: 5% 3%;
+  box-shadow: 0px -2px 3px rgba(31, 19, 0, 0.1);
   background: #fdfdff;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;

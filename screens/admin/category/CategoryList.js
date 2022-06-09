@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components/native';
-import Carousel from 'react-native-anchor-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import CategoryContainer from '../../../components/category/CategoryContainer';
 import fakeQuestionList from '../../../app/datas/fakeQuestion';
@@ -8,36 +8,66 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const CategoryList = () => {
   const { width: windowWidth } = Dimensions.get('window');
+  const [index, setIndex] = useState(0);
+
   const carouselRef = useRef(null);
+
   const renderItem = ({ item }) => {
     return <CategoryContainer title={item.name} items={item.questions} />;
   };
 
   return (
     <Main>
-      <Carousel
-        ref={carouselRef}
-        data={fakeQuestionList}
-        renderItem={renderItem}
-        style={styles.carousel}
-        itemWidth={windowWidth * 1}
-        containerWidth={windowWidth}
-        inActiveScale={1}
-        inActiveOpacity={0.9}
-      />
+      <CarouselContainer>
+        <Carousel
+          ref={carouselRef}
+          data={fakeQuestionList}
+          renderItem={renderItem}
+          sliderWidth={windowWidth}
+          itemWidth={windowWidth * 0.9}
+          onSnapToItem={(i) => setIndex(i)}
+        />
+      </CarouselContainer>
+      <PaginationContainer>
+        <Pagination
+          dotsLength={fakeQuestionList.length}
+          activeDotIndex={index}
+          carouselRef={carouselRef}
+          dotStyle={styles.activeDots}
+          tappableDots={true}
+          inactiveDotStyle={styles.inactiveDots}
+          inactiveDotOpacity={1}
+          inactiveDotScale={0.6}
+        />
+      </PaginationContainer>
     </Main>
   );
 };
+
 const styles = StyleSheet.create({
-  carousel: {
-    padding: 20,
-    backgroundColor: '#EEEFF5',
-    paddingBottom: 150,
+  activeDots: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 8,
+    backgroundColor: '#ff9b42',
+  },
+  inactiveDots: {
+    backgroundColor: 'grey',
   },
 });
 
 const Main = styled.View`
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+const CarouselContainer = styled.View`
+  width: 100%;
+  height: 90%;
+`;
+const PaginationContainer = styled.View`
+  height: 10%;
 `;
 
 export default CategoryList;
