@@ -13,7 +13,7 @@ const CategoryList = () => {
   const carouselRef = useRef(null);
 
   const renderItem = ({ item }) => {
-    return <CategoryContainer title={item.name} items={item.questions} />;
+    return <CategoryContainer category={item} />;
   };
 
   return (
