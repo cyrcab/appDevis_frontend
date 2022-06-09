@@ -36,8 +36,8 @@ const CategoryList = () => {
           dotStyle={styles.activeDots}
           tappableDots={true}
           inactiveDotStyle={styles.inactiveDots}
-          inactiveDotOpacity={1}
-          inactiveDotScale={0.6}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.7}
         />
       </PaginationContainer>
     </Main>
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    marginHorizontal: 8,
     backgroundColor: '#ff9b42',
   },
   inactiveDots: {
