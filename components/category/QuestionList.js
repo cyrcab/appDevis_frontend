@@ -11,15 +11,19 @@ const QuestionList = () => {
   };
 
   return (
-    <FlatList
-      data={fakeQuestionList}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      horizontal="false"
-    />
+    <ListWrapper>
+      <FlatList
+        data={fakeQuestionList}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        horizontal="false"
+      />
+    </ListWrapper>
   );
 };
 
-const ListWrapper = styled.View``;
+const ListWrapper = styled.View`
+  width: 95%;
+`;
 
 export default QuestionList;

@@ -20,6 +20,7 @@ const CategoryParameters = styled.View`
   display: flex;
   align-items: center;
   margin-top: 5%;
+  height: 90%;
 `;
 const Title = styled.Text``;
 
