@@ -3,9 +3,8 @@ import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import Question from './Question';
-import fakeQuestionList from '../../app/datas/fakeQuestion';
 
-const QuestionList = () => {
+const QuestionList = ({ items }) => {
   const renderItem = ({ item }) => {
     return <Question content={item.content} />;
   };
@@ -13,7 +12,7 @@ const QuestionList = () => {
   return (
     <ListWrapper>
       <FlatList
-        data={fakeQuestionList}
+        data={items}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         horizontal="false"

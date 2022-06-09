@@ -13,12 +13,11 @@ const Question = ({ content, indication }) => {
 const Main = styled.TouchableOpacity`
   width: 100%;
   border: 1px solid rgba(31, 19, 0, 0.3);
+  margin-bottom: 10px;
   padding: 3%;
-  margin-top: 10px;
 `;
 const QuestionContent = styled.Text`
   font-size: 18px;
-  margin-bottom: 2%;
 `;
 const AnswerNbr = styled.Text`
   color: #ff9b42;

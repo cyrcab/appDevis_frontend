@@ -4,14 +4,14 @@ import styled from 'styled-components/native';
 import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 
-const CategoryContainer = () => {
+const CategoryContainer = ({ title, items }) => {
   return (
     <Main>
       <TitleSection>
-        <Title>Graphisme</Title>
+        <Title>{title}</Title>
       </TitleSection>
       <QuestionSection>
-        <QuestionList />
+        <QuestionList items={items} />
       </QuestionSection>
       <ButtonWrapper>
         <AddingQuestion />
@@ -21,15 +21,15 @@ const CategoryContainer = () => {
 };
 
 const Main = styled.View`
-  width: 85%;
-  max-height: 95%;
-  background: #fdfdff;
+  width: 90%;
+  height: 100%;
+  margin-top: 0;
   border-radius: 25px;
-  box-shadow: 0px 0px 4px rgba(31,19,0,0.3);
+  box-shadow: 0px 0px 4px rgba(31, 19, 0, 0.3);
 `;
 const TitleSection = styled.View`
+  padding: 5% 3%;
   background: #f092ff;
-  padding: 5% 4%;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 `;
@@ -39,16 +39,17 @@ const Title = styled.Text`
 `;
 
 const QuestionSection = styled.View`
-  max-height: 100%;
+  padding: 5% 0;
+  background: #fdfdff;
   display: flex;
   align-items: center;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
 `;
 
 const ButtonWrapper = styled.View`
   padding: 5% 3%;
-  width: 55%;
+  background: #fdfdff;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 `;
 
 export default CategoryContainer;
