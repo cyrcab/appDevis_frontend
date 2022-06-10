@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const AnswerForm = ({ answerAction }) => {
+  const [inputIsPressed, setInPutIsPressed] = useState(false);
+
   return (
     <Main>
       <InputContainer>
-        <AnswerContent placeholder="Ceci est une réponse" />
+        <AnswerContent
+          placeholder="Ceci est une réponse"
+          onPressIn={() => setInPutIsPressed(true)}
+          onEndEditing={() => setInPutIsPressed(false)}
+        />
         <IconContainer onPress={answerAction}>
           <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
         </IconContainer>
       </InputContainer>
+      {inputIsPressed ? <Text>lol</Text> : null}
     </Main>
   );
 };

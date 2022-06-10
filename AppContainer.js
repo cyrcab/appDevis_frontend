@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
 
 // import de la page de connexion
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
@@ -25,6 +24,9 @@ import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
 import QuestionGestion from './screens/admin/question/QuestionGestion';
+
+// import des outils pour redux
+import { useSelector } from 'react-redux';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 

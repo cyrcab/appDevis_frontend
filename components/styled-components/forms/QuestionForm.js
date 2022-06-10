@@ -34,10 +34,13 @@ const QuestionForm = (props) => {
         />
       )}
       <ButtonsWrapper>
+        <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
+      </ButtonsWrapper>
+      <ButtonsWrapper>
         <CheckBox text="Question privée" />
       </ButtonsWrapper>
       <ButtonsWrapper>
-        <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
+        <CheckBox text="Choix multiple" />
       </ButtonsWrapper>
       <DeleteButtonWrapper>
         <DeleteButton text="Supprimer la question" />

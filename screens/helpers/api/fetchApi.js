@@ -44,6 +44,20 @@ const updateOffer = async (id, dataToUpdate, userWhoUpdate) => {
   return { offerDatas, errors };
 };
 
+const getAllOffers = async () => {
+  let offerDatas = [];
+  let errors;
+
+  await axios
+    .get('/api/offers/')
+    .then((response) => response.data)
+    .then((data) => (offerDatas = data))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
+
+  return { offerDatas, errors };
+};
+
 const createOffer = async (credentials, userId) => {
   let offers;
   let errors;
@@ -72,4 +86,11 @@ const getAllCategories = async () => {
   return { categories, errors };
 };
 
-export { createUser, deleteUser, updateOffer, createOffer, getAllCategories };
+export {
+  createUser,
+  deleteUser,
+  updateOffer,
+  createOffer,
+  getAllCategories,
+  getAllOffers,
+};
