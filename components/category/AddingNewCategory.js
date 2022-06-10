@@ -5,7 +5,7 @@ const AddingNewCategory = ({ cancelButton }) => {
   return (
     <Main>
       <InputContainer>
-        <NewCatInput placeholder="test" />
+        <NewCatInput placeholder="Nom de la catégorie" />
       </InputContainer>
       <ActionContainer>
         <Button onPress={() => cancelButton(false)}>

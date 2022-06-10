@@ -45,17 +45,31 @@ const updateOffer = async (id, dataToUpdate, userWhoUpdate) => {
 };
 
 const createOffer = async (credentials, userId) => {
-  let userDatas;
+  let offers;
   let errors;
 
   await axios
-    .post('/api/offers', { ...credentials, user_id: userId})
+    .post('/api/offers', { ...credentials, user_id: userId })
     .then((response) => response.data)
-    .then((data) => (userDatas = { ...data }))
+    .then((data) => (offers = { ...data }))
     .catch((err) => err.response)
     .then((res) => (errors = res.data));
 
-  return { userDatas, errors };
+  return { offers, errors };
 };
 
-export { createUser, deleteUser, updateOffer, createOffer };
+const getAllCategories = async () => {
+  let categories = [];
+  let errors;
+
+  await axios
+    .get('/api/categories')
+    .then((response) => response.data)
+    .then((data) => (categories = data))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
+
+  return { categories, errors };
+};
+
+export { createUser, deleteUser, updateOffer, createOffer, getAllCategories };

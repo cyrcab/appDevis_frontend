@@ -1,27 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import CategoryContainer from '../../../components/category/CategoryContainer';
-import fakeQuestionList from '../../../app/datas/fakeQuestion';
 import { StyleSheet, Dimensions } from 'react-native';
+import { getAllCategories } from '../../helpers/api/fetchApi';
 
 const CategoryList = () => {
   const { width: windowWidth } = Dimensions.get('window');
   const [index, setIndex] = useState(0);
-
   const carouselRef = useRef(null);
 
   const renderItem = ({ item }) => {
     return <CategoryContainer category={item} />;
   };
 
+  const [listOfCategories, setListOfCategories] = useState([]);
+  const [errors, setErrors] = useState([]);
+  useEffect(() => {
+    getAllCategories().then((response) => {
+      setListOfCategories([...response.categories, {}]);
+      setErrors(response.errors);
+    });
+  }, []);
+
   return (
     <Main>
       <CarouselContainer>
         <Carousel
           ref={carouselRef}
-          data={fakeQuestionList}
+          data={listOfCategories}
           renderItem={renderItem}
           sliderWidth={windowWidth}
           itemWidth={windowWidth * 0.9}
@@ -30,7 +38,7 @@ const CategoryList = () => {
       </CarouselContainer>
       <PaginationContainer>
         <Pagination
-          dotsLength={fakeQuestionList.length}
+          dotsLength={listOfCategories.length}
           activeDotIndex={index}
           carouselRef={carouselRef}
           dotStyle={styles.activeDots}
