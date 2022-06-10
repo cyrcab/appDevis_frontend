@@ -5,21 +5,35 @@ import AnswerForm from '../styled-components/forms/AnswerForm';
 const RenderAnswerInList = ({ answers }) => {
   if (answers[0]) {
     return (
-      <>
+      <Main>
+        <Title>Liste des réponses possibles</Title>
         {answers.map((el, i) => (
           <InputWrapper key={i}>
             <AnswerForm />
           </InputWrapper>
         ))}
-      </>
+      </Main>
     );
   }
   return null;
 };
-const InputWrapper = styled.View`
+const Main = styled.View`
+  width: 80%;
+  display: flex;
+  align-items: center;
+  background: red;
+  padding: 2% 0;
   background: #fdfdff;
   border: 1px solid rgba(31, 19, 0, 0.3);
-  width: 80%;
+`;
+const Title = styled.Text`
+  font-size: 20px;
+  margin: 5% 0;
+`;
+const InputWrapper = styled.View`
+  background: #fdfdff;
+  border: 1px solid rgba(31, 19, 0, 0.7);
+  width: 95%;
   padding: 3%;
   margin: 1% 0;
 `;

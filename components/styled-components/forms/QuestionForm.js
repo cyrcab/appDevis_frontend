@@ -5,16 +5,19 @@ import { Platform } from 'react-native';
 import AddButton from '../buttons/AddButton';
 import RenderAnswerInList from '../../answer/RenderAnswerInList';
 import fakeAnswerList from '../../../app/datas/fakeAnswerList';
+import CheckBox from '../CheckBox';
+import DeleteButton from '../buttons/DeleteButton';
 
 const QuestionForm = (props) => {
   const { categoryId } = props;
-  const [addingButtonIsClicked, setAddingButtonIsClicked] = useState(false);
   const [answerList, setAnswerList] = useState(fakeAnswerList);
 
   const handleAddAnswer = () => {
-    setAddingButtonIsClicked(true);
     setAnswerList([...answerList, []]);
   };
+  const handleDeleteQuestion () => {
+    
+  }
 
   return (
     <Main behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -23,8 +26,14 @@ const QuestionForm = (props) => {
       </InputWrapper>
       {answerList && <RenderAnswerInList answers={answerList} />}
       <ButtonsWrapper>
+        <CheckBox text="Question privée" />
+      </ButtonsWrapper>
+      <ButtonsWrapper>
         <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
       </ButtonsWrapper>
+      <DeleteButtonWrapper>
+        <DeleteButton text="Supprimer la question" />
+      </DeleteButtonWrapper>
     </Main>
   );
 };
@@ -43,8 +52,15 @@ const InputWrapper = styled.View`
   width: 80%;
   padding: 3%;
   margin: 1% 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 const ButtonsWrapper = styled.View`
+  width: 80%;
+  margin: 1% 0;
+`;
+const DeleteButtonWrapper = styled.View`
   width: 80%;
   margin: 1% 0;
 `;
@@ -53,6 +69,9 @@ const ButtonsWrapper = styled.View`
 const QuestionContent = styled.TextInput`
   font-size: 20px;
   width: 100%;
+`;
+const Text = styled.Text`
+  font-size: 18px;
 `;
 
 export default QuestionForm;
