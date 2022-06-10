@@ -11,20 +11,28 @@ import DeleteButton from '../buttons/DeleteButton';
 const QuestionForm = (props) => {
   const { categoryId } = props;
   const [answerList, setAnswerList] = useState(fakeAnswerList);
+  const randomId = Math.floor(Math.random() * 100);
 
   const handleAddAnswer = () => {
-    setAnswerList([...answerList, []]);
+    setAnswerList([
+      ...answerList,
+      {
+        id: randomId,
+      },
+    ]);
   };
-  const handleDeleteQuestion () => {
-    
-  }
 
   return (
     <Main behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <InputWrapper>
         <QuestionContent value="" placeholder="Quelle est votre question" />
       </InputWrapper>
-      {answerList && <RenderAnswerInList answers={answerList} />}
+      {answerList && (
+        <RenderAnswerInList
+          answers={answerList}
+          setAnswerList={setAnswerList}
+        />
+      )}
       <ButtonsWrapper>
         <CheckBox text="Question privée" />
       </ButtonsWrapper>

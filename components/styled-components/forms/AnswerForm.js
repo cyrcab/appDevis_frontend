@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const AnswerForm = () => {
+const AnswerForm = ({ answerAction }) => {
   return (
     <Main>
       <InputContainer>
         <AnswerContent placeholder="Ceci est une réponse" />
-        <IconContainer>
+        <IconContainer onPress={answerAction}>
           <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
         </IconContainer>
       </InputContainer>

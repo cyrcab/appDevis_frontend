@@ -2,14 +2,21 @@ import React from 'react';
 import styled from 'styled-components/native';
 import AnswerForm from '../styled-components/forms/AnswerForm';
 
-const RenderAnswerInList = ({ answers }) => {
+const RenderAnswerInList = ({ answers, setAnswerList }) => {
+  const handleDelete = (id) => {
+    setAnswerList(answers.filter((el) => el.id !== id));
+  };
+
   if (answers[0]) {
     return (
       <Main>
         <Title>Liste des réponses possibles</Title>
         {answers.map((el, i) => (
           <InputWrapper key={i}>
-            <AnswerForm />
+            <AnswerForm
+              answerId={el.id}
+              answerAction={() => handleDelete(el.id)}
+            />
           </InputWrapper>
         ))}
       </Main>
