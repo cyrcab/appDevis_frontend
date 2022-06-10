@@ -4,14 +4,19 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const AnswerForm = () => {
   return (
-    <AnswerContainer>
-      <AnswerContent placeholder="Ceci est une réponse" />
-      <IconContainer>
-        <Icon name="trash" size={20} />
-      </IconContainer>
-    </AnswerContainer>
+    <Main>
+      <AnswerContainer>
+        <AnswerContent placeholder="Ceci est une réponse" />
+        <IconContainer>
+          <Icon name="trash" size={20} />
+        </IconContainer>
+      </AnswerContainer>
+      <Text>Question privée</Text>
+    </Main>
   );
 };
+
+const Main = styled.View``;
 
 // style concernant les réponses
 const IconContainer = styled.TouchableOpacity`
@@ -27,5 +32,6 @@ const AnswerContent = styled.TextInput`
   width: 90%;
   font-size: 18px;
 `;
+const Text = styled.Text``;
 
 export default AnswerForm;
