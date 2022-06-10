@@ -24,6 +24,7 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
+import CreateQuestion from './screens/admin/question/CreateQuestion';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -60,11 +61,21 @@ const AppContainer = () => {
               headerShown: true,
             }}
           />
+
+          {/* Categories + questions */}
           <Stack.Screen
             name="Liste des catégories"
             component={CategoryList}
             options={{
               headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="CreateQuestion"
+            component={CreateQuestion}
+            options={{
+              headerShown: true,
+              title: '',
             }}
           />
 

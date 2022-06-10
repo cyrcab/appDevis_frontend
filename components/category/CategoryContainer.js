@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
@@ -7,6 +8,7 @@ import AddButton from '../styled-components/buttons/AddButton';
 import AddingNewCategory from './AddingNewCategory';
 
 const CategoryContainer = ({ category }) => {
+  const navigation = useNavigation();
   const { name: title, questions: items } = category;
   const [isClicked, setIsClicked] = useState(false);
 
@@ -38,7 +40,7 @@ const CategoryContainer = ({ category }) => {
         <QuestionList items={items} />
       </QuestionSection>
       <ButtonWrapper>
-        <AddingQuestion />
+        <AddingQuestion action={() => navigation.navigate('CreateQuestion')} />
       </ButtonWrapper>
     </Main>
   );
@@ -80,12 +82,6 @@ const AddingButtonContainer = styled.View`
   width: 100%;
   height: 80%;
   margin-top: 5%;
-`;
-const NewCatInput = styled.TextInput`
-  background: #fdfdff;
-  font-size: 20px;
-  border: 1px solid rgba(31, 19, 0, 0.3);
-  padding: 3%;
 `;
 
 export default CategoryContainer;
