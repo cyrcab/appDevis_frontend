@@ -24,7 +24,7 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
-import CreateQuestion from './screens/admin/question/CreateQuestion';
+import QuestionGestion from './screens/admin/question/QuestionGestion';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -71,8 +71,8 @@ const AppContainer = () => {
             }}
           />
           <Stack.Screen
-            name="CreateQuestion"
-            component={CreateQuestion}
+            name="QuestionGestion"
+            component={QuestionGestion}
             options={{
               headerShown: true,
               title: '',

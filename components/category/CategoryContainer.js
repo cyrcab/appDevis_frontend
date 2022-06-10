@@ -9,7 +9,7 @@ import AddingNewCategory from './AddingNewCategory';
 
 const CategoryContainer = ({ category }) => {
   const navigation = useNavigation();
-  const { name: title, questions: items } = category;
+  const { name: title, questions: items, id } = category;
   const [isClicked, setIsClicked] = useState(false);
 
   if (!title) {
@@ -40,7 +40,13 @@ const CategoryContainer = ({ category }) => {
         <QuestionList items={items} />
       </QuestionSection>
       <ButtonWrapper>
-        <AddingQuestion action={() => navigation.navigate('CreateQuestion')} />
+        <AddingQuestion
+          action={() =>
+            navigation.push('QuestionGestion', {
+              categoryId: id,
+            })
+          }
+        />
       </ButtonWrapper>
     </Main>
   );
