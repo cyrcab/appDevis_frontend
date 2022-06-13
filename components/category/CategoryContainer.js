@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,11 +6,22 @@ import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 import AddButton from '../styled-components/buttons/AddButton';
 import AddingNewCategory from './AddingNewCategory';
+import { getQuestionsListByCategoryId } from '../../screens/helpers/api/fetchApi';
 
 const CategoryContainer = ({ category }) => {
   const navigation = useNavigation();
-  const { name: title, questions: items, id } = category;
+  const { name: title, id } = category;
   const [isClicked, setIsClicked] = useState(false);
+  const [listOfQuestions, setListOfQuestions] = useState([]);
+  const [errors, setErrors] = useState([]);
+  useEffect(() => {
+    if (id) {
+      getQuestionsListByCategoryId(id).then((response) => {
+        setListOfQuestions(response.questions);
+        setErrors(response.errors);
+      });
+    }
+  }, [id]);
 
   if (!title) {
     if (!isClicked) {
@@ -18,7 +29,9 @@ const CategoryContainer = ({ category }) => {
         <AddingButtonContainer>
           <AddButton
             text="Ajouter une catégorie"
-            action={() => setIsClicked(true)}
+            action={() => {
+              setIsClicked(true);
+            }}
           />
         </AddingButtonContainer>
       );
@@ -37,7 +50,7 @@ const CategoryContainer = ({ category }) => {
         <Title>{title}</Title>
       </TitleSection>
       <QuestionSection>
-        <QuestionList items={items} />
+        <QuestionList items={listOfQuestions} />
       </QuestionSection>
       <ButtonWrapper>
         <AddingQuestion

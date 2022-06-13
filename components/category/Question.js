@@ -1,10 +1,19 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
-const Question = ({ content, indication }) => {
+const Question = ({ question }) => {
+  const navigation = useNavigation();
+
   return (
-    <Main>
-      <QuestionContent>{content}</QuestionContent>
+    <Main
+      onPress={() =>
+        navigation.push('QuestionGestion', {
+          questionData: question,
+        })
+      }
+    >
+      <QuestionContent>{question.content}</QuestionContent>
       <AnswerNbr>4 réponses possibles</AnswerNbr>
     </Main>
   );

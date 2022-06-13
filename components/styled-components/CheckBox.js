@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const CheckBox = ({ text, action }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const CheckBox = ({ text, action, status }) => {
+  const [isChecked, setIsChecked] = useState(status);
 
   const handleCheck = () => {
     setIsChecked(!isChecked);

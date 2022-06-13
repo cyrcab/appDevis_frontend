@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Platform } from 'react-native';
 
@@ -9,9 +9,26 @@ import CheckBox from '../CheckBox';
 import DeleteButton from '../buttons/DeleteButton';
 
 const QuestionForm = (props) => {
-  const { categoryId } = props;
+  const { questionData } = props;
   const [answerList, setAnswerList] = useState(fakeAnswerList);
   const randomId = Math.floor(Math.random() * 100);
+
+  const [question, setQuestion] = useState({
+    is_public: null,
+    content: null,
+    modified_by: null,
+    indication: null,
+  });
+
+  if (questionData) {
+    setQuestion({
+      ...question,
+      is_public: questionData.is_public,
+      content: questionData.content,
+      modified_by: questionData.modified_by,
+      indication: questionData.indication,
+    });
+  }
 
   const handleAddAnswer = () => {
     setAnswerList([
@@ -25,7 +42,11 @@ const QuestionForm = (props) => {
   return (
     <Main behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <InputWrapper>
-        <QuestionContent value="" placeholder="Quelle est votre question" />
+        <QuestionContent
+          value={question.content}
+          onChangeText={(value) => setQuestion({ ...question, content: value })}
+          placeholder="Quelle est votre question"
+        />
       </InputWrapper>
       {answerList && (
         <RenderAnswerInList
@@ -37,7 +58,13 @@ const QuestionForm = (props) => {
         <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
       </ButtonsWrapper>
       <ButtonsWrapper>
-        <CheckBox text="Question privée" />
+        <CheckBox
+          text="Question privée"
+          status={question.is_public}
+          action={() =>
+            setQuestion({ ...question, is_public: !question.is_public })
+          }
+        />
       </ButtonsWrapper>
       <ButtonsWrapper>
         <CheckBox text="Choix multiple" />

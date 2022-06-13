@@ -1,5 +1,7 @@
 import axios from './axios.config';
 
+// gestion des utilisateurs
+
 const createUser = async (credentials) => {
   // const generatedPass = Math.random().toString(36).slice(2);
   const generatedPass = 'password';
@@ -29,6 +31,8 @@ const deleteUser = async (userId) => {
 
   return { userDatas, errors };
 };
+
+// gestion des offres
 
 const updateOffer = async (id, dataToUpdate, userWhoUpdate) => {
   let offerDatas;
@@ -72,6 +76,21 @@ const createOffer = async (credentials, userId) => {
   return { offers, errors };
 };
 
+// gestion des catégories
+const createCategory = async (credentials, userId) => {
+  let category;
+  let errors;
+
+  await axios
+    .post('/api/categories', { ...credentials, user_id: userId })
+    .then((response) => response.data)
+    .then((data) => (category = { ...data }))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
+
+  return { category, errors };
+};
+
 const getAllCategories = async () => {
   let categories = [];
   let errors;
@@ -86,6 +105,20 @@ const getAllCategories = async () => {
   return { categories, errors };
 };
 
+const getQuestionsListByCategoryId = async (id) => {
+  let questions;
+  let errors;
+
+  await axios
+    .get(`/api/categories/${id}/questions`)
+    .then((response) => response.data)
+    .then((data) => (questions = data))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
+
+  return { questions, errors };
+};
+
 export {
   createUser,
   deleteUser,
@@ -93,4 +126,6 @@ export {
   createOffer,
   getAllCategories,
   getAllOffers,
+  getQuestionsListByCategoryId,
+  createCategory,
 };

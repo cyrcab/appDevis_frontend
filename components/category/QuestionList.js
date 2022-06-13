@@ -6,7 +6,7 @@ import Question from './Question';
 
 const QuestionList = ({ items }) => {
   const renderItem = ({ item }) => {
-    return <Question content={item.content} />;
+    return <Question question={item.Question} />;
   };
 
   return (
@@ -14,7 +14,7 @@ const QuestionList = ({ items }) => {
       <FlatList
         data={items}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.question_id}
         horizontal="false"
       />
     </ListWrapper>

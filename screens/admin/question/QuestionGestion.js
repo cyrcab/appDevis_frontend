@@ -4,11 +4,11 @@ import styled from 'styled-components/native';
 import QuestionForm from '../../../components/styled-components/forms/QuestionForm';
 
 const QuestionGestion = ({ route }) => {
-  const { categoryId } = route.params;
+  const { categoryId, questionData } = route.params;
 
   return (
     <Main>
-      <QuestionForm categoryId={categoryId} />
+      <QuestionForm categoryId={categoryId} questionData={questionData} />
     </Main>
   );
 };
@@ -16,6 +16,5 @@ const QuestionGestion = ({ route }) => {
 const Main = styled.ScrollView`
   background: #e5e5e5;
 `;
-const Title = styled.Text``;
 
 export default QuestionGestion;

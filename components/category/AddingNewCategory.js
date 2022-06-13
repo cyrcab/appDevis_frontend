@@ -1,17 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { createCategory } from '../../screens/helpers/api/fetchApi';
 
 const AddingNewCategory = ({ cancelButton }) => {
+  const user = useSelector((state) => state.auth);
+  const [categoryToCreate, setCategoryToCreate] = useState({
+    name: null,
+  });
+
+  const handleCreateCategory = async () => {
+    const response = createCategory(categoryToCreate, user.id);
+
+    const { errors } = response;
+    if (errors) {
+      console.log(errors);
+    }
+  };
   return (
     <Main>
       <InputContainer>
-        <NewCatInput placeholder="Nom de la catégorie" />
+        <NewCatInput
+          placeholder="Nom de la catégorie"
+          value={categoryToCreate.name}
+          onChangeText={(value) =>
+            setCategoryToCreate({ ...categoryToCreate, name: value })
+          }
+        />
       </InputContainer>
       <ActionContainer>
         <Button onPress={() => cancelButton(false)}>
           <ActionTextCancel>Retour</ActionTextCancel>
         </Button>
-        <Button>
+        <Button onPress={handleCreateCategory}>
           <ActionText>Ajouter</ActionText>
         </Button>
       </ActionContainer>
