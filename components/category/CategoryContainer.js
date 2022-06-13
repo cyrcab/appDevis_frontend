@@ -2,16 +2,23 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
+import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
+
 import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 import AddButton from '../styled-components/buttons/AddButton';
 import AddingNewCategory from './AddingNewCategory';
-import { getQuestionsListByCategoryId } from '../../screens/helpers/api/fetchApi';
+import {
+  getQuestionsListByCategoryId,
+  deleteCategory,
+} from '../../screens/helpers/api/fetchApi';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const CategoryContainer = ({ category }) => {
   const navigation = useNavigation();
   const { name: title, id } = category;
   const [isClicked, setIsClicked] = useState(false);
+
   const [listOfQuestions, setListOfQuestions] = useState([]);
   const [errors, setErrors] = useState([]);
   useEffect(() => {
@@ -44,10 +51,19 @@ const CategoryContainer = ({ category }) => {
     }
   }
 
+  const handleDeleteCategory = async () => {
+    await deleteCategory(id);
+  };
+
   return (
     <Main>
       <TitleSection>
         <Title>{title}</Title>
+        <Delete
+          onPress={() => deleteConfirmation('CATEGORY', handleDeleteCategory)}
+        >
+          <Icon name="delete" size={20} />
+        </Delete>
       </TitleSection>
       <QuestionSection>
         <QuestionList items={listOfQuestions} />
@@ -77,7 +93,12 @@ const TitleSection = styled.View`
   background: #f092ff;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
+const Delete = styled.TouchableOpacity``;
 const Title = styled.Text`
   font-weight: 600;
   font-size: 18px;

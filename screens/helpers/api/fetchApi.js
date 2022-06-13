@@ -91,6 +91,20 @@ const createCategory = async (credentials, userId) => {
   return { category, errors };
 };
 
+const deleteCategory = async (id) => {
+  let category;
+  let errors;
+
+  await axios
+    .delete(`/api/categories/${id}`)
+    .then((response) => response.data)
+    .then((data) => (category = { ...data }))
+    .catch((err) => err.response)
+    .then((res) => (errors = res.data));
+
+  return { category, errors };
+};
+
 const getAllCategories = async () => {
   let categories = [];
   let errors;
@@ -128,4 +142,5 @@ export {
   getAllOffers,
   getQuestionsListByCategoryId,
   createCategory,
+  deleteCategory,
 };
