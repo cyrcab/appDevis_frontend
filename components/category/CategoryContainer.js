@@ -58,8 +58,7 @@ const CategoryContainer = ({
 const Main = styled.View`
   width: 100%;
   height: 100%;
-  ${'' /* margin-top: 1%; */}
-  box-shadow: 0px 0px 2px rgba(255, 255,255, 1);
+  box-shadow: 0px 0px 2px rgba(255, 255, 255, 1);
 `;
 const TitleSection = styled.TouchableOpacity`
   padding: 5% 3%;

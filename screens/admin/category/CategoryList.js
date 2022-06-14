@@ -5,9 +5,11 @@ import { FlatList } from 'react-native';
 
 import { getAllCategories } from '../../helpers/api/fetchApi';
 import CategoryContainer from '../../../components/category/CategoryContainer';
+import CategoryForm from '../../../components/styled-components/forms/CategoryForm';
 
 const CategoryList = () => {
   const [listOfCategories, setListOfCategories] = useState([]);
+  const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
   const [errors, setErrors] = useState([]);
   useEffect(() => {
     getAllCategories().then((response) => {
@@ -34,13 +36,15 @@ const CategoryList = () => {
         keyExtractor={(item) => item.id}
         horizontal="false"
       />
+      <CategoryForm
+        setListOfCategories={setListOfCategories}
+        listOfCategories={listOfCategories}
+      />
     </Main>
   );
 };
 
-const Main = styled.SafeAreaView`
-  height: 100%;
-`;
+const Main = styled.SafeAreaView``;
 const Title = styled.Text``;
 
 export default CategoryList;

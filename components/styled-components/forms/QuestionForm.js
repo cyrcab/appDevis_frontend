@@ -6,6 +6,7 @@ import AddButton from '../buttons/AddButton';
 import RenderAnswerInList from '../../answer/RenderAnswerInList';
 import CheckBox from '../CheckBox';
 import DeleteButton from '../buttons/DeleteButton';
+import FirstButton from '../buttons/FirstButton';
 
 const QuestionForm = (props) => {
   const { questionData } = props;
@@ -17,16 +18,8 @@ const QuestionForm = (props) => {
     content: null,
     modified_by: null,
     indication: null,
+    has_multiple_choice: null,
   });
-
-  // if (questionData) {
-  //   setQuestion({
-  //     is_public: questionData.is_public,
-  //     content: questionData.content,
-  //     modified_by: questionData.modified_by,
-  //     indication: questionData.indication,
-  //   });
-  // }
 
   const handleAddAnswer = () => {
     setAnswerList([
@@ -42,7 +35,7 @@ const QuestionForm = (props) => {
       <InputWrapper>
         <QuestionContent
           value={question.content}
-          // onChangeText={(value) => setQuestion({ ...question, content: value })}
+          onChangeText={(value) => setQuestion({ ...question, content: value })}
           placeholder="Quelle est votre question"
         />
       </InputWrapper>
@@ -59,17 +52,31 @@ const QuestionForm = (props) => {
         <CheckBox
           text="Question privée"
           status={question.is_public}
-          // action={() =>
-          //   setQuestion({ ...question, is_public: !question.is_public })
-          // }
+          action={() =>
+            setQuestion({ ...question, is_public: !question.is_public })
+          }
         />
       </ButtonsWrapper>
       <ButtonsWrapper>
-        <CheckBox text="Choix multiple" />
+        <CheckBox
+          text="Choix multiple"
+          action={() =>
+            setQuestion({
+              ...question,
+              has_multiple_choice: !question.is_public,
+            })
+          }
+        />
       </ButtonsWrapper>
       <DeleteButtonWrapper>
         <DeleteButton text="Supprimer la question" />
       </DeleteButtonWrapper>
+      <SaveButtonWrapper>
+        <FirstButton
+          text="Save"
+          isClickable={question.content !== null ? true : false}
+        />
+      </SaveButtonWrapper>
     </Main>
   );
 };
@@ -99,6 +106,11 @@ const ButtonsWrapper = styled.View`
 const DeleteButtonWrapper = styled.View`
   width: 80%;
   margin: 1% 0;
+`;
+const SaveButtonWrapper = styled.View`
+  width: 60%;
+  height: 15%;
+  margin-top: 30%;
 `;
 
 // style parties concernant les questions
