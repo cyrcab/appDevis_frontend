@@ -48,6 +48,8 @@ const CategoryList = () => {
   );
 };
 
-const Main = styled.SafeAreaView``;
+const Main = styled.SafeAreaView`
+  max-height: 100%;
+`;
 
 export default CategoryList;

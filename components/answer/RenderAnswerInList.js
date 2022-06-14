@@ -25,7 +25,7 @@ const RenderAnswerInList = ({ answers, setAnswerList }) => {
   return null;
 };
 const Main = styled.View`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   background: red;

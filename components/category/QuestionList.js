@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
-import Question from './Question';
+import QuestionForm from '../styled-components/forms/QuestionForm';
 
 const QuestionList = ({ items }) => {
+  const [listOfQuestion, setListOfQuestion] = useState(items);
+
   const renderItem = ({ item }) => {
-    return <Question question={item.Question} />;
+    return <QuestionForm isDeletable={true} />;
   };
 
   if (items) {
     return (
       <ListWrapper>
         <FlatList
-          data={items}
+          data={listOfQuestion}
           renderItem={renderItem}
           keyExtractor={(item) => item.question_id}
           horizontal="false"

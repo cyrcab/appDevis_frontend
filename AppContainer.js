@@ -23,7 +23,6 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
-import QuestionGestion from './screens/admin/question/QuestionGestion';
 
 // import des outils pour redux
 import { useSelector } from 'react-redux';
@@ -70,14 +69,6 @@ const AppContainer = () => {
             component={CategoryList}
             options={{
               headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="QuestionGestion"
-            component={QuestionGestion}
-            options={{
-              headerShown: true,
-              title: '',
             }}
           />
 

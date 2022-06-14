@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
 
 import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
 
 import QuestionList from './QuestionList';
+import QuestionForm from '../styled-components/forms/QuestionForm';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 import { deleteCategory } from '../../screens/helpers/api/fetchApi';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -14,9 +14,9 @@ const CategoryContainer = ({
   setListOfCategories,
   listOfCategories,
 }) => {
-  const navigation = useNavigation();
   const { name: title, id } = category;
   const [titleIsPressed, setTitleIsPressed] = useState(false);
+  const [addingQuestionIsPressed, setAddingQuestionIsPressed] = useState(false);
 
   const listOfQuestion = category.Category_has_Question;
 
@@ -41,13 +41,17 @@ const CategoryContainer = ({
             <QuestionList items={listOfQuestion} />
           </QuestionSection>
           <ButtonWrapper>
-            <AddingQuestion
-              action={() =>
-                navigation.push('QuestionGestion', {
-                  categoryId: id,
-                })
-              }
-            />
+            {addingQuestionIsPressed ? (
+              <>
+                <QuestionForm isDeletable={false} />
+              </>
+            ) : (
+              <AddingQuestion
+                action={() =>
+                  setAddingQuestionIsPressed(!addingQuestionIsPressed)
+                }
+              />
+            )}
           </ButtonWrapper>
         </>
       ) : null}
@@ -59,10 +63,14 @@ const Main = styled.View`
   width: 100%;
   height: 100%;
   box-shadow: 0px 0px 2px rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  background: #fdfdff;
 `;
 const TitleSection = styled.TouchableOpacity`
   padding: 5% 3%;
   background: #f092ff;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -78,12 +86,12 @@ const QuestionSection = styled.View`
   background: #fdfdff;
   display: flex;
   align-items: center;
+  margin-top: 3%;
 `;
 
 const ButtonWrapper = styled.View`
-  padding: 5% 3%;
-  box-shadow: 0px -10px 22px rgba(255, 255, 255, 0.7);
-  background: #fdfdff;
+  width: 95%;
+  margin-bottom: 3%;
 `;
 
 export default CategoryContainer;
