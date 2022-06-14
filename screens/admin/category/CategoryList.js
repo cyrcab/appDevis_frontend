@@ -1,20 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import CategoryContainer from '../../../components/category/CategoryContainer';
-import { StyleSheet, Dimensions } from 'react-native';
+import CarouselOfCategory from '../../../components/category/CarouselOfCategory';
+
 import { getAllCategories } from '../../helpers/api/fetchApi';
 
 const CategoryList = () => {
-  const { width: windowWidth } = Dimensions.get('window');
-  const [index, setIndex] = useState(0);
-  const carouselRef = useRef(null);
-
-  const renderItem = ({ item }) => {
-    return <CategoryContainer category={item} />;
-  };
-
   const [listOfCategories, setListOfCategories] = useState([]);
   const [errors, setErrors] = useState([]);
   useEffect(() => {
@@ -26,55 +17,11 @@ const CategoryList = () => {
 
   return (
     <Main>
-      <CarouselContainer>
-        <Carousel
-          ref={carouselRef}
-          data={listOfCategories}
-          renderItem={renderItem}
-          sliderWidth={windowWidth}
-          itemWidth={windowWidth * 0.9}
-          onSnapToItem={(i) => setIndex(i)}
-        />
-      </CarouselContainer>
-      <PaginationContainer>
-        <Pagination
-          dotsLength={listOfCategories.length}
-          activeDotIndex={index}
-          carouselRef={carouselRef}
-          dotStyle={styles.activeDots}
-          tappableDots={true}
-          inactiveDotStyle={styles.inactiveDots}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.7}
-        />
-      </PaginationContainer>
+      <CarouselOfCategory listOfCategories={listOfCategories} />
     </Main>
   );
 };
 
-const styles = StyleSheet.create({
-  activeDots: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#ff9b42',
-  },
-  inactiveDots: {
-    backgroundColor: 'grey',
-  },
-});
-
-const Main = styled.View`
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-const CarouselContainer = styled.View`
-  width: 100%;
-  height: 90%;
-`;
-const PaginationContainer = styled.View`
-  height: 10%;
-`;
+const Main = styled.SafeAreaView``;
 
 export default CategoryList;

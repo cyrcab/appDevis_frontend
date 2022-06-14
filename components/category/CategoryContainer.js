@@ -22,12 +22,11 @@ const CategoryContainer = ({ category }) => {
   const [listOfQuestions, setListOfQuestions] = useState([]);
   const [errors, setErrors] = useState([]);
   useEffect(() => {
-    if (id) {
-      getQuestionsListByCategoryId(id).then((response) => {
-        setListOfQuestions(response.questions);
-        setErrors(response.errors);
-      });
-    }
+    getQuestionsListByCategoryId(id).then((response) => {
+      setListOfQuestions(response.questions);
+      setErrors(response.errors);
+    });
+    console.log('test');
   }, [id]);
 
   if (!title) {

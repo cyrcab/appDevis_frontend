@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { Platform } from 'react-native';
 
 import AddButton from '../buttons/AddButton';
 import RenderAnswerInList from '../../answer/RenderAnswerInList';
-import fakeAnswerList from '../../../app/datas/fakeAnswerList';
 import CheckBox from '../CheckBox';
 import DeleteButton from '../buttons/DeleteButton';
 
 const QuestionForm = (props) => {
   const { questionData } = props;
-  const [answerList, setAnswerList] = useState(fakeAnswerList);
+  const [answerList, setAnswerList] = useState([]);
   const randomId = Math.floor(Math.random() * 100);
 
   const [question, setQuestion] = useState({
@@ -20,15 +19,14 @@ const QuestionForm = (props) => {
     indication: null,
   });
 
-  if (questionData) {
-    setQuestion({
-      ...question,
-      is_public: questionData.is_public,
-      content: questionData.content,
-      modified_by: questionData.modified_by,
-      indication: questionData.indication,
-    });
-  }
+  // if (questionData) {
+  //   setQuestion({
+  //     is_public: questionData.is_public,
+  //     content: questionData.content,
+  //     modified_by: questionData.modified_by,
+  //     indication: questionData.indication,
+  //   });
+  // }
 
   const handleAddAnswer = () => {
     setAnswerList([
@@ -44,7 +42,7 @@ const QuestionForm = (props) => {
       <InputWrapper>
         <QuestionContent
           value={question.content}
-          onChangeText={(value) => setQuestion({ ...question, content: value })}
+          // onChangeText={(value) => setQuestion({ ...question, content: value })}
           placeholder="Quelle est votre question"
         />
       </InputWrapper>
@@ -61,9 +59,9 @@ const QuestionForm = (props) => {
         <CheckBox
           text="Question privée"
           status={question.is_public}
-          action={() =>
-            setQuestion({ ...question, is_public: !question.is_public })
-          }
+          // action={() =>
+          //   setQuestion({ ...question, is_public: !question.is_public })
+          // }
         />
       </ButtonsWrapper>
       <ButtonsWrapper>
