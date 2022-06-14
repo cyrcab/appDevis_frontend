@@ -10,8 +10,7 @@ const fetchCategory = async (action, credentials, userId) => {
         .post('/api/categories', { ...credentials, user_id: userId })
         .then((response) => response.data)
         .then((data) => (category = { ...data }))
-        .catch((err) => err.response)
-        .then((res) => (errors = res.data));
+        .catch((err) => (errors = err));
       break;
 
     default:

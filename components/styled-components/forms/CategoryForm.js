@@ -4,21 +4,25 @@ import { useSelector } from 'react-redux';
 
 import AddButton from '../buttons/AddButton';
 import fetchCategory from '../../../screens/helpers/api/fetchCategory';
+import displayAlertError from '../../../screens/helpers/Alert/errorAlert';
 
 const CategoryForm = ({ setListOfCategories, listOfCategories }) => {
   const user = useSelector((state) => state.auth);
   const { id } = user;
-  // const [inputIsPressed, setInputIsPressed] = useState(false);
   const [buttonIsPressed, setButtonIsPressed] = useState(false);
   const [newCategory, setNewCategory] = useState({
-    name: '',
+    name: null,
   });
 
   const handleCreateCategory = async () => {
     const response = await fetchCategory('CREATE', newCategory, id);
     if (response.category) {
       setListOfCategories([...listOfCategories, response.category]);
+      setNewCategory({ ...newCategory, name: '' });
       setButtonIsPressed(false);
+    }
+    if (response.errors) {
+      displayAlertError(response.errors);
     }
   };
 
@@ -33,7 +37,7 @@ const CategoryForm = ({ setListOfCategories, listOfCategories }) => {
           <InputText
             autoFocus={true}
             placeholder="Nom de la catégorie"
-            value={newCategory}
+            value={newCategory.name}
             onChangeText={(value) =>
               setNewCategory({ ...newCategory, name: value })
             }
@@ -42,7 +46,9 @@ const CategoryForm = ({ setListOfCategories, listOfCategories }) => {
             <ActionButton onPress={() => setButtonIsPressed(false)}>
               <TextCancel>Cancel</TextCancel>
             </ActionButton>
-            <ActionButton onPress={handleCreateCategory}>
+            <ActionButton
+              onPress={newCategory.name ? handleCreateCategory : null}
+            >
               <TextAdd>Ajouter</TextAdd>
             </ActionButton>
           </ButtonContainer>
