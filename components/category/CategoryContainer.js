@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,10 +8,7 @@ import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 import AddButton from '../styled-components/buttons/AddButton';
 import AddingNewCategory from './AddingNewCategory';
-import {
-  getQuestionsListByCategoryId,
-  deleteCategory,
-} from '../../screens/helpers/api/fetchApi';
+import { deleteCategory } from '../../screens/helpers/api/fetchApi';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const CategoryContainer = ({ category }) => {
@@ -19,15 +16,7 @@ const CategoryContainer = ({ category }) => {
   const { name: title, id } = category;
   const [isClicked, setIsClicked] = useState(false);
 
-  const [listOfQuestions, setListOfQuestions] = useState([]);
-  const [errors, setErrors] = useState([]);
-  useEffect(() => {
-    getQuestionsListByCategoryId(id).then((response) => {
-      setListOfQuestions(response.questions);
-      setErrors(response.errors);
-    });
-    console.log('test');
-  }, [id]);
+  const listOfQuestion = category.Category_has_Question;
 
   if (!title) {
     if (!isClicked) {
@@ -65,7 +54,7 @@ const CategoryContainer = ({ category }) => {
         </Delete>
       </TitleSection>
       <QuestionSection>
-        <QuestionList items={listOfQuestions} />
+        <QuestionList items={listOfQuestion} />
       </QuestionSection>
       <ButtonWrapper>
         <AddingQuestion

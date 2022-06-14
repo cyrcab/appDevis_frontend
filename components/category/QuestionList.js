@@ -9,16 +9,19 @@ const QuestionList = ({ items }) => {
     return <Question question={item.Question} />;
   };
 
-  return (
-    <ListWrapper>
-      <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.question_id}
-        horizontal="false"
-      />
-    </ListWrapper>
-  );
+  if (items) {
+    return (
+      <ListWrapper>
+        <FlatList
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.question_id}
+          horizontal="false"
+        />
+      </ListWrapper>
+    );
+  }
+  return <></>;
 };
 
 const ListWrapper = styled.View`

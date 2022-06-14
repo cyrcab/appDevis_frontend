@@ -10,7 +10,7 @@ const CategoryList = () => {
   const [errors, setErrors] = useState([]);
   useEffect(() => {
     getAllCategories().then((response) => {
-      setListOfCategories([...response.categories, {}]);
+      setListOfCategories(response.categories.concat({}));
       setErrors(response.errors);
     });
   }, []);
