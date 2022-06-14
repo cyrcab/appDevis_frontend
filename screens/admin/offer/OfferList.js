@@ -7,6 +7,8 @@ import RenderOfferList from '../../../components/offers/RenderOfferList';
 import SearchBar from '../../../components/styled-components/SearchBar';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 
+import displayAlertError from '../../helpers/Alert/errorAlert';
+
 const OfferList = () => {
   const navigation = useNavigation();
   const [offerList, setOfferList] = useState([]);
@@ -29,7 +31,7 @@ const OfferList = () => {
           setOfferList(data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => displayAlertError(err));
   }, [searchedWord]);
 
   return (

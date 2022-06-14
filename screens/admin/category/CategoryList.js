@@ -6,17 +6,21 @@ import { FlatList } from 'react-native';
 import { getAllCategories } from '../../helpers/api/fetchApi';
 import CategoryContainer from '../../../components/category/CategoryContainer';
 import CategoryForm from '../../../components/styled-components/forms/CategoryForm';
+import displayAlertError from '../../helpers/Alert/errorAlert';
 
 const CategoryList = () => {
   const [listOfCategories, setListOfCategories] = useState([]);
-  const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
   const [errors, setErrors] = useState([]);
   useEffect(() => {
     getAllCategories().then((response) => {
       setListOfCategories(response.categories);
-      setErrors(response.errors);
+      setErrors([response.errors]);
     });
   }, []);
+
+  if (errors[0]) {
+    displayAlertError(errors[0]);
+  }
 
   const renderItem = ({ item }) => {
     return (
@@ -45,6 +49,5 @@ const CategoryList = () => {
 };
 
 const Main = styled.SafeAreaView``;
-const Title = styled.Text``;
 
 export default CategoryList;
