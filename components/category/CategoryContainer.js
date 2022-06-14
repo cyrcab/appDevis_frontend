@@ -6,46 +6,28 @@ import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
 
 import QuestionList from './QuestionList';
 import AddingQuestion from '../styled-components/buttons/AddingQuestion';
-import AddButton from '../styled-components/buttons/AddButton';
-import AddingNewCategory from './AddingNewCategory';
 import { deleteCategory } from '../../screens/helpers/api/fetchApi';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const CategoryContainer = ({ category }) => {
+const CategoryContainer = ({
+  category,
+  setListOfCategories,
+  listOfCategories,
+}) => {
   const navigation = useNavigation();
   const { name: title, id } = category;
-  const [isClicked, setIsClicked] = useState(false);
+  const [titleIsPressed, setTitleIsPressed] = useState(false);
 
   const listOfQuestion = category.Category_has_Question;
 
-  if (!title) {
-    if (!isClicked) {
-      return (
-        <AddingButtonContainer>
-          <AddButton
-            text="Ajouter une catégorie"
-            action={() => {
-              setIsClicked(true);
-            }}
-          />
-        </AddingButtonContainer>
-      );
-    } else {
-      return (
-        <AddingButtonContainer>
-          <AddingNewCategory cancelButton={setIsClicked} />
-        </AddingButtonContainer>
-      );
-    }
-  }
-
   const handleDeleteCategory = async () => {
     await deleteCategory(id);
+    setListOfCategories(listOfCategories.filter((el) => el.id !== id));
   };
 
   return (
     <Main>
-      <TitleSection>
+      <TitleSection onPress={() => setTitleIsPressed(!titleIsPressed)}>
         <Title>{title}</Title>
         <Delete
           onPress={() => deleteConfirmation('CATEGORY', handleDeleteCategory)}
@@ -53,34 +35,35 @@ const CategoryContainer = ({ category }) => {
           <Icon name="delete" size={20} />
         </Delete>
       </TitleSection>
-      <QuestionSection>
-        <QuestionList items={listOfQuestion} />
-      </QuestionSection>
-      <ButtonWrapper>
-        <AddingQuestion
-          action={() =>
-            navigation.push('QuestionGestion', {
-              categoryId: id,
-            })
-          }
-        />
-      </ButtonWrapper>
+      {titleIsPressed ? (
+        <>
+          <QuestionSection>
+            <QuestionList items={listOfQuestion} />
+          </QuestionSection>
+          <ButtonWrapper>
+            <AddingQuestion
+              action={() =>
+                navigation.push('QuestionGestion', {
+                  categoryId: id,
+                })
+              }
+            />
+          </ButtonWrapper>
+        </>
+      ) : null}
     </Main>
   );
 };
 
 const Main = styled.View`
   width: 100%;
-  height: 80%;
-  margin-top: 5%;
-  border-radius: 25px;
-  box-shadow: 0px 0px 2px rgba(31, 19, 0, 0.3);
+  height: 100%;
+  ${'' /* margin-top: 1%; */}
+  box-shadow: 0px 0px 2px rgba(255, 255,255, 1);
 `;
-const TitleSection = styled.View`
+const TitleSection = styled.TouchableOpacity`
   padding: 5% 3%;
   background: #f092ff;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -93,7 +76,6 @@ const Title = styled.Text`
 `;
 
 const QuestionSection = styled.View`
-  padding: 5% 0 0 0;
   background: #fdfdff;
   display: flex;
   align-items: center;
@@ -101,15 +83,8 @@ const QuestionSection = styled.View`
 
 const ButtonWrapper = styled.View`
   padding: 5% 3%;
-  box-shadow: 0px -2px 3px rgba(31, 19, 0, 0.1);
+  box-shadow: 0px -10px 22px rgba(255, 255, 255, 0.7);
   background: #fdfdff;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-`;
-const AddingButtonContainer = styled.View`
-  width: 100%;
-  height: 80%;
-  margin-top: 5%;
 `;
 
 export default CategoryContainer;

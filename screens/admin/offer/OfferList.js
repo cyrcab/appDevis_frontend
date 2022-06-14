@@ -40,7 +40,10 @@ const OfferList = () => {
       <ListContainer>
         <RenderOfferList elems={offerList} />
         <ButtonWrapper>
-          <AddButton text="Ajouter une offre" action={() => navigation.navigate('OfferCreation')}/>
+          <AddButton
+            text="Ajouter une offre"
+            action={() => navigation.navigate('OfferCreation')}
+          />
         </ButtonWrapper>
       </ListContainer>
     </Main>
