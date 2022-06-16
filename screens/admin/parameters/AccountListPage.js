@@ -7,6 +7,8 @@ import UserList from '../../../components/parameters/UserList';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
+import displayAlertError from '../../helpers/Alert/errorAlert';
+
 const AccountListPage = () => {
   const navigation = useNavigation();
   const [userList, setUserList] = useState([]);
@@ -31,7 +33,7 @@ const AccountListPage = () => {
           setUserList(data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => displayAlertError(err));
   }, [searchedWord]);
 
   return (

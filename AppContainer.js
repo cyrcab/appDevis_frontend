@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
 
 // import de la page de connexion
 import LoginStackScreen from './screens/helpers/LoginStackScreen';
@@ -24,6 +23,9 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
+
+// import des outils pour redux
+import { useSelector } from 'react-redux';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -60,6 +62,8 @@ const AppContainer = () => {
               headerShown: true,
             }}
           />
+
+          {/* Categories + questions */}
           <Stack.Screen
             name="Liste des catégories"
             component={CategoryList}

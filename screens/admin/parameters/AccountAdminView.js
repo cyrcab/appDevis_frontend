@@ -62,12 +62,12 @@ const AccountAdminView = ({ route }) => {
       'Vous êtes sur le point de supprimer un utilisateur, voulez-vous continuer ?',
       [
         {
-          text: 'Cancel',
+          text: 'Annuler',
           onPress: () => Alert.alert("L'utilisateur n'a pas été supprimé"),
           style: 'cancel',
         },
         {
-          text: 'Supprimer',
+          text: 'Continuer',
           onPress: () => handleDeleteUser(),
         },
       ],

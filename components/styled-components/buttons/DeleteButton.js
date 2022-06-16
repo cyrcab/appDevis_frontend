@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const DeleteButton = ({ text, action }) => {
   return (
     <Button onPress={action}>
-      <Icon name="trash" size={30} color="#ff4d42" />
       <ButtonText>{text}</ButtonText>
+      <Icon name="trash" size={25} color="#ff4d42" />
     </Button>
   );
 };

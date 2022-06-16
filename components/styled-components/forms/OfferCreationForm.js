@@ -35,7 +35,6 @@ const OfferCreationForm = () => {
     if (errors) {
       const { isCreated } = errors;
       showAlertInfo(isCreated);
-      console.log(errors);
     }
     if (userDatas) {
       const { isCreated } = userDatas;

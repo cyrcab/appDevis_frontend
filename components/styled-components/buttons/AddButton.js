@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const AddButton = ({ text, action }) => {
   return (
     <Button onPress={action}>
-      <Icon name="plus" size={30} />
       <ButtonText>{text}</ButtonText>
+      <Icon name="plus" size={25} color="rgba(31, 19, 0, 0.6)" />
     </Button>
   );
 };
@@ -16,13 +16,14 @@ const Button = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  border: 1px solid #1f1300;
+  border: 1px solid rgba(31, 19, 0, 0.3);
   padding: 10px 20px;
   background: #fdfdff;
 `;
 const ButtonText = styled.Text`
   font-size: 20px;
   font-weight: 500;
+  color: rgba(31, 19, 0, 0.6);
 `;
 
 export default AddButton;
