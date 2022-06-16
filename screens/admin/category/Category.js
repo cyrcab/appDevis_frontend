@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
-import QuestionList from '../../../components/category/QuestionList';
-import QuestionForm from '../../../components/styled-components/forms/QuestionForm';
+import QuestionList from '../../../components/question/QuestionList';
+import QuestionForm from '../../../components/question/QuestionForm';
 import AddingQuestion from '../../../components/styled-components/buttons/AddingQuestion';
 import fetchQuestion from '../../helpers/api/fetchQuestion';
 

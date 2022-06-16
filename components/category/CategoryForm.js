@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 
-import AddButton from '../buttons/AddButton';
-import fetchCategory from '../../../screens/helpers/api/fetchCategory';
-import displayAlertError from '../../../screens/helpers/Alert/errorAlert';
+import AddButton from '../styled-components/buttons/AddButton';
+import fetchCategory from '../../screens/helpers/api/fetchCategory';
+import displayAlertError from '../../screens/helpers/Alert/errorAlert';
 
 const CategoryForm = ({ setListOfCategories, listOfCategories }) => {
   const user = useSelector((state) => state.auth);

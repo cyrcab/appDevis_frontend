@@ -2,27 +2,39 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const AnswerForm = ({ answerAction }) => {
+import DuoButton from '../styled-components/buttons/DuoButton';
+
+const AnswerForm = ({ setAddButtonIsPressed }) => {
   const [inputIsPressed, setInPutIsPressed] = useState(false);
 
   return (
     <Main>
       <InputContainer>
         <AnswerContent
+          autoFocus={true}
           placeholder="Ceci est une réponse"
-          onPressIn={() => setInPutIsPressed(true)}
-          onEndEditing={() => setInPutIsPressed(false)}
+          onFocus={() => setInPutIsPressed(true)}
         />
-        <IconContainer onPress={answerAction}>
+        <IconContainer>
           <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
         </IconContainer>
       </InputContainer>
-      {inputIsPressed ? <Text>lol</Text> : null}
+      {inputIsPressed ? (
+        <>
+          <DuoButton
+            textRight="Sauvegarder"
+            textLeft="Annuler"
+            actionLeft={() => setAddButtonIsPressed(false)}
+          />
+        </>
+      ) : null}
     </Main>
   );
 };
 
-const Main = styled.View``;
+const Main = styled.View`
+  width: 90%;
+`;
 
 // style concernant les réponses
 const IconContainer = styled.TouchableOpacity`
@@ -33,6 +45,9 @@ const InputContainer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 3%;
+  margin-bottom: 2%;
+  border: 1px solid rgba(31, 19, 0, 0.3);
 `;
 const AnswerContent = styled.TextInput`
   width: 90%;
