@@ -43,7 +43,10 @@ const CategoryContainer = ({
           <ButtonWrapper>
             {addingQuestionIsPressed ? (
               <>
-                <QuestionForm isDeletable={false} />
+                <QuestionForm
+                  isDeletable={false}
+                  setAddingQuestionIsPressed={setAddingQuestionIsPressed}
+                />
               </>
             ) : (
               <AddingQuestion

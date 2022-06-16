@@ -8,7 +8,7 @@ const QuestionList = ({ items }) => {
   const [listOfQuestion, setListOfQuestion] = useState(items);
 
   const renderItem = ({ item }) => {
-    return <QuestionForm isDeletable={true} />;
+    return <QuestionForm isDeletable={true} question={item} />;
   };
 
   if (items) {

@@ -14,7 +14,7 @@ const DuoButton = ({
         <TextLeft>{textLeft}</TextLeft>
       </LeftButton>
       <RightButton onPress={actionRight} isClickable={righIsClickable}>
-        <TextRight>{textRight}</TextRight>
+        <TextRight isClickable={righIsClickable}>{textRight}</TextRight>
       </RightButton>
     </Main>
   );
