@@ -41,7 +41,11 @@ const fetchQuestion = async (
       .then((data) => (question = { ...data }))
       .catch((err) => (errors = err));
   } else {
-    console.log('supprimer');
+    await axios
+      .delete(`/api/questions/${questionId}`)
+      .then((response) => response.data)
+      .then((data) => (question = { ...data }))
+      .catch((err) => (errors = err));
   }
 
   return { question, errors };

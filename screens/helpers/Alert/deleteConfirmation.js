@@ -9,6 +9,10 @@ const deleteConfirmation = (elemToDelete, action) => {
       elemToDeleteTitle = "d'une catégorie";
       elemToDeleteInString = 'une catégorie';
       break;
+    case 'QUESTION':
+      elemToDeleteTitle = "d'une question";
+      elemToDeleteInString = 'une question';
+      break;
     default:
       elemToDeleteTitle = "d'un élément";
       elemToDeleteInString = 'un élément inconnu';

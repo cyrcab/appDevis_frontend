@@ -79,7 +79,7 @@ const AppContainer = () => {
             component={Category}
             options={{
               headerShown: true,
-              title: 'List des questions',
+              title: 'Liste des questions',
             }}
           />
 

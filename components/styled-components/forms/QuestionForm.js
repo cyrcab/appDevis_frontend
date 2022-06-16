@@ -11,6 +11,7 @@ import DuoButton from '../buttons/DuoButton';
 import questionAreDifferent from './saveButtonIsClickable';
 import fetchQuestion from '../../../screens/helpers/api/fetchQuestion';
 import displayAlertError from '../../../screens/helpers/Alert/errorAlert';
+import deleteConfirmation from '../../../screens/helpers/Alert/deleteConfirmation';
 
 const QuestionForm = ({
   isDeletable,
@@ -73,7 +74,7 @@ const QuestionForm = ({
     }
   }, [questionData]);
 
-  const handleFetchApi = async () => {
+  const handleFetchApi = () => {
     if (fetchAction === 'PUT') {
       fetchQuestion(
         fetchAction,
@@ -99,6 +100,11 @@ const QuestionForm = ({
         })
         .catch((errors) => console.log(errors));
     }
+  };
+
+  const handleDeteleQuestion = async () => {
+    await fetchQuestion('DELETE', null, null, null, question.id);
+    setListOfQuestion(listOfQuestion.filter((el) => el.id !== question.id));
   };
 
   return (
@@ -151,7 +157,12 @@ const QuestionForm = ({
           </ButtonsWrapper>
           {isDeletable ? (
             <DeleteButtonWrapper>
-              <DeleteButton text="Supprimer la question" />
+              <DeleteButton
+                text="Supprimer la question"
+                action={() => {
+                  deleteConfirmation('QUESTION', handleDeteleQuestion);
+                }}
+              />
             </DeleteButtonWrapper>
           ) : null}
           <SaveButtonWrapper>
