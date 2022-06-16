@@ -13,7 +13,11 @@ const DuoButton = ({
       <LeftButton onPress={actionLeft}>
         <TextLeft>{textLeft}</TextLeft>
       </LeftButton>
-      <RightButton onPress={actionRight} isClickable={righIsClickable}>
+      <RightButton
+        onPress={actionRight}
+        isClickable={righIsClickable}
+        activeOpacity={righIsClickable ? 0.2 : 1}
+      >
         <TextRight isClickable={righIsClickable}>{textRight}</TextRight>
       </RightButton>
     </Main>
@@ -25,7 +29,6 @@ const Main = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
 `;
 const LeftButton = styled.TouchableOpacity`
   border: 1px solid #ff4d42;

@@ -15,15 +15,19 @@ import displayAlertError from '../../../screens/helpers/Alert/errorAlert';
 const QuestionForm = ({
   isDeletable,
   question,
+  listOfQuestion,
+  setListOfQuestion,
   setAddingQuestionIsPressed,
+  categoryId,
 }) => {
   const [answerList, setAnswerList] = useState([]);
   const [inputIsFocused, setInPutIsFocused] = useState(false);
   const [isClickable, setIsClickable] = useState(false);
   const [questionData, setQuestionData] = useState({
+    category_id: categoryId,
     content: null,
-    has_multiple_choice: null,
-    is_public: null,
+    has_multiple_choice: false,
+    is_public: false,
   });
   const [fetchAction, setFetchAction] = useState('');
 
@@ -33,9 +37,9 @@ const QuestionForm = ({
   useEffect(() => {
     if (question) {
       setQuestionData({
-        content: question.Question.content,
-        has_multiple_choice: question.Question.has_multiple_choice,
-        is_public: question.Question.is_public,
+        content: question.content,
+        has_multiple_choice: question.has_multiple_choice,
+        is_public: question.is_public,
       });
       setIsClickable(false);
       setFetchAction('PUT');
@@ -57,10 +61,14 @@ const QuestionForm = ({
 
   useEffect(() => {
     if (question) {
-      if (questionAreDifferent(question.Question, questionData)) {
+      if (questionAreDifferent(question, questionData)) {
         setIsClickable(true);
       } else {
-        setIsClickable(false);
+        setIsClickable(true);
+      }
+    } else {
+      if (questionData.content !== null) {
+        setIsClickable(true);
       }
     }
   }, [questionData]);
@@ -71,7 +79,8 @@ const QuestionForm = ({
         fetchAction,
         questionData,
         user.id,
-        question.Question.id,
+        null,
+        question.id,
         userName,
       ).then((response) => {
         if (response.errors) {
@@ -80,6 +89,15 @@ const QuestionForm = ({
           setIsClickable(false);
         }
       });
+    }
+    if (fetchAction === 'CREATE') {
+      fetchQuestion(fetchAction, questionData, user.id)
+        .then((response) => response.question)
+        .then((question) => {
+          setListOfQuestion([...listOfQuestion, question.questionToCreate]);
+          setAddingQuestionIsPressed(false);
+        })
+        .catch((errors) => console.log(errors));
     }
   };
 
@@ -158,10 +176,14 @@ const QuestionForm = ({
 
 // style général
 
-const Main = styled.ScrollView``;
+const Main = styled.View`
+  display: flex;
+  align-items: center;
+`;
 const OtherOptions = styled.View`
-  margin-bottom: 100%;
-  height: 100%;
+  background: #fdfdff;
+  padding: 3%;
+  margin-bottom: 200%;
 `;
 const InputWrapper = styled.View`
   background: #fdfdff;
@@ -178,9 +200,7 @@ const ButtonsWrapper = styled.View`
 const DeleteButtonWrapper = styled.View`
   margin: 1% 0;
 `;
-const SaveButtonWrapper = styled.View`
-  height: 15%;
-`;
+const SaveButtonWrapper = styled.View``;
 
 // style parties concernant les questions
 const QuestionContent = styled.TextInput`
