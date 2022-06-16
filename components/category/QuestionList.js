@@ -4,20 +4,25 @@ import styled from 'styled-components/native';
 
 import QuestionForm from '../styled-components/forms/QuestionForm';
 
-const QuestionList = ({ items }) => {
-  const [listOfQuestion, setListOfQuestion] = useState(items);
-
+const QuestionList = ({ listOfQuestion, setListOfQuestion }) => {
   const renderItem = ({ item }) => {
-    return <QuestionForm isDeletable={true} question={item} />;
+    return (
+      <QuestionForm
+        isDeletable={true}
+        question={item}
+        listOfQuestion={listOfQuestion}
+        setListOfQuestion={setListOfQuestion}
+      />
+    );
   };
 
-  if (items) {
+  if (listOfQuestion) {
     return (
       <ListWrapper>
         <FlatList
           data={listOfQuestion}
           renderItem={renderItem}
-          keyExtractor={(item) => item.question_id}
+          keyExtractor={(item) => item.id}
           horizontal="false"
         />
       </ListWrapper>
@@ -28,6 +33,7 @@ const QuestionList = ({ items }) => {
 
 const ListWrapper = styled.View`
   width: 95%;
+  background: #e5e5e5;
 `;
 
 export default QuestionList;

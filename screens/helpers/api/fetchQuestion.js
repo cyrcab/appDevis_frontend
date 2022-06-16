@@ -4,6 +4,7 @@ const fetchQuestion = async (
   action,
   credentials,
   userId,
+  categoryId,
   questionId,
   userName,
 ) => {
@@ -19,12 +20,16 @@ const fetchQuestion = async (
   }
 
   if (action === 'GET') {
-    console.log('get all');
+    await axios
+      .get(`/api/categories/${categoryId}/questions`)
+      .then((response) => response.data)
+      .then((data) => (question = data))
+      .catch((err) => (errors = err));
   } else if (action === 'CREATE') {
     await axios
-      .post('/api/questions', credentials)
+      .post('/api/questions', { ...credentials, user_id: userId })
       .then((response) => response.data)
-      .then((data) => (question = { ...data }))
+      .then((data) => (question = data))
       .catch((err) => (errors = err));
   } else if (action === 'PUT') {
     await axios
@@ -36,7 +41,11 @@ const fetchQuestion = async (
       .then((data) => (question = { ...data }))
       .catch((err) => (errors = err));
   } else {
-    console.log('supprimer');
+    await axios
+      .delete(`/api/questions/${questionId}`)
+      .then((response) => response.data)
+      .then((data) => (question = { ...data }))
+      .catch((err) => (errors = err));
   }
 
   return { question, errors };

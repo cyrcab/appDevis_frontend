@@ -13,7 +13,8 @@ const AddingQuestion = ({ action }) => {
   );
 };
 
-const Main = styled.TouchableOpacity``;
+const Main = styled.TouchableOpacity`
+`;
 const Text = styled.Text`
   font-size: 15px;
 `;

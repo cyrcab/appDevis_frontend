@@ -24,6 +24,9 @@ import CreateAccount from './screens/admin/Account/CreateAccount';
 import OfferAdminView from './screens/admin/offer/OfferAdminView';
 import OfferCreation from './screens/admin/offer/OfferCreation';
 
+// Page gestion catégories
+import Category from './screens/admin/category/Category';
+
 // import des outils pour redux
 import { useSelector } from 'react-redux';
 
@@ -69,6 +72,14 @@ const AppContainer = () => {
             component={CategoryList}
             options={{
               headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Category"
+            component={Category}
+            options={{
+              headerShown: true,
+              title: 'Liste des questions',
             }}
           />
 

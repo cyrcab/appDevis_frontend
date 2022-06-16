@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
 
-import QuestionList from './QuestionList';
-import QuestionForm from '../styled-components/forms/QuestionForm';
-import AddingQuestion from '../styled-components/buttons/AddingQuestion';
 import { deleteCategory } from '../../screens/helpers/api/fetchApi';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -14,11 +12,8 @@ const CategoryContainer = ({
   setListOfCategories,
   listOfCategories,
 }) => {
+  const navigation = useNavigation();
   const { name: title, id } = category;
-  const [titleIsPressed, setTitleIsPressed] = useState(false);
-  const [addingQuestionIsPressed, setAddingQuestionIsPressed] = useState(false);
-
-  const listOfQuestion = category.Category_has_Question;
 
   const handleDeleteCategory = async () => {
     await deleteCategory(id);
@@ -27,7 +22,13 @@ const CategoryContainer = ({
 
   return (
     <Main>
-      <TitleSection onPress={() => setTitleIsPressed(!titleIsPressed)}>
+      <TitleSection
+        onPress={() =>
+          navigation.push('Category', {
+            id,
+          })
+        }
+      >
         <Title>{title}</Title>
         <Delete
           onPress={() => deleteConfirmation('CATEGORY', handleDeleteCategory)}
@@ -35,29 +36,6 @@ const CategoryContainer = ({
           <Icon name="delete" size={20} />
         </Delete>
       </TitleSection>
-      {titleIsPressed ? (
-        <>
-          <QuestionSection>
-            <QuestionList items={listOfQuestion} />
-          </QuestionSection>
-          <ButtonWrapper>
-            {addingQuestionIsPressed ? (
-              <>
-                <QuestionForm
-                  isDeletable={false}
-                  setAddingQuestionIsPressed={setAddingQuestionIsPressed}
-                />
-              </>
-            ) : (
-              <AddingQuestion
-                action={() =>
-                  setAddingQuestionIsPressed(!addingQuestionIsPressed)
-                }
-              />
-            )}
-          </ButtonWrapper>
-        </>
-      ) : null}
     </Main>
   );
 };
@@ -83,18 +61,6 @@ const Delete = styled.TouchableOpacity``;
 const Title = styled.Text`
   font-weight: 600;
   font-size: 18px;
-`;
-
-const QuestionSection = styled.View`
-  background: #fdfdff;
-  display: flex;
-  align-items: center;
-  margin-top: 3%;
-`;
-
-const ButtonWrapper = styled.View`
-  width: 95%;
-  margin-bottom: 3%;
 `;
 
 export default CategoryContainer;
