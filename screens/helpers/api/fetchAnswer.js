@@ -33,7 +33,7 @@ const fetchAnswer = async (
       .catch((err) => (errors = err));
   } else if (action === 'PUT') {
     await axios
-      .put(`/api/answers/${questionId}`, {
+      .put(`/api/answers/${answerId}`, {
         ...credentials,
         modified_by: userName,
       })

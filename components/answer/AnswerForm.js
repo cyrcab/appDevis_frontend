@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useSelector } from 'react-redux';
 
 import DuoButton from '../styled-components/buttons/DuoButton';
 import fetchOffer from '../../screens/helpers/api/fetchOffer';
+import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
 import OfferListForAnswer from './OfferListForAnswer';
 import displayAlertError from '../../screens/helpers/Alert/errorAlert';
 import CheckBox from '../styled-components/CheckBox';
+
+import { answerAreDifferent } from '../saveButtonIsClickable';
 
 const AnswerForm = ({
   setAddButtonIsPressed,
   answer,
   isDeletable,
   deleteAnswer,
+  setAnswerList,
+  answerList,
+  questionId,
 }) => {
   const [inputIsPressed, setInPutIsPressed] = useState(false);
   const [answerData, setAnswerData] = useState({
     content: null,
-    price: null,
-    offer_id: null,
+    question_id: questionId,
   });
   const [addingOffer, setAddingOffer] = useState(false);
   const [offerList, setOfferList] = useState([]);
+  const [fetchAction, setFetchAction] = useState('');
+  const [isClickable, setIsClickable] = useState(false);
 
   useEffect(() => {
     if (answer) {
-      setAnswerData({ content: answer.content, price: answer.price });
+      setAnswerData({
+        content: answer.content,
+        price: answer.price,
+        offer_id: answer.offer_id ? answer.offer_id : undefined,
+      });
+      setFetchAction('PUT');
+    } else {
+      setFetchAction('CREATE');
     }
     fetchOffer('GET')
       .then((response) => {
@@ -40,12 +55,60 @@ const AnswerForm = ({
       .catch((err) => displayAlertError(err));
   }, []);
 
+  useEffect(() => {
+    if (answer) {
+      if (answerAreDifferent(answer, answerData)) {
+        setIsClickable(true);
+      } else {
+        setIsClickable(false);
+      }
+    } else {
+      if (answerData.content !== null) {
+        setIsClickable(true);
+      }
+    }
+  }, [answerData]);
+
+  const user = useSelector((state) => state.auth);
+  const userName = user.firstName + ' ' + user.lastName;
+
+  const handleFetchApi = () => {
+    if (fetchAction === 'PUT') {
+      fetchAnswer(fetchAction, answerData, answer.id, null, null, userName)
+        .then((response) => {
+          if (response.errors) {
+            displayAlertError(response.errors);
+          } else {
+            setInPutIsPressed(false);
+          }
+        })
+        .catch((err) => displayAlertError(err));
+    }
+    if (fetchAction === 'CREATE') {
+      fetchAnswer(fetchAction, answerData, null, user.id)
+        .then((response) => {
+          if (response.errors) {
+            displayAlertError(response.errors);
+          } else {
+            setAnswerList([...answerList, response.answer.answerToCreate]);
+            setAddButtonIsPressed(false);
+          }
+        })
+        .catch((err) => displayAlertError(err));
+    }
+  };
+
+  console.log(answerData);
+
   return (
     <Main>
       <InputContainer>
         <AnswerContent
           value={answerData.content}
           placeholder="Ceci est une réponse"
+          onChangeText={(value) =>
+            setAnswerData({ ...answerData, content: value })
+          }
           onFocus={() => setInPutIsPressed(true)}
         />
         {isDeletable ? (
@@ -67,12 +130,17 @@ const AnswerForm = ({
               value={answerData.price && answerData.price.toString()}
               keyboardType="numeric"
               placeholder="Prix (si nécessaire)"
+              onChangeText={(value) =>
+                setAnswerData({ ...answerData, price: parseInt(value, 10) })
+              }
             />
           </InputContainer>
           <ButtonContainer>
             <DuoButton
               textRight="Sauvegarder"
               textLeft="Annuler"
+              righIsClickable={isClickable}
+              actionRight={handleFetchApi}
               actionLeft={() => {
                 setAddButtonIsPressed(false);
                 setInPutIsPressed(false);

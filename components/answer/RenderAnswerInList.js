@@ -41,9 +41,12 @@ const RenderAnswerInList = ({ questionId }) => {
               answer={el}
               isDeletable={true}
               setAddButtonIsPressed={setAddButtonIsPressed}
+              setAnswerList={setAnswerList}
+              answerList={answerList}
               deleteAnswer={(id) =>
                 deleteConfirmation('ANSWER', () => handleDelete(id))
               }
+              questionId={questionId}
             />
           </InputWrapper>
         ))}
@@ -52,6 +55,9 @@ const RenderAnswerInList = ({ questionId }) => {
             <AnswerForm
               setAddButtonIsPressed={setAddButtonIsPressed}
               isDeletable={false}
+              setAnswerList={setAnswerList}
+              answerList={answerList}
+              questionId={questionId}
             />
           </InputWrapper>
         ) : (

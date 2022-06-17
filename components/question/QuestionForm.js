@@ -8,7 +8,7 @@ import CheckBox from '../styled-components/CheckBox';
 import DeleteButton from '../styled-components/buttons/DeleteButton';
 import DuoButton from '../styled-components/buttons/DuoButton';
 
-import questionAreDifferent from '../saveButtonIsClickable';
+import {questionAreDifferent} from '../saveButtonIsClickable';
 import fetchQuestion from '../../screens/helpers/api/fetchQuestion';
 import displayAlertError from '../../screens/helpers/Alert/errorAlert';
 import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
@@ -53,7 +53,7 @@ const QuestionForm = ({
       if (questionAreDifferent(question, questionData)) {
         setIsClickable(true);
       } else {
-        setIsClickable(true);
+        setIsClickable(false);
       }
     } else {
       if (questionData.content !== null) {

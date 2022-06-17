@@ -9,4 +9,15 @@ const questionAreDifferent = (originalQuestion, newQuestion) => {
   return false;
 };
 
-export default questionAreDifferent;
+const answerAreDifferent = (originalAnswer, newAnswer) => {
+  if (
+    originalAnswer.content !== newAnswer.content ||
+    originalAnswer.price !== newAnswer.price ||
+    originalAnswer.offer_id !== newAnswer.offer_id
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export { questionAreDifferent, answerAreDifferent };
