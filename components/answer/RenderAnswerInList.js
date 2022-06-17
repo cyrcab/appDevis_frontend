@@ -4,21 +4,32 @@ import AnswerForm from './AnswerForm';
 
 import AddButton from '../styled-components/buttons/AddButton';
 import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
+import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
+import displayAlertError from '../../screens/helpers/Alert/errorAlert';
 
 const RenderAnswerInList = ({ questionId }) => {
   const [answerList, setAnswerList] = useState([]);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
 
   useEffect(() => {
-    fetchAnswer('GET', null, null, questionId)
-      .then((response) => response.question)
-      .then((question) => setAnswerList(question))
+    fetchAnswer('GET', null, null, null, questionId)
+      .then((response) => response.answer)
+      .then((answer) => setAnswerList(answer))
       .catch((err) => err);
   }, []);
 
-  // const handleDelete = (id) => {
-  //   setAnswerList(answerList.filter((el) => el.id !== id));
-  // };
+  const handleDelete = (id) => {
+    fetchAnswer('DELETE', null, id)
+      .then((response) => {
+        if (response.answer) {
+          setAnswerList(answerList.filter((el) => el.id !== id));
+        }
+        if (response.errors) {
+          displayAlertError(response.errors);
+        }
+      })
+      .catch((err) => displayAlertError(err));
+  };
 
   if (questionId) {
     return (
@@ -26,12 +37,22 @@ const RenderAnswerInList = ({ questionId }) => {
         <Title>Liste des réponses possibles</Title>
         {answerList.map((el, i) => (
           <InputWrapper key={i}>
-            <AnswerForm answer={el} />
+            <AnswerForm
+              answer={el}
+              isDeletable={true}
+              setAddButtonIsPressed={setAddButtonIsPressed}
+              deleteAnswer={(id) =>
+                deleteConfirmation('ANSWER', () => handleDelete(id))
+              }
+            />
           </InputWrapper>
         ))}
         {addButtonIsPressed ? (
           <InputWrapper>
-            <AnswerForm setAddButtonIsPressed={setAddButtonIsPressed} />
+            <AnswerForm
+              setAddButtonIsPressed={setAddButtonIsPressed}
+              isDeletable={false}
+            />
           </InputWrapper>
         ) : (
           <ButtonWrapper>

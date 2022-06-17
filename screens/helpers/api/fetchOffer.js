@@ -5,7 +5,6 @@ const fetchOffer = async (action, credentials, userId, offerId, userName) => {
   let offer;
   let errors;
 
-
   if (acceptedAction.includes(action) === false) {
     errors = {
       message:
@@ -19,30 +18,28 @@ const fetchOffer = async (action, credentials, userId, offerId, userName) => {
       .then((response) => response.data)
       .then((data) => (offer = data))
       .catch((err) => (errors = err));
-   } 
-  //  else if (action === 'CREATE') {
-  //   await axios
-  //     .post('/api/offers', { ...credentials, user_id: userId })
-  //     .then((response) => response.data)
-  //     .then((data) => (offer = data))
-  //     .catch((err) => (errors = err));
-  // } else if (action === 'PUT') {
-  //   await axios
-  //     .put(`/api/offers/${questionId}`, {
-  //       ...credentials,
-  //       modified_by: userName,
-  //     })
-  //     .then((response) => response.data)
-  //     .then((data) => (offer = { ...data }))
-  //     .catch((err) => (errors = err));
-  // } else {
-  //   await axios
-  //     .delete(`/api/offers/${questionId}`)
-  //     .then((response) => response.data)
-  //     .then((data) => (offer = { ...data }))
-  //     .catch((err) => (errors = err));
-  // }
-
+  } else if (action === 'CREATE') {
+    await axios
+      .post('/api/offers', { ...credentials, user_id: userId })
+      .then((response) => response.data)
+      .then((data) => (offer = data))
+      .catch((err) => (errors = err));
+  } else if (action === 'PUT') {
+    await axios
+      .put(`/api/offers/${questionId}`, {
+        ...credentials,
+        modified_by: userName,
+      })
+      .then((response) => response.data)
+      .then((data) => (offer = { ...data }))
+      .catch((err) => (errors = err));
+  } else {
+    await axios
+      .delete(`/api/offers/${questionId}`)
+      .then((response) => response.data)
+      .then((data) => (offer = { ...data }))
+      .catch((err) => (errors = err));
+  }
 
   return {
     offer,

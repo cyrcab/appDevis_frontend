@@ -8,7 +8,12 @@ import OfferListForAnswer from './OfferListForAnswer';
 import displayAlertError from '../../screens/helpers/Alert/errorAlert';
 import CheckBox from '../styled-components/CheckBox';
 
-const AnswerForm = ({ setAddButtonIsPressed, answer }) => {
+const AnswerForm = ({
+  setAddButtonIsPressed,
+  answer,
+  isDeletable,
+  deleteAnswer,
+}) => {
   const [inputIsPressed, setInPutIsPressed] = useState(false);
   const [answerData, setAnswerData] = useState({
     content: null,
@@ -39,14 +44,15 @@ const AnswerForm = ({ setAddButtonIsPressed, answer }) => {
     <Main>
       <InputContainer>
         <AnswerContent
-          autoFocus={true}
           value={answerData.content}
           placeholder="Ceci est une réponse"
           onFocus={() => setInPutIsPressed(true)}
         />
-        <IconContainer>
-          <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
-        </IconContainer>
+        {isDeletable ? (
+          <IconContainer onPress={() => deleteAnswer(answer.id)}>
+            <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
+          </IconContainer>
+        ) : null}
       </InputContainer>
 
       {inputIsPressed ? (
@@ -67,7 +73,10 @@ const AnswerForm = ({ setAddButtonIsPressed, answer }) => {
             <DuoButton
               textRight="Sauvegarder"
               textLeft="Annuler"
-              actionLeft={() => setAddButtonIsPressed(false)}
+              actionLeft={() => {
+                setAddButtonIsPressed(false);
+                setInPutIsPressed(false);
+              }}
             />
           </ButtonContainer>
         </>
