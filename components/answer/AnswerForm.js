@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import DuoButton from '../styled-components/buttons/DuoButton';
+import fetchOffer from '../../screens/helpers/api/fetchOffer';
+import OfferListForAnswer from './OfferListForAnswer';
+import displayAlertError from '../../screens/helpers/Alert/errorAlert';
+import CheckBox from '../styled-components/CheckBox';
 
-const AnswerForm = ({ setAddButtonIsPressed }) => {
+const AnswerForm = ({ setAddButtonIsPressed, answer }) => {
   const [inputIsPressed, setInPutIsPressed] = useState(false);
+  const [answerData, setAnswerData] = useState({
+    content: null,
+    price: null,
+    offer_id: null,
+  });
+  const [addingOffer, setAddingOffer] = useState(false);
+  const [offerList, setOfferList] = useState([]);
+
+  useEffect(() => {
+    if (answer) {
+      setAnswerData({ content: answer.content, price: answer.price });
+    }
+    fetchOffer('GET')
+      .then((response) => {
+        setOfferList(response.offer);
+        return response;
+      })
+      .then((response) => {
+        if (response.errors) {
+          displayAlertError(response.errors);
+        }
+      })
+      .catch((err) => displayAlertError(err));
+  }, []);
 
   return (
     <Main>
       <InputContainer>
         <AnswerContent
           autoFocus={true}
+          value={answerData.content}
           placeholder="Ceci est une réponse"
           onFocus={() => setInPutIsPressed(true)}
         />
@@ -19,13 +48,28 @@ const AnswerForm = ({ setAddButtonIsPressed }) => {
           <Icon name="trash" size={20} color="rgba(31, 19, 0, 0.8)" />
         </IconContainer>
       </InputContainer>
+
       {inputIsPressed ? (
         <>
-          <DuoButton
-            textRight="Sauvegarder"
-            textLeft="Annuler"
-            actionLeft={() => setAddButtonIsPressed(false)}
+          <CheckBox
+            text="Rajouter une offre"
+            action={() => setAddingOffer(!addingOffer)}
           />
+          {addingOffer ? <OfferListForAnswer offerList={offerList} /> : null}
+          <InputContainer>
+            <AnswerContent
+              value={answerData.price && answerData.price.toString()}
+              keyboardType="numeric"
+              placeholder="Prix (si nécessaire)"
+            />
+          </InputContainer>
+          <ButtonContainer>
+            <DuoButton
+              textRight="Sauvegarder"
+              textLeft="Annuler"
+              actionLeft={() => setAddButtonIsPressed(false)}
+            />
+          </ButtonContainer>
         </>
       ) : null}
     </Main>
@@ -33,7 +77,7 @@ const AnswerForm = ({ setAddButtonIsPressed }) => {
 };
 
 const Main = styled.View`
-  width: 90%;
+  width: 100%;
 `;
 
 // style concernant les réponses
@@ -46,13 +90,18 @@ const InputContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 3%;
-  margin-bottom: 2%;
+  margin: 2% 0;
   border: 1px solid rgba(31, 19, 0, 0.3);
 `;
 const AnswerContent = styled.TextInput`
   width: 90%;
   font-size: 18px;
 `;
+
+const ButtonContainer = styled.View`
+  margin-top: 2%;
+`;
+
 const Text = styled.Text`
   font-size: 18px;
 `;

@@ -10,7 +10,10 @@ const RenderAnswerInList = ({ questionId }) => {
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
 
   useEffect(() => {
-
+    fetchAnswer('GET', null, null, questionId)
+      .then((response) => response.question)
+      .then((question) => setAnswerList(question))
+      .catch((err) => err);
   }, []);
 
   // const handleDelete = (id) => {
@@ -23,11 +26,13 @@ const RenderAnswerInList = ({ questionId }) => {
         <Title>Liste des réponses possibles</Title>
         {answerList.map((el, i) => (
           <InputWrapper key={i}>
-            <AnswerForm answerId={el.id} />
+            <AnswerForm answer={el} />
           </InputWrapper>
         ))}
         {addButtonIsPressed ? (
-          <AnswerForm setAddButtonIsPressed={setAddButtonIsPressed} />
+          <InputWrapper>
+            <AnswerForm setAddButtonIsPressed={setAddButtonIsPressed} />
+          </InputWrapper>
         ) : (
           <ButtonWrapper>
             <AddButton

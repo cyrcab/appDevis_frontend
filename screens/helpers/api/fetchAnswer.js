@@ -1,6 +1,6 @@
 import axios from "./axios.config";
 
-const fetchAnswer = async (action, credentials, userId, categoryId, questionId, userName) => {
+const fetchAnswer = async (action, credentials, userId, questionId, userName) => {
   const acceptedAction = ['CREATE', 'PUT', 'DELETE', 'GET'];
   let question;
   let errors;
