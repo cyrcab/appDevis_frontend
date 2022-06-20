@@ -1,24 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import AnswerForm from '../styled-components/forms/AnswerForm';
+import AnswerForm from './AnswerForm';
 
-const RenderAnswerInList = ({ answers, setAnswerList }) => {
+import AddButton from '../styled-components/buttons/AddButton';
+import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
+import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
+import displayAlertError from '../../screens/helpers/Alert/errorAlert';
+
+const RenderAnswerInList = ({ questionId }) => {
+  const [answerList, setAnswerList] = useState([]);
+  const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
+
+  useEffect(() => {
+    fetchAnswer('GET', null, null, null, questionId)
+      .then((response) => response.answer)
+      .then((answer) => setAnswerList(answer))
+      .catch((err) => err);
+  }, []);
+
   const handleDelete = (id) => {
-    setAnswerList(answers.filter((el) => el.id !== id));
+    fetchAnswer('DELETE', null, id)
+      .then((response) => {
+        if (response.answer) {
+          setAnswerList(answerList.filter((el) => el.id !== id));
+        }
+        if (response.errors) {
+          displayAlertError(response.errors);
+        }
+      })
+      .catch((err) => displayAlertError(err));
   };
 
-  if (answers[0]) {
+  if (questionId) {
     return (
       <Main>
         <Title>Liste des réponses possibles</Title>
-        {answers.map((el, i) => (
+        {answerList.map((el, i) => (
           <InputWrapper key={i}>
             <AnswerForm
-              answerId={el.id}
-              answerAction={() => handleDelete(el.id)}
+              answer={el}
+              isDeletable={true}
+              setAddButtonIsPressed={setAddButtonIsPressed}
+              setAnswerList={setAnswerList}
+              answerList={answerList}
+              deleteAnswer={(id) =>
+                deleteConfirmation('ANSWER', () => handleDelete(id))
+              }
+              questionId={questionId}
             />
           </InputWrapper>
         ))}
+        {addButtonIsPressed ? (
+          <InputWrapper>
+            <AnswerForm
+              setAddButtonIsPressed={setAddButtonIsPressed}
+              isDeletable={false}
+              setAnswerList={setAnswerList}
+              answerList={answerList}
+              questionId={questionId}
+            />
+          </InputWrapper>
+        ) : (
+          <ButtonWrapper>
+            <AddButton
+              text="Ajouter une réponse"
+              action={() => setAddButtonIsPressed(true)}
+            />
+          </ButtonWrapper>
+        )}
       </Main>
     );
   }
@@ -28,7 +77,6 @@ const Main = styled.View`
   width: 100%;
   display: flex;
   align-items: center;
-  background: red;
   padding: 2% 0;
   background: #fdfdff;
   border: 1px solid rgba(31, 19, 0, 0.3);
@@ -40,9 +88,12 @@ const Title = styled.Text`
 const InputWrapper = styled.View`
   background: #fdfdff;
   border: 1px solid rgba(31, 19, 0, 0.7);
-  width: 95%;
+  width: 90%;
   padding: 3%;
   margin: 1% 0;
+`;
+const ButtonWrapper = styled.View`
+  width: 90%;
 `;
 
 export default RenderAnswerInList;

@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 
-import AddButton from '../buttons/AddButton';
-import RenderAnswerInList from '../../answer/RenderAnswerInList';
-import CheckBox from '../CheckBox';
-import DeleteButton from '../buttons/DeleteButton';
-import DuoButton from '../buttons/DuoButton';
+import AddButton from '../styled-components/buttons/AddButton';
+import RenderAnswerInList from '../answer/RenderAnswerInList';
+import CheckBox from '../styled-components/CheckBox';
+import DeleteButton from '../styled-components/buttons/DeleteButton';
+import DuoButton from '../styled-components/buttons/DuoButton';
 
-import questionAreDifferent from './saveButtonIsClickable';
-import fetchQuestion from '../../../screens/helpers/api/fetchQuestion';
-import displayAlertError from '../../../screens/helpers/Alert/errorAlert';
-import deleteConfirmation from '../../../screens/helpers/Alert/deleteConfirmation';
+import {questionAreDifferent} from '../saveButtonIsClickable';
+import fetchQuestion from '../../screens/helpers/api/fetchQuestion';
+import displayAlertError from '../../screens/helpers/Alert/errorAlert';
+import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
 
 const QuestionForm = ({
   isDeletable,
@@ -21,7 +21,6 @@ const QuestionForm = ({
   setAddingQuestionIsPressed,
   categoryId,
 }) => {
-  const [answerList, setAnswerList] = useState([]);
   const [inputIsFocused, setInPutIsFocused] = useState(false);
   const [isClickable, setIsClickable] = useState(false);
   const [questionData, setQuestionData] = useState({
@@ -49,23 +48,12 @@ const QuestionForm = ({
     }
   }, []);
 
-  const randomId = Math.floor(Math.random() * 100);
-
-  const handleAddAnswer = () => {
-    setAnswerList([
-      ...answerList,
-      {
-        id: randomId,
-      },
-    ]);
-  };
-
   useEffect(() => {
     if (question) {
       if (questionAreDifferent(question, questionData)) {
         setIsClickable(true);
       } else {
-        setIsClickable(true);
+        setIsClickable(false);
       }
     } else {
       if (questionData.content !== null) {
@@ -122,15 +110,7 @@ const QuestionForm = ({
       </InputWrapper>
       {inputIsFocused ? (
         <OtherOptions>
-          {answerList && (
-            <RenderAnswerInList
-              answers={answerList}
-              setAnswerList={setAnswerList}
-            />
-          )}
-          <ButtonsWrapper>
-            <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
-          </ButtonsWrapper>
+          <RenderAnswerInList questionId={question ? question.id : null} />
           <ButtonsWrapper>
             <CheckBox
               text="Question privée"
@@ -192,8 +172,7 @@ const Main = styled.View`
   align-items: center;
 `;
 const OtherOptions = styled.View`
-  background: #fdfdff;
-  padding: 3%;
+  width: 100%;
   margin-bottom: 200%;
 `;
 const InputWrapper = styled.View`

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { createUser } from '../../helpers/api/fetchApi';
 
-import UserCreation from '../../../components/styled-components/forms/UserCreation';
+import UserCreation from '../../../components/user/UserCreation';
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
 const CreateAccount = () => {

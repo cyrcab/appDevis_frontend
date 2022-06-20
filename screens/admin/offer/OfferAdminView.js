@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-import OfferModificationForm from '../../../components/styled-components/forms/OfferModificationForm';
+import OfferModificationForm from '../../../components/offers/OfferModificationForm';
 
 const OfferAdminView = ({ route }) => {
   const offer = route.params;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
-import QuestionForm from '../styled-components/forms/QuestionForm';
+import QuestionForm from './QuestionForm';
 
 const QuestionList = ({ listOfQuestion, setListOfQuestion }) => {
   const renderItem = ({ item }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-import OfferCreationForm from '../../../components/styled-components/forms/OfferCreationForm';
+import OfferCreationForm from '../../../components/offers/OfferCreationForm';
 
 const OfferCreation = () => {
   return (

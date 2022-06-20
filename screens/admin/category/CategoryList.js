@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 
 import { getAllCategories } from '../../helpers/api/fetchApi';
 import CategoryContainer from '../../../components/category/CategoryContainer';
-import CategoryForm from '../../../components/styled-components/forms/CategoryForm';
+import CategoryForm from '../../../components/category/CategoryForm';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 
 const CategoryList = () => {
