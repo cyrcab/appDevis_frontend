@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import QuestionList from '../../../components/question/QuestionList';
 import QuestionForm from '../../../components/question/QuestionForm';
 import AddingQuestion from '../../../components/styled-components/buttons/AddingQuestion';
-import fetchQuestion from '../../helpers/api/fetchQuestion';
+import fetchQuestion from '../../../helpers/api/fetchQuestion';
 
 const Category = ({ route }) => {
   const { id: categoryId } = route.params;

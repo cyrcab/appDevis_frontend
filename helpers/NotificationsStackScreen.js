@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // import des pages
-import Notifications from '../admin/Notifications';
+import Notifications from '../screens/admin/Notifications';
 
 const NotifyStack = createNativeStackNavigator();
 

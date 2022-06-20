@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 
-import AddButton from '../styled-components/buttons/AddButton';
 import RenderAnswerInList from '../answer/RenderAnswerInList';
 import CheckBox from '../styled-components/CheckBox';
 import DeleteButton from '../styled-components/buttons/DeleteButton';
 import DuoButton from '../styled-components/buttons/DuoButton';
 
-import {questionAreDifferent} from '../saveButtonIsClickable';
-import fetchQuestion from '../../screens/helpers/api/fetchQuestion';
-import displayAlertError from '../../screens/helpers/Alert/errorAlert';
-import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
+import { questionAreDifferent } from '../saveButtonIsClickable';
+import fetchQuestion from '../../helpers/api/fetchQuestion';
+import displayAlertError from '../../helpers/Alert/errorAlert';
+import deleteConfirmation from '../../helpers/Alert/deleteConfirmation';
 
 const QuestionForm = ({
   isDeletable,
@@ -100,6 +99,7 @@ const QuestionForm = ({
       <InputWrapper>
         <QuestionContent
           autoFocus={setAddingQuestionIsPressed ? true : false}
+          multiline={true}
           value={questionData.content}
           onChangeText={(value) =>
             setQuestionData({ ...questionData, content: value })

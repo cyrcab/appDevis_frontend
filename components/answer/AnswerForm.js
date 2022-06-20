@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector } from 'react-redux';
 
 import DuoButton from '../styled-components/buttons/DuoButton';
-import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
-import displayAlertError from '../../screens/helpers/Alert/errorAlert';
+import fetchAnswer from '../../helpers/api/fetchAnswer';
+import displayAlertError from '../../helpers/Alert/errorAlert';
 
 import { answerAreDifferent } from '../saveButtonIsClickable';
 

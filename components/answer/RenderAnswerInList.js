@@ -3,13 +3,14 @@ import styled from 'styled-components/native';
 import AnswerForm from './AnswerForm';
 
 import AddButton from '../styled-components/buttons/AddButton';
-import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
-import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
-import displayAlertError from '../../screens/helpers/Alert/errorAlert';
+import fetchAnswer from '../../helpers/api/fetchAnswer';
+import deleteConfirmation from '../../helpers/Alert/deleteConfirmation';
+import displayAlertError from '../../helpers/Alert/errorAlert';
 
 const RenderAnswerInList = ({ questionId }) => {
   const [answerList, setAnswerList] = useState([]);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
+  const [answerToDelete, setAnswerToDelete] = useState(0);
 
   useEffect(() => {
     fetchAnswer('GET', null, null, null, questionId)
@@ -18,38 +19,32 @@ const RenderAnswerInList = ({ questionId }) => {
       .catch((err) => err);
   }, []);
 
-  const handleDelete = (id) => {
-    fetchAnswer('DELETE', null, id)
-      .then((response) => {
-        if (response.answer) {
-          setAnswerList(answerList.filter((el) => el.id !== id));
-        }
-        if (response.errors) {
-          displayAlertError(response.errors);
-        }
-      })
-      .catch((err) => displayAlertError(err));
+  const handleDelete = async (id) => {
+    await fetchAnswer('DELETE', null, id);
+    setAnswerToDelete(id);
   };
-
+  
   if (questionId) {
     return (
       <Main>
         <Title>Liste des réponses possibles</Title>
-        {answerList.map((el, i) => (
-          <InputWrapper key={i}>
-            <AnswerForm
-              answer={el}
-              isDeletable={true}
-              setAddButtonIsPressed={setAddButtonIsPressed}
-              setAnswerList={setAnswerList}
-              answerList={answerList}
-              deleteAnswer={(id) =>
-                deleteConfirmation('ANSWER', () => handleDelete(id))
-              }
-              questionId={questionId}
-            />
-          </InputWrapper>
-        ))}
+        {answerList
+          .filter((el) => el.id !== answerToDelete)
+          .map((el, i) => (
+            <InputWrapper key={i}>
+              <AnswerForm
+                answer={el}
+                isDeletable={true}
+                setAddButtonIsPressed={setAddButtonIsPressed}
+                setAnswerList={setAnswerList}
+                answerList={answerList}
+                deleteAnswer={(id) =>
+                  deleteConfirmation('ANSWER', () => handleDelete(id))
+                }
+                questionId={questionId}
+              />
+            </InputWrapper>
+          ))}
         {addButtonIsPressed ? (
           <InputWrapper>
             <AnswerForm

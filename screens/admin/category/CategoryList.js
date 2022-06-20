@@ -3,10 +3,10 @@ import styled from 'styled-components/native';
 
 import { FlatList } from 'react-native';
 
-import { getAllCategories } from '../../helpers/api/fetchApi';
+import { getAllCategories } from '../../../helpers/api/fetchApi';
 import CategoryContainer from '../../../components/category/CategoryContainer';
 import CategoryForm from '../../../components/category/CategoryForm';
-import displayAlertError from '../../helpers/Alert/errorAlert';
+import displayAlertError from '../../../helpers/Alert/errorAlert';
 
 const CategoryList = () => {
   const [listOfCategories, setListOfCategories] = useState([]);

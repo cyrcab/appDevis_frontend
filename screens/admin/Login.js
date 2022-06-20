@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import connectUser from '../helpers/authentification/connectUser';
+import connectUser from '../../helpers/authentification/connectUser';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
