@@ -4,11 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector } from 'react-redux';
 
 import DuoButton from '../styled-components/buttons/DuoButton';
-import fetchOffer from '../../screens/helpers/api/fetchOffer';
 import fetchAnswer from '../../screens/helpers/api/fetchAnswer';
-import OfferListForAnswer from './OfferListForAnswer';
 import displayAlertError from '../../screens/helpers/Alert/errorAlert';
-import CheckBox from '../styled-components/CheckBox';
 
 import { answerAreDifferent } from '../saveButtonIsClickable';
 
@@ -26,8 +23,6 @@ const AnswerForm = ({
     content: null,
     question_id: questionId,
   });
-  const [addingOffer, setAddingOffer] = useState(false);
-  const [offerList, setOfferList] = useState([]);
   const [fetchAction, setFetchAction] = useState('');
   const [isClickable, setIsClickable] = useState(false);
 
@@ -42,17 +37,6 @@ const AnswerForm = ({
     } else {
       setFetchAction('CREATE');
     }
-    fetchOffer('GET')
-      .then((response) => {
-        setOfferList(response.offer);
-        return response;
-      })
-      .then((response) => {
-        if (response.errors) {
-          displayAlertError(response.errors);
-        }
-      })
-      .catch((err) => displayAlertError(err));
   }, []);
 
   useEffect(() => {
@@ -98,8 +82,6 @@ const AnswerForm = ({
     }
   };
 
-  console.log(answerData);
-
   return (
     <Main>
       <InputContainer>
@@ -120,11 +102,6 @@ const AnswerForm = ({
 
       {inputIsPressed ? (
         <>
-          <CheckBox
-            text="Rajouter une offre"
-            action={() => setAddingOffer(!addingOffer)}
-          />
-          {addingOffer ? <OfferListForAnswer offerList={offerList} /> : null}
           <InputContainer>
             <AnswerContent
               value={answerData.price && answerData.price.toString()}
