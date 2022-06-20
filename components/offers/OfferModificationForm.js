@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import FirstButton from '../styled-components/buttons/FirstButton';
-import { updateOffer } from '../../screens/helpers/api/fetchApi';
+import { updateOffer } from '../../helpers/api/fetchApi';
 import { Alert } from 'react-native';
 
 const OfferModificationForm = ({ offer }) => {

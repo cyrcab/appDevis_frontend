@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import axios from '../../helpers/api/axios.config';
+import axios from '../../../helpers/api/axios.config';
 import { useNavigation } from '@react-navigation/native';
 
 import UserList from '../../../components/parameters/UserList';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
-import displayAlertError from '../../helpers/Alert/errorAlert';
+import displayAlertError from '../../../helpers/Alert/errorAlert';
 
 const AccountListPage = () => {
   const navigation = useNavigation();

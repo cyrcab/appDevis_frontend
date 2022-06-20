@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { deleteUser } from '../../helpers/api/fetchApi';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { deleteUser } from '../../../helpers/api/fetchApi';
 import AccountInfos from '../../../components/account/AccountInfos';
 import AccountParameterList from '../../../components/parameters/ParameterList';
 import DeleteButton from '../../../components/styled-components/buttons/DeleteButton';

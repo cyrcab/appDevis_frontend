@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from '../../screens/admin/Home';
-import AccountStackScreen from '../../screens/helpers/AccountStackScreen';
-import NotificationsStackScreen from '../../screens/helpers/NotificationsStackScreen';
-import ParametersStackScreen from '../../screens/helpers/ParametersStackScreen';
+import AccountStackScreen from '../../helpers/AccountStackScreen';
+import NotificationsStackScreen from '../../helpers/NotificationsStackScreen';
+import ParametersStackScreen from '../../helpers/ParametersStackScreen';
 
 const Tab = createBottomTabNavigator();
 

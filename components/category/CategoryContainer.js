@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
-import deleteConfirmation from '../../screens/helpers/Alert/deleteConfirmation';
+import deleteConfirmation from '../../helpers/Alert/deleteConfirmation';
 
-import { deleteCategory } from '../../screens/helpers/api/fetchApi';
+import { deleteCategory } from '../../helpers/api/fetchApi';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const CategoryContainer = ({

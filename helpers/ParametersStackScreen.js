@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // import des pages
-import Parameters from '../admin/parameters/Parameters';
+import Parameters from '../screens/admin/parameters/Parameters';
 
 const ParamatersStack = createNativeStackNavigator();
 

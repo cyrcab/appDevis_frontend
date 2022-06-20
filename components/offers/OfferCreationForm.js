@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import FirstButton from '../styled-components/buttons/FirstButton';
-import { createOffer } from '../../screens/helpers/api/fetchApi';
+import { createOffer } from '../../helpers/api/fetchApi';
 import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';

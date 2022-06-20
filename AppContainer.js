@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // import de la page de connexion
-import LoginStackScreen from './screens/helpers/LoginStackScreen';
+import LoginStackScreen from './helpers/LoginStackScreen';
 
 // import des différentes stack de navigation
 // Pages situées sur l'accueil de l'application
