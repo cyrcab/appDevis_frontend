@@ -17,11 +17,6 @@ const FastActionList = () => {
         logo="flask"
         link="Liste des catégories"
       />
-      <FastAction
-        title="Liste des offres"
-        logo="database"
-        link="Liste des offres"
-      />
     </MainContainer>
   );
 };

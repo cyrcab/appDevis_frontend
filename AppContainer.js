@@ -10,7 +10,6 @@ import LoginStackScreen from './helpers/LoginStackScreen';
 // Pages situées sur l'accueil de l'application
 import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 import EstimateList from './screens/admin/estimates/EstimateList';
-import OfferList from './screens/admin/offer/OfferList';
 import CategoryList from './screens/admin/category/CategoryList';
 
 // Pages de gestion des différents paramètres
@@ -21,8 +20,6 @@ import UpdatePassword from './screens/admin/Account/UpdatePassword';
 
 // Pages de création de contenu
 import CreateAccount from './screens/admin/Account/CreateAccount';
-import OfferAdminView from './screens/admin/offer/OfferAdminView';
-import OfferCreation from './screens/admin/offer/OfferCreation';
 
 // Page gestion catégories
 import Category from './screens/admin/category/Category';
@@ -82,32 +79,6 @@ const AppContainer = () => {
               title: 'Liste des questions',
             }}
           />
-
-          {/* Offers */}
-          <Stack.Screen
-            name="Liste des offres"
-            component={OfferList}
-            options={{
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="OfferAdminView"
-            component={OfferAdminView}
-            options={{
-              headerShown: true,
-              title: '',
-            }}
-          />
-          <Stack.Screen
-            name="OfferCreation"
-            component={OfferCreation}
-            options={{
-              headerShown: true,
-              title: '',
-            }}
-          />
-
           {/* Parameters */}
 
           <Stack.Screen
