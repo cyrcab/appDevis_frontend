@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import AnswerForm from './AnswerForm';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AddButton from '../styled-components/buttons/AddButton';
 import fetchAnswer from '../../helpers/api/fetchAnswer';
@@ -10,7 +11,7 @@ import displayAlertError from '../../helpers/Alert/errorAlert';
 const RenderAnswerInList = ({ questionId }) => {
   const [answerList, setAnswerList] = useState([]);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
-  const [answerToDelete, setAnswerToDelete] = useState(0);
+  const [displayAnswer, setDisplayAnswer] = useState(false);
 
   useEffect(() => {
     fetchAnswer('GET', null, null, null, questionId)
@@ -21,16 +22,24 @@ const RenderAnswerInList = ({ questionId }) => {
 
   const handleDelete = async (id) => {
     await fetchAnswer('DELETE', null, id);
-    setAnswerToDelete(id);
   };
-  
+
   if (questionId) {
     return (
       <Main>
-        <Title>Liste des réponses possibles</Title>
-        {answerList
-          .filter((el) => el.id !== answerToDelete)
-          .map((el, i) => (
+        {displayAnswer ? (
+          <DisplayAnswerView onPress={() => setDisplayAnswer(false)}>
+            <Title>Cacher les réponses</Title>
+            <Icon name="eye-slash" size={20} />
+          </DisplayAnswerView>
+        ) : (
+          <DisplayAnswerView onPress={() => setDisplayAnswer(true)}>
+            <Title>Afficher les réponses ({answerList.length})</Title>
+            <Icon name="eye" size={20} />
+          </DisplayAnswerView>
+        )}
+        {displayAnswer &&
+          answerList.map((el, i) => (
             <InputWrapper key={i}>
               <AnswerForm
                 answer={el}
@@ -57,10 +66,12 @@ const RenderAnswerInList = ({ questionId }) => {
           </InputWrapper>
         ) : (
           <ButtonWrapper>
-            <AddButton
-              text="Ajouter une réponse"
-              action={() => setAddButtonIsPressed(true)}
-            />
+            {displayAnswer && (
+              <AddButton
+                text="Ajouter une réponse"
+                action={() => setAddButtonIsPressed(true)}
+              />
+            )}
           </ButtonWrapper>
         )}
       </Main>
@@ -76,9 +87,14 @@ const Main = styled.View`
   background: #fdfdff;
   border: 1px solid rgba(31, 19, 0, 0.3);
 `;
+const DisplayAnswerView = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 const Title = styled.Text`
   font-size: 20px;
-  margin: 5% 0;
+  margin: 5% 2%;
 `;
 const InputWrapper = styled.View`
   background: #fdfdff;
