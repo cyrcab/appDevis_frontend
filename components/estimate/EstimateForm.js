@@ -27,12 +27,9 @@ const EstimateForm = ({ formStyle }) => {
   }, [formStyle]);
 
   // -----------------------------------   TODO   -----------------------------------
-  // Faire le style des différents inputs
-  // Ajouter un bouton qui affiche ou non le formulaire pour les infos générales
-  // Ajouter un bouton qui affiche ou non l'ajout des réponses + ajout du prix correspondant
+  // Ajouter un choix pour la catégorie (pour les données)
   // Ajouter le bouton de création + création en back
   // Ajouter un bouton qui va générer et télécharger le devis / la facture
-  // Ajouter un choix pour la catégorie (pour les données)
 
   return (
     <Main>

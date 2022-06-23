@@ -5,6 +5,7 @@ import FormChoice from '../../../components/styled-components/buttons/FormChoice
 import EstimateForm from '../../../components/estimate/EstimateForm';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import AnswerListEstimate from '../../../components/estimate/AnswerListEstimate';
+import CategoryChoice from '../../../components/estimate/CategoryChoice';
 
 const EstimateCreation = () => {
   const [formToDisplay, setFormToDisplay] = useState(null);
@@ -45,6 +46,9 @@ const EstimateCreation = () => {
         <ButtonWrapper>
           <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
         </ButtonWrapper>
+        <SelectorContainer>
+          <CategoryChoice />
+        </SelectorContainer>
       </ContentWrapper>
     </Main>
   );
@@ -66,6 +70,10 @@ const ButtonWrapper = styled.View`
   width: 90%;
 `;
 const AnswerListWrapper = styled.View`
+  width: 90%;
+  margin-top: 5%;
+`;
+const SelectorContainer = styled.View`
   width: 90%;
   margin-top: 5%;
 `;

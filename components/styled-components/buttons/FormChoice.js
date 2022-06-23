@@ -34,7 +34,7 @@ const FormChoice = ({ actionLeft, actionRight, textLeft, textRight }) => {
 const ButtonContainer = styled.View`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 const Button = styled.TouchableOpacity`
   width: 45%;
