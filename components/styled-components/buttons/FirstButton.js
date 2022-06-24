@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const FirstButton = ({ text, action, isClickable }) => {
+const FirstButton = ({ text, action, isClickable, style }) => {
   return (
     <Button
       isClickable={isClickable}
       onPress={isClickable ? action : null}
       activeOpacity={isClickable ? 0.2 : 1}
+      style={style}
     >
       <ButtonText isClickable={isClickable}>{text}</ButtonText>
     </Button>
@@ -14,11 +15,11 @@ const FirstButton = ({ text, action, isClickable }) => {
 };
 
 const Button = styled.TouchableOpacity`
-  background: ${(props) => (props.isClickable ? '#083D77' : '#EFEFEF')};
+  background: ${(props) =>
+    props.isClickable ? props.style.colorActive : props.style.colorInactive};
   width: 100%;
   height: 100%;
   padding: 15px 20px;
-  border-radius: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

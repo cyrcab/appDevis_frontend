@@ -90,13 +90,20 @@ const UpdatePassword = () => {
         />
       </InputContainer>
       <ButtonContainer>
-        <FirstButton text="Changer" isClickable={true} />
+        <FirstButton text="Changer" isClickable={true} style={style.button} />
       </ButtonContainer>
       {newPassword && newPasswordConfirmation && !areTheSame ? (
         <Text>Les mots de passes ne concordent pas</Text>
       ) : null}
     </Main>
   );
+};
+
+const style = {
+  button: {
+    colorActive: '#083D77',
+    colorInactive: '#EFEFEF',
+  },
 };
 
 const Main = styled.View`

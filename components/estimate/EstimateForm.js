@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const EstimateForm = ({ formStyle }) => {
   const [input, setInput] = useState({});
+  const [isFocus, setIsFocus] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -43,9 +44,13 @@ const EstimateForm = ({ formStyle }) => {
         <EstimateInfos>
           {Object.entries(input).map(([key, value]) => {
             return (
-              <InputContainer key={key}>
+              <InputContainer
+                key={key}
+                onFocus={() => setIsFocus(true)}
+                onEndEdditting={() => setIsFocus(false)}
+              >
                 <Label>{value}</Label>
-                <Input />
+                <Input isFocus={isFocus} />
               </InputContainer>
             );
           })}
@@ -58,7 +63,6 @@ const EstimateForm = ({ formStyle }) => {
 const Main = styled.View`
   border: 1px solid #1f1300;
   padding: 5% 5%;
-  border-radius: 30px;
   background: #fdfdff;
   width: 100%;
 `;
@@ -73,10 +77,11 @@ const InputContainer = styled.View`
   padding: 3%;
 `;
 const Input = styled.TextInput`
-  border: 1px solid black;
+  border-bottom-width: 1px;
+  border-bottom-color: #1f1300;
   font-size: 18px;
   padding: 2%;
-  margin-top: 3%;
+  margin-top: 1%;
 `;
 const Label = styled.Text`
   font-size: 18px;

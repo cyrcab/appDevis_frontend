@@ -6,6 +6,7 @@ import EstimateForm from '../../../components/estimate/EstimateForm';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
 import AnswerListEstimate from '../../../components/estimate/AnswerListEstimate';
 import CategoryChoice from '../../../components/estimate/CategoryChoice';
+import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 
 const EstimateCreation = () => {
   const [formToDisplay, setFormToDisplay] = useState(null);
@@ -50,6 +51,14 @@ const EstimateCreation = () => {
           <CategoryChoice />
         </SelectorContainer>
       </ContentWrapper>
+      <ButtonContainer>
+        <EstimateButton text="Générer" isActif={false} />
+      </ButtonContainer>
+      <ActionButton>
+        <EstimateButton text="Signer" isActif />
+        <EstimateButton text="Partager" isActif />
+        <EstimateButton text="Voir" isActif />
+      </ActionButton>
     </Main>
   );
 };
@@ -82,6 +91,18 @@ const TitleList = styled.Text`
   font-weight: bold;
   margin-bottom: 3%;
   text-align: center;
+`;
+const ButtonContainer = styled.View`
+  width: 90%;
+  margin: 5% 0 2% 0;
+  align-self: center;
+`;
+const ActionButton = styled.View`
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  align-self: center;
+  justify-content: space-between;
 `;
 
 export default EstimateCreation;

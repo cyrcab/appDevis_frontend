@@ -11,14 +11,15 @@ const CatListChoice = ({
     <Main>
       <List>
         {choices &&
-          choices.map((el) => (
+          choices.map((el, i) => (
             <Choice
+              key={i}
               onPress={() => {
                 setCategory({ ...category, id: el.id, name: el.name });
                 setSelectorIsOpen(false);
               }}
             >
-              <ChoiceName>{el.name}</ChoiceName>
+              <ChoiceName key={el.id}>{el.name}</ChoiceName>
             </Choice>
           ))}
       </List>
