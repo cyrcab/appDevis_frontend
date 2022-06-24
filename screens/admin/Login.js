@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     backgroundColor: 'white',
+    borderRadius: 10,
   },
   mdpInput: {
     marginTop: 20,

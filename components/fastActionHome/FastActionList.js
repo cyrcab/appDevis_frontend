@@ -24,10 +24,6 @@ const FastActionList = () => {
 const MainContainer = styled.View`
   width: 90%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-content: space-around;
 `;
 
 export default FastActionList;

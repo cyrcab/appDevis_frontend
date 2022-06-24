@@ -34,6 +34,7 @@ const LeftButton = styled.TouchableOpacity`
   border: 1px solid #ff4d42;
   width: 49%;
   padding: 2%;
+  border-radius: 5px;
 `;
 const TextLeft = styled.Text`
   font-size: 18px;
@@ -46,6 +47,7 @@ const RightButton = styled.TouchableOpacity`
     props.isClickable ? '1px solid #083d77' : '1px solid rgba(31, 19, 0, 0.3)'}
   width: 49%;
   padding: 2%;
+  border-radius: 5px;
 `;
 const TextRight = styled.Text`
   font-size: 18px;

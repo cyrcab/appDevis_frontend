@@ -86,6 +86,7 @@ const Main = styled.View`
   padding: 2% 0;
   background: #fdfdff;
   border: 1px solid rgba(31, 19, 0, 0.3);
+  border-radius: 5px;
 `;
 const DisplayAnswerView = styled.TouchableOpacity`
   display: flex;

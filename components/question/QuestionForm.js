@@ -45,7 +45,7 @@ const QuestionForm = ({
     } else {
       setFetchAction('CREATE');
     }
-  }, []);
+  }, [question]);
 
   useEffect(() => {
     if (question) {
@@ -59,7 +59,7 @@ const QuestionForm = ({
         setIsClickable(true);
       }
     }
-  }, [questionData]);
+  }, [question, questionData]);
 
   const handleFetchApi = () => {
     if (fetchAction === 'PUT') {
@@ -183,6 +183,7 @@ const InputWrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-radius: 5px;
 `;
 const ButtonsWrapper = styled.View`
   margin: 1% 0;

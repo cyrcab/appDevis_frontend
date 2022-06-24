@@ -36,7 +36,7 @@ const Subtitle = styled.Text`
   align-self: flex-start;
   font-size: 18px;
   font-weight: 600;
-  margin-left: 3%;
+  margin: 2% 2%;
 `;
 
 export default Home;
