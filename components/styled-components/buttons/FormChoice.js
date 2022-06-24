@@ -41,6 +41,7 @@ const Button = styled.TouchableOpacity`
   border: 1px solid black;
   padding: 3%;
   background: ${(props) => (props.isActive ? '#083D77' : '#EFEFEF')};
+  border-radius: 5px;
 `;
 const ButtonText = styled.Text`
   font-size: 18px;

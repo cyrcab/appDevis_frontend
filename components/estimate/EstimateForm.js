@@ -66,6 +66,7 @@ const Main = styled.View`
   padding: 5% 5%;
   background: #fdfdff;
   width: 100%;
+  border-radius: 5px;
 `;
 const EstimateInfos = styled.View`
   display: flex;

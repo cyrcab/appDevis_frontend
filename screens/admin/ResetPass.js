@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     padding: 5,
     backgroundColor: 'white',
+    borderRadius: 10,
   },
   inputContainer: {
     paddingHorizontal: 30,

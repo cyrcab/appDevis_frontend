@@ -22,12 +22,14 @@ const InputContent = styled.TextInput`
   padding: 3%;
   background: #fdfdff;
   width: 80%;
+  border-radius: 5px;
 `;
 const InputPrice = styled.TextInput`
   border: 1px solid black;
   padding: 3%;
   background: #fdfdff;
   width: 15%;
+  border-radius: 5px;
 `;
 
 export default AnswerEstimate;

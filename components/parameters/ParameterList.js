@@ -35,7 +35,7 @@ const ListWrapper = styled.View`
   width: 90%;
   height: 50%;
   align-self: center;
-  border-radius: 30px;
+  border-radius: 10px;
   background: #fdfdff;
   margin-top: 5%;
 `;

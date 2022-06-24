@@ -32,6 +32,7 @@ const Main = styled.View`
   border: 1px solid rgba(31, 19, 0, 0.3);
   padding: 10px 20px;
   background: #fdfdff;
+  border-radius: 5px;
 `;
 const Text = styled.Text`
   font-size: 20px;

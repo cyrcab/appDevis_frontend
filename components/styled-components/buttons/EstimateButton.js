@@ -17,6 +17,7 @@ const Main = styled.TouchableOpacity`
       : '2px solid rgba(31, 19, 0, 0.3)'};
   display: flex;
   align-items: center;
+  border-radius: 5px;
 `;
 const Text = styled.Text`
   font-size: 20px;
