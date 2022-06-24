@@ -6,12 +6,14 @@ import Icon from 'react-native-vector-icons/Feather';
 const EstimateForm = ({ formStyle }) => {
   const [input, setInput] = useState({});
   const [isFocus, setIsFocus] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (formStyle === 'ESTIMATE') {
       setInput({
-        clientName: "Nom de l'interlocuteur :",
+        firstName: "Prénom de l'interlocuteur :",
+        lastName: "Nom de l'interlocuteur :",
+        mail: "Mail de l'interlocuteur :",
         estimateCreator: 'Nom de la personne qui a créé le devis : ',
         clientNumber: 'Numéro de téléphone : ',
         companyName: "Nom de l'entreprise :",
@@ -28,7 +30,6 @@ const EstimateForm = ({ formStyle }) => {
   }, [formStyle]);
 
   // -----------------------------------   TODO   -----------------------------------
-  // Ajouter un choix pour la catégorie (pour les données)
   // Ajouter le bouton de création + création en back
   // Ajouter un bouton qui va générer et télécharger le devis / la facture
 

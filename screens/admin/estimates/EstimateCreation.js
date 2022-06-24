@@ -103,6 +103,7 @@ const ActionButton = styled.View`
   width: 80%;
   align-self: center;
   justify-content: space-between;
+  margin-bottom: 10%;
 `;
 
 export default EstimateCreation;
