@@ -92,13 +92,20 @@ const UpdateMail = () => {
         />
       </InputContainer>
       <ButtonContainer>
-        <FirstButton text="Changer" isClickable={true} />
+        <FirstButton text="Changer" isClickable={true} style={style.button} />
       </ButtonContainer>
       {newMail && newMailConfirmation && !areTheSame ? (
         <Text>Les adresses ne concordent pas</Text>
       ) : null}
     </Main>
   );
+};
+
+const style = {
+  button: {
+    colorActive: '#083D77',
+    colorInactive: '#EFEFEF',
+  },
 };
 
 const Main = styled.View`
