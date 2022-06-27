@@ -26,11 +26,19 @@ const fetchAnswer = async (
       .then((data) => (answer = data))
       .catch((err) => (errors = err));
   } else if (action === 'CREATE') {
-    await axios
-      .post('/api/answers', { ...credentials, user_id: userId })
-      .then((response) => response.data)
-      .then((data) => (answer = data))
-      .catch((err) => (errors = err));
+    if (typeof credentials === Object) {
+      await axios
+        .post('/api/answers', { ...credentials, user_id: userId })
+        .then((response) => response.data)
+        .then((data) => (answer = data))
+        .catch((err) => (errors = err));
+    } else {
+      await axios
+        .post('/api/answers', credentials)
+        .then((response) => response.data)
+        .then((data) => (answer = data))
+        .catch((err) => (errors = err));
+    }
   } else if (action === 'PUT') {
     await axios
       .put(`/api/answers/${answerId}`, {

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 
 import FormChoice from '../../../components/styled-components/buttons/FormChoice';
 import EstimateForm from '../../../components/estimate/EstimateForm';
@@ -8,22 +9,62 @@ import AnswerListEstimate from '../../../components/estimate/AnswerListEstimate'
 import CategoryChoice from '../../../components/estimate/CategoryChoice';
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 
+import fetchCustomer from '../../../helpers/api/fetchCustomer';
+import fetchAnswer from '../../../helpers/api/fetchAnswer';
+
 const EstimateCreation = () => {
+  const user = useSelector((state) => state.auth);
   const [formToDisplay, setFormToDisplay] = useState(null);
-  // const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
+  const [generateButton, setGenerateButton] = useState(false);
   const [answerList, setAnswerList] = useState([]);
+  const [newAnswer, setNewAnswer] = useState({
+    content: '',
+    price: '',
+  });
+  const [estimate, setEstimate] = useState({
+    category_id: null,
+    type: null,
+    user_id: user.id,
+  });
+  const [customer, setCustomer] = useState({
+    firstname: null,
+    lastname: null,
+    company: null,
+    phone: null,
+    mail: null,
+  });
+
+  // ordre pour fetch
+  // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
+  // 2. fetch les réponses ==> pour chaque réponse, récupéréer l'id pour le mettre dans le devis en bdd
+  // + somme des tous les prix pour donner un prix total sur le devis
+  // 3. fetch le devis / facture
+
+  useEffect(() => {
+    if (
+      customer.firstname !== null &&
+      customer.lastname !== null &&
+      customer.company !== null &&
+      customer.phone !== null &&
+      customer.mail !== null &&
+      estimate.category_id !== null &&
+      answerList.length > 0
+    ) {
+      setGenerateButton(true);
+    }
+  }, [answerList.length, customer, estimate.category_id]);
 
   const handleAddAnswer = () => {
-    const randomId = (Math.random() * 100).toFixed(0);
+    setAnswerList([...answerList, newAnswer]);
+  };
 
-    setAnswerList([
-      ...answerList,
-      {
-        id: randomId,
-        content: '',
-        price: 300,
-      },
-    ]);
+  const handleFetchEstimate = async () => {
+    await fetchCustomer('CREATE', customer)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+    await fetchAnswer('CREATE', answerList)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -33,26 +74,46 @@ const EstimateCreation = () => {
           <FormChoice
             textLeft="Facture"
             textRight="Devis"
-            actionLeft={() => setFormToDisplay('ESTIMATE')}
-            actionRight={() => setFormToDisplay('BILL')}
+            actionLeft={() => {
+              setFormToDisplay('ESTIMATE');
+              setEstimate({ ...estimate, type: 'estimate' });
+            }}
+            actionRight={() => {
+              setFormToDisplay('BILL');
+              setEstimate({ ...estimate, type: 'bill' });
+            }}
           />
         </ButtonWrapper>
         <FormContainer>
-          {formToDisplay && <EstimateForm formStyle={formToDisplay} />}
+          {formToDisplay && (
+            <EstimateForm
+              formStyle={formToDisplay}
+              customer={customer}
+              setCustomer={setCustomer}
+            />
+          )}
         </FormContainer>
+        <SelectorContainer>
+          <CategoryChoice estimate={estimate} setEstimate={setEstimate} />
+        </SelectorContainer>
         <AnswerListWrapper>
           <TitleList>Liste des options à ajouter</TitleList>
-          <AnswerListEstimate answerList={answerList} />
+          <AnswerListEstimate
+            answerList={answerList}
+            newAnswer={newAnswer}
+            setNewAnswer={setNewAnswer}
+          />
         </AnswerListWrapper>
         <ButtonWrapper>
           <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
         </ButtonWrapper>
-        <SelectorContainer>
-          <CategoryChoice />
-        </SelectorContainer>
       </ContentWrapper>
       <ButtonContainer>
-        <EstimateButton text="Générer" isActif={false} />
+        <EstimateButton
+          text="Générer"
+          isActif={generateButton}
+          action={handleFetchEstimate}
+        />
       </ButtonContainer>
       <ActionButton>
         <EstimateButton text="Signer" isActif />

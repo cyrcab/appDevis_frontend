@@ -3,12 +3,18 @@ import styled from 'styled-components/native';
 
 import AnswerEstimate from './AnswerEstimate';
 
-const AnswerListEstimate = ({ answerList }) => {
+const AnswerListEstimate = ({ answerList, newAnswer, setNewAnswer }) => {
   return (
     <Main>
       {answerList &&
-        answerList.map((el) => (
-          <AnswerEstimate content={el.content} price={el.price} key={el.id} />
+        answerList.map((el, i) => (
+          <AnswerEstimate
+            content={el.content}
+            price={el.price}
+            key={i}
+            newAnswer={newAnswer}
+            setNewAnswer={setNewAnswer}
+          />
         ))}
     </Main>
   );
@@ -17,6 +23,5 @@ const AnswerListEstimate = ({ answerList }) => {
 const Main = styled.View`
   width: 100%;
 `;
-const Text = styled.Text``;
 
 export default AnswerListEstimate;

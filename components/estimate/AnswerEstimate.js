@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 
-const AnswerEstimate = ({ content, price }) => {
+const AnswerEstimate = ({ content, price, newAnswer, setNewAnswer }) => {
+  const [answer, setAnswer] = useState({
+    content,
+    price,
+  });
+  const [inputIsPressed, setInputIsPressed] = useState(false);
+
   return (
     <Main>
-      <InputContent value={content} />
-      <InputPrice value={price && price.toString()} />
+      <InputContent
+        value={answer.content}
+        onChangeText={(text) => setAnswer({ ...answer, content: text })}
+        isPressed={inputIsPressed}
+        onFocus={() => setInputIsPressed(true)}
+        onEndEditing={() => setInputIsPressed(false)}
+      />
+      <InputPrice
+        value={answer.price && answer.price.toString()}
+        onChangeText={(text) => setAnswer({ ...answer, price: text })}
+        isPressed={inputIsPressed}
+        onFocus={() => setInputIsPressed(true)}
+        onEndEditing={() => setInputIsPressed(false)}
+      />
     </Main>
   );
 };
@@ -23,6 +41,7 @@ const InputContent = styled.TextInput`
   background: #fdfdff;
   width: 80%;
   border-radius: 5px;
+  margin-bottom: ${(props) => (props.isPressed ? '30%' : '0')};
 `;
 const InputPrice = styled.TextInput`
   border: 1px solid black;
@@ -30,6 +49,7 @@ const InputPrice = styled.TextInput`
   background: #fdfdff;
   width: 15%;
   border-radius: 5px;
+  margin-bottom: ${(props) => (props.isPressed ? '30%' : '0')};
 `;
 
 export default AnswerEstimate;
