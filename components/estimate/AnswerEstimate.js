@@ -1,28 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
+import { useSelector } from 'react-redux';
 
-const AnswerEstimate = ({ content, price, newAnswer, setNewAnswer }) => {
-  const [answer, setAnswer] = useState({
-    content,
-    price,
-  });
+const AnswerEstimate = ({
+  answer,
+  answerList,
+  setAnswerList,
+  setAddingAnswerIsPressed,
+}) => {
+  const user = useSelector((state) => state.auth);
   const [inputIsPressed, setInputIsPressed] = useState(false);
+  const [answerData, setAnswerData] = useState({
+    content: null,
+    price: null,
+    user_id: null,
+  });
+
+  useEffect(() => {
+    if (answer) {
+      setAnswerData({
+        content: answer.content,
+        price: answer.price,
+      });
+    }
+  }, [answer]);
+
+  const handleAddingAnswer = () => {
+    setAnswerList([...answerList, { ...answerData, user_id: user.id }]);
+    setInputIsPressed(false);
+    setAddingAnswerIsPressed(false);
+  };
+
+  console.log(answerList);
 
   return (
     <Main>
       <InputContent
-        value={answer.content}
-        onChangeText={(text) => setAnswer({ ...answer, content: text })}
+        value={answerData.content}
+        onChangeText={(text) => setAnswerData({ ...answerData, content: text })}
         isPressed={inputIsPressed}
         onFocus={() => setInputIsPressed(true)}
-        onEndEditing={() => setInputIsPressed(false)}
       />
       <InputPrice
-        value={answer.price && answer.price.toString()}
-        onChangeText={(text) => setAnswer({ ...answer, price: text })}
+        value={answerData.price && answerData.price.toString()}
+        onChangeText={(text) =>
+          setAnswerData({ ...answerData, price: parseInt(text, 10) })
+        }
         isPressed={inputIsPressed}
         onFocus={() => setInputIsPressed(true)}
-        onEndEditing={() => setInputIsPressed(false)}
+        onEndEditing={handleAddingAnswer}
       />
     </Main>
   );
@@ -41,7 +67,7 @@ const InputContent = styled.TextInput`
   background: #fdfdff;
   width: 80%;
   border-radius: 5px;
-  margin-bottom: ${(props) => (props.isPressed ? '30%' : '0')};
+  margin-bottom: ${(props) => (props.isPressed ? '60%' : '0')};
 `;
 const InputPrice = styled.TextInput`
   border: 1px solid black;
@@ -49,7 +75,7 @@ const InputPrice = styled.TextInput`
   background: #fdfdff;
   width: 15%;
   border-radius: 5px;
-  margin-bottom: ${(props) => (props.isPressed ? '30%' : '0')};
+  margin-bottom: ${(props) => (props.isPressed ? '60%' : '0')};
 `;
 
 export default AnswerEstimate;

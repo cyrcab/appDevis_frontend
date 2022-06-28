@@ -11,16 +11,14 @@ import EstimateButton from '../../../components/styled-components/buttons/Estima
 
 import fetchCustomer from '../../../helpers/api/fetchCustomer';
 import fetchAnswer from '../../../helpers/api/fetchAnswer';
+import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
 
 const EstimateCreation = () => {
   const user = useSelector((state) => state.auth);
   const [formToDisplay, setFormToDisplay] = useState(null);
+  const [addingAnswerIsPressed, setAddingAnswerIsPressed] = useState(false);
   const [generateButton, setGenerateButton] = useState(false);
   const [answerList, setAnswerList] = useState([]);
-  const [newAnswer, setNewAnswer] = useState({
-    content: '',
-    price: '',
-  });
   const [estimate, setEstimate] = useState({
     category_id: null,
     type: null,
@@ -54,15 +52,11 @@ const EstimateCreation = () => {
     }
   }, [answerList.length, customer, estimate.category_id]);
 
-  const handleAddAnswer = () => {
-    setAnswerList([...answerList, newAnswer]);
-  };
-
   const handleFetchEstimate = async () => {
     await fetchCustomer('CREATE', customer)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
-    await fetchAnswer('CREATE', answerList)
+    await fetchAnswer('CREATE', [answerList], null, user.id)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };
@@ -100,13 +94,21 @@ const EstimateCreation = () => {
           <TitleList>Liste des options à ajouter</TitleList>
           <AnswerListEstimate
             answerList={answerList}
-            newAnswer={newAnswer}
-            setNewAnswer={setNewAnswer}
+            setAnswerList={setAnswerList}
           />
+          {addingAnswerIsPressed ? (
+            <AnswerEstimate
+              setAddingAnswerIsPressed={setAddingAnswerIsPressed}
+              answerList={answerList}
+              setAnswerList={setAnswerList}
+            />
+          ) : (
+            <AddButton
+              text="Ajouter une réponse"
+              action={() => setAddingAnswerIsPressed(!addingAnswerIsPressed)}
+            />
+          )}
         </AnswerListWrapper>
-        <ButtonWrapper>
-          <AddButton text="Ajouter une réponse" action={handleAddAnswer} />
-        </ButtonWrapper>
       </ContentWrapper>
       <ButtonContainer>
         <EstimateButton
@@ -126,6 +128,7 @@ const EstimateCreation = () => {
 
 const Main = styled.ScrollView`
   background: #eeeff5;
+  height: 100%;
 `;
 const ContentWrapper = styled.View`
   display: flex;
