@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/Feather';
 
-const EstimateForm = ({ formStyle }) => {
+const EstimateForm = ({ formStyle, customer, setCustomer }) => {
   const [input, setInput] = useState({});
   const [isFocus, setIsFocus] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
@@ -11,20 +11,22 @@ const EstimateForm = ({ formStyle }) => {
   useEffect(() => {
     if (formStyle === 'ESTIMATE') {
       setInput({
-        firstName: "Prénom de l'interlocuteur :",
-        lastName: "Nom de l'interlocuteur :",
+        firstname: "Prénom de l'interlocuteur :",
+        lastname: "Nom de l'interlocuteur :",
         mail: "Mail de l'interlocuteur :",
         estimateCreator: 'Nom de la personne qui a créé le devis : ',
-        clientNumber: 'Numéro de téléphone : ',
-        companyName: "Nom de l'entreprise :",
+        phone: 'Numéro de téléphone : ',
+        company: "Nom de l'entreprise :",
       });
     } else {
       setInput({
-        clientName: "Nom de l'interlocuteur :",
+        firstname: "Prénom de l'interlocuteur :",
+        lastname: "Nom de l'interlocuteur :",
         estimateCreator: 'Nom de la personne qui a créé le devis : ',
-        clientNumber: 'Numéro de téléphone : ',
-        companyKey: "Siret de l'entreprise :",
-        companyName: "Nom de l'entreprise :",
+        phone: 'Numéro de téléphone : ',
+        mail: "Mail de l'interlocuteur :",
+        siret: "Siret de l'entreprise :",
+        company: "Nom de l'entreprise :",
       });
     }
   }, [formStyle]);
@@ -51,7 +53,13 @@ const EstimateForm = ({ formStyle }) => {
                 onEndEdditting={() => setIsFocus(false)}
               >
                 <Label>{value}</Label>
-                <Input isFocus={isFocus} />
+                <Input
+                  isFocus={isFocus}
+                  value={customer[key]}
+                  onChangeText={(text) =>
+                    setCustomer({ ...customer, [key]: text })
+                  }
+                />
               </InputContainer>
             );
           })}

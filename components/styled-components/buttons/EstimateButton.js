@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const EstimateButton = ({ text, isActif }) => {
+const EstimateButton = ({ text, isActif, action }) => {
   return (
-    <Main isActif={isActif} activeOpacity={isActif ? 0.2 : 1}>
+    <Main isActif={isActif} activeOpacity={isActif ? 0.2 : 1} onPress={action}>
       <Text isActif={isActif}>{text}</Text>
     </Main>
   );

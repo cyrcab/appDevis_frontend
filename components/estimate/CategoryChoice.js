@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import fetchCategory from '../../helpers/api/fetchCategory';
 import CatListChoice from './CatListChoice';
 
-const CategoryChoice = () => {
+const CategoryChoice = ({ estimate, setEstimate }) => {
   const [listChoice, setListChoice] = useState([]);
   const [selectorIsOpen, setSelectorIsOpen] = useState(false);
   const [category, setCategory] = useState({
@@ -18,6 +18,10 @@ const CategoryChoice = () => {
       .then((response) => setListChoice(response.category))
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    setEstimate({ ...estimate, category_id: category.id });
+  }, [category]);
 
   return (
     <Main>
