@@ -12,6 +12,7 @@ import EstimateButton from '../../../components/styled-components/buttons/Estima
 import fetchCustomer from '../../../helpers/api/fetchCustomer';
 import fetchAnswer from '../../../helpers/api/fetchAnswer';
 import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
+import fetchEstimate from '../../../helpers/api/fetchEstimate';
 
 const EstimateCreation = () => {
   const user = useSelector((state) => state.auth);
@@ -23,6 +24,8 @@ const EstimateCreation = () => {
     category_id: null,
     type: null,
     user_id: user.id,
+    customer_id: null,
+    price: null,
   });
   const [customer, setCustomer] = useState({
     firstname: null,
@@ -31,6 +34,7 @@ const EstimateCreation = () => {
     phone: null,
     mail: null,
   });
+  const [displayButtons, setDisplayButtons] = useState(false);
 
   // ordre pour fetch
   // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
@@ -53,12 +57,47 @@ const EstimateCreation = () => {
   }, [answerList.length, customer, estimate.category_id]);
 
   const handleFetchEstimate = async () => {
-    await fetchCustomer('CREATE', customer)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-    await fetchAnswer('CREATE', [answerList], null, user.id)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    try {
+      const idCustomer = await fetchCustomer('CREATE', customer);
+      const answerCount = await fetchAnswer(
+        'CREATE',
+        [answerList],
+        null,
+        user.id,
+      );
+      const newEstimate = await fetchEstimate('CREATE', {
+        ...estimate,
+        customer_id: idCustomer.customer.id,
+        price: answerList.reduce((acc, cur) => acc + cur.price, 0),
+      });
+      const newAnswers = await fetchAnswer(
+        'GETLAST',
+        null,
+        null,
+        null,
+        null,
+        null,
+        answerCount.answer.count,
+      );
+      const answerIdList = newAnswers.answer.map((answer) => answer.id);
+      const nbrJointure = await fetchAnswer(
+        'CREATE_LINK',
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        newEstimate.estimate.id,
+        answerIdList,
+      );
+      if (nbrJointure.answer) {
+        setDisplayButtons(true);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   };
 
   return (
@@ -95,6 +134,7 @@ const EstimateCreation = () => {
           <AnswerListEstimate
             answerList={answerList}
             setAnswerList={setAnswerList}
+            setAddingAnswerIsPressed={setAddingAnswerIsPressed}
           />
           {addingAnswerIsPressed ? (
             <AnswerEstimate
@@ -117,11 +157,13 @@ const EstimateCreation = () => {
           action={handleFetchEstimate}
         />
       </ButtonContainer>
-      <ActionButton>
-        <EstimateButton text="Signer" isActif />
-        <EstimateButton text="Partager" isActif />
-        <EstimateButton text="Voir" isActif />
-      </ActionButton>
+      {displayButtons && (
+        <ActionButton>
+          <EstimateButton text="Signer" isActif />
+          <EstimateButton text="Partager" isActif />
+          <EstimateButton text="Voir" isActif />
+        </ActionButton>
+      )}
     </Main>
   );
 };

@@ -31,8 +31,6 @@ const AnswerEstimate = ({
     setAddingAnswerIsPressed(false);
   };
 
-  console.log(answerList);
-
   return (
     <Main>
       <InputContent

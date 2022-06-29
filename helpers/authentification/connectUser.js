@@ -10,7 +10,6 @@ const connectUser = async (mail, password) => {
       };
       const { userDatas, requestLoginErrors } = await auth(credentials);
       if (requestLoginErrors) {
-        console.log(requestLoginErrors);
         errors.push(requestLoginErrors.response.data);
         return errors;
       }

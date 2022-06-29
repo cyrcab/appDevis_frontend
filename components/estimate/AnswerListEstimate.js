@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import AnswerEstimate from './AnswerEstimate';
 
-const AnswerListEstimate = ({ answerList, setAnswerList }) => {
+const AnswerListEstimate = ({
+  answerList,
+  setAnswerList,
+  setAddingAnswerIsPressed,
+}) => {
   const renderItem = ({ item }) => {
     return (
       <AnswerEstimate
         answer={item}
         setAnswerList={setAnswerList}
         answerList={answerList}
+        setAddingAnswerIsPressed={setAddingAnswerIsPressed}
       />
     );
   };
