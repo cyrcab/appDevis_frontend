@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const DeleteButton = ({ text, action }) => {
+const DeleteButton = ({ text, action, isActif }) => {
   return (
     <Button onPress={action}>
-      <ButtonText>{text}</ButtonText>
+      {text && <ButtonText>{text}</ButtonText>}
       <Icon name="trash" size={25} color="#ff4d42" />
     </Button>
   );
@@ -17,7 +17,7 @@ const Button = styled.TouchableOpacity`
   align-items: center;
   flex-direction: row;
   border: 1px solid #ff4d42;
-  padding: 10px 20px;
+  padding: 20%;
   background: #fdfdff;
   border-radius: 5px;
 `;
