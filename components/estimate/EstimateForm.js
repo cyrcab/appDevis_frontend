@@ -14,7 +14,6 @@ const EstimateForm = ({ formStyle, customer, setCustomer }) => {
         firstname: "Prénom de l'interlocuteur :",
         lastname: "Nom de l'interlocuteur :",
         mail: "Mail de l'interlocuteur :",
-        estimateCreator: 'Nom de la personne qui a créé le devis : ',
         phone: 'Numéro de téléphone : ',
         company: "Nom de l'entreprise :",
       });
@@ -22,21 +21,15 @@ const EstimateForm = ({ formStyle, customer, setCustomer }) => {
       setInput({
         firstname: "Prénom de l'interlocuteur :",
         lastname: "Nom de l'interlocuteur :",
-        estimateCreator: 'Nom de la personne qui a créé le devis : ',
         phone: 'Numéro de téléphone : ',
         mail: "Mail de l'interlocuteur :",
-        siret: "Siret de l'entreprise :",
         company: "Nom de l'entreprise :",
       });
     }
   }, [formStyle]);
 
-  // -----------------------------------   TODO   -----------------------------------
-  // Ajouter le bouton de création + création en back
-  // Ajouter un bouton qui va générer et télécharger le devis / la facture
-
   return (
-    <Main>
+    <Main isFocus={isFocus}>
       <DisplayInfos onPress={() => setIsOpen(!isOpen)}>
         <Text>Infos générales du devis</Text>
         <IconContainer>
@@ -47,14 +40,11 @@ const EstimateForm = ({ formStyle, customer, setCustomer }) => {
         <EstimateInfos>
           {Object.entries(input).map(([key, value]) => {
             return (
-              <InputContainer
-                key={key}
-                onFocus={() => setIsFocus(true)}
-                onEndEdditting={() => setIsFocus(false)}
-              >
+              <InputContainer key={key}>
                 <Label>{value}</Label>
                 <Input
-                  isFocus={isFocus}
+                  onFocus={() => setIsFocus(true)}
+                  onEndEditing={() => setIsFocus(false)}
                   value={customer[key]}
                   onChangeText={(text) =>
                     setCustomer({ ...customer, [key]: text })
@@ -75,6 +65,7 @@ const Main = styled.View`
   background: #fdfdff;
   width: 100%;
   border-radius: 5px;
+  margin-bottom: ${(props) => (props.isFocus ? '60%' : '0')};
 `;
 const EstimateInfos = styled.View`
   display: flex;

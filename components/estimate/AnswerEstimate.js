@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
+// import DeleteButton from '../../components/styled-components/buttons/DeleteButton';
 
 const AnswerEstimate = ({
   answer,
@@ -38,6 +39,7 @@ const AnswerEstimate = ({
         onChangeText={(text) => setAnswerData({ ...answerData, content: text })}
         isPressed={inputIsPressed}
         onFocus={() => setInputIsPressed(true)}
+        placeholder="Option à rajouter"
       />
       <InputPrice
         value={answerData.price && answerData.price.toString()}
@@ -46,8 +48,15 @@ const AnswerEstimate = ({
         }
         isPressed={inputIsPressed}
         onFocus={() => setInputIsPressed(true)}
-        onEndEditing={handleAddingAnswer}
+        onEndEditing={
+          answerData.content && answerData.price ? handleAddingAnswer : null
+        }
+        keyboardType="numeric"
+        placeholder="Prix"
       />
+      {/* <ButtonContainer>
+        <DeleteButton action={handleDeleteAnswer} />
+      </ButtonContainer> */}
     </Main>
   );
 };

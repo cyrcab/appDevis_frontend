@@ -3,7 +3,11 @@ import styled from 'styled-components/native';
 
 const EstimateButton = ({ text, isActif, action }) => {
   return (
-    <Main isActif={isActif} activeOpacity={isActif ? 0.2 : 1} onPress={action}>
+    <Main
+      isActif={isActif}
+      activeOpacity={isActif ? 0.2 : 1}
+      onPress={isActif ? action : null}
+    >
       <Text isActif={isActif}>{text}</Text>
     </Main>
   );

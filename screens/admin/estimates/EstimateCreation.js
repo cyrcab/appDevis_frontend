@@ -9,13 +9,12 @@ import AnswerListEstimate from '../../../components/estimate/AnswerListEstimate'
 import CategoryChoice from '../../../components/estimate/CategoryChoice';
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 
-import fetchCustomer from '../../../helpers/api/fetchCustomer';
-import fetchAnswer from '../../../helpers/api/fetchAnswer';
 import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
-import fetchEstimate from '../../../helpers/api/fetchEstimate';
+import handleFetchEstimate from './function/handleFetchEstimate';
 
 const EstimateCreation = () => {
   const user = useSelector((state) => state.auth);
+  const userName = user.firstName + ' ' + user.lastName;
   const [formToDisplay, setFormToDisplay] = useState(null);
   const [addingAnswerIsPressed, setAddingAnswerIsPressed] = useState(false);
   const [generateButton, setGenerateButton] = useState(false);
@@ -24,6 +23,7 @@ const EstimateCreation = () => {
     category_id: null,
     type: null,
     user_id: user.id,
+    created_by: userName,
     customer_id: null,
     price: null,
   });
@@ -56,47 +56,15 @@ const EstimateCreation = () => {
     }
   }, [answerList.length, customer, estimate.category_id]);
 
-  const handleFetchEstimate = async () => {
-    try {
-      const idCustomer = await fetchCustomer('CREATE', customer);
-      const answerCount = await fetchAnswer(
-        'CREATE',
-        [answerList],
-        null,
-        user.id,
-      );
-      const newEstimate = await fetchEstimate('CREATE', {
-        ...estimate,
-        customer_id: idCustomer.customer.id,
-        price: answerList.reduce((acc, cur) => acc + cur.price, 0),
-      });
-      const newAnswers = await fetchAnswer(
-        'GETLAST',
-        null,
-        null,
-        null,
-        null,
-        null,
-        answerCount.answer.count,
-      );
-      const answerIdList = newAnswers.answer.map((answer) => answer.id);
-      const nbrJointure = await fetchAnswer(
-        'CREATE_LINK',
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        newEstimate.estimate.id,
-        answerIdList,
-      );
-      if (nbrJointure.answer) {
-        setDisplayButtons(true);
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+  const handleCreateEstimate = () => {
+    const estimateIsCreated = handleFetchEstimate(
+      customer,
+      answerList,
+      user.id,
+      estimate,
+    );
+    if (estimateIsCreated) {
+      setDisplayButtons(true);
     }
   };
 
@@ -154,7 +122,7 @@ const EstimateCreation = () => {
         <EstimateButton
           text="Générer"
           isActif={generateButton}
-          action={handleFetchEstimate}
+          action={handleCreateEstimate}
         />
       </ButtonContainer>
       {displayButtons && (
@@ -200,7 +168,7 @@ const TitleList = styled.Text`
 `;
 const ButtonContainer = styled.View`
   width: 90%;
-  margin: 5% 0 2% 0;
+  margin: 5% 0 15% 0;
   align-self: center;
 `;
 const ActionButton = styled.View`
