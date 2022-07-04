@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 import fetchEstimate from '../../helpers/api/fetchEstimate';
 
 const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
+  const navigation = useNavigation();
   const { Category, Customer, Estimate_has_Answer } = estimate;
   const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
   const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
@@ -80,6 +82,23 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
             <TextTitle>Numéro du client :</TextTitle>
             <Text>{Customer.phone}</Text>
           </InfosContainer>
+          <ButtonWrapper>
+            <Button
+              onPress={() =>
+                navigation.navigate('Création de devis', {
+                  estimate: estimate,
+                })
+              }
+            >
+              <ButtonText>Modifier</ButtonText>
+            </Button>
+            <Button>
+              <ButtonText>Voir</ButtonText>
+            </Button>
+            <Button>
+              <ButtonText>Envoyer</ButtonText>
+            </Button>
+          </ButtonWrapper>
         </Body>
       )}
     </Main>
@@ -154,6 +173,27 @@ const Body = styled.View`
   padding: 5% 3%;
   border-bottom-width: 1px;
   border-bottom-color: rgba(31, 19, 0, 0.3);
+`;
+
+const ButtonWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  margin-top: 2%;
+  justify-content: space-between;
+`;
+const Button = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  border: 1px solid #083d77;
+  padding: 3%;
+  border-radius: 3px;
+`;
+const ButtonText = styled.Text`
+  font-size: 16px;
+  font-weight: 600;
+  color: #083d77;
 `;
 
 export default EstimatesInfos;
