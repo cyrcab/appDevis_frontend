@@ -4,15 +4,21 @@ import { FlatList } from 'react-native';
 
 import EstimatesInfos from './EstimatesInfos';
 
-const RenderEstimateInList = ({ estimates }) => {
+const RenderEstimateInList = ({ estimateList, setEstimateList }) => {
   const renderItem = ({ item }) => {
-    return <EstimatesInfos estimate={item} />;
+    return (
+      <EstimatesInfos
+        estimate={item}
+        setEstimateList={setEstimateList}
+        estimateList={estimateList}
+      />
+    );
   };
 
   return (
     <Main>
       <FlatList
-        data={estimates}
+        data={estimateList}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         horizontal="false"

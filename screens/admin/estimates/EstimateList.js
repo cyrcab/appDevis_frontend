@@ -6,20 +6,23 @@ import RenderEstimateInList from '../../../components/estimate/RenderEstimateInL
 import fetchEstimate from '../../../helpers/api/fetchEstimate';
 
 const EstimateList = () => {
-  const [estimates, setEstimates] = useState([]);
+  const [estimateList, setEstimateList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const { estimate } = await fetchEstimate('GET');
-      setEstimates(estimate);
+      setEstimateList(estimate);
     };
     fetchData();
   }, []);
 
   return (
     <Main>
-      {estimates.length > 0 ? (
-        <RenderEstimateInList estimates={estimates} />
+      {estimateList.length > 0 ? (
+        <RenderEstimateInList
+          estimateList={estimateList}
+          setEstimateList={setEstimateList}
+        />
       ) : null}
     </Main>
   );

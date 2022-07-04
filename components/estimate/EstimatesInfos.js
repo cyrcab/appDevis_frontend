@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
+import fetchEstimate from '../../helpers/api/fetchEstimate';
 
-const EstimatesInfos = ({ estimate }) => {
+const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
   const { Category, Customer, Estimate_has_Answer } = estimate;
   const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
   const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
+
+  const handleDeleteEstimate = () => {
+    setEstimateList(estimateList.filter((el) => el.id !== estimate.id));
+    fetchEstimate('DELETE', estimate.id);
+  };
 
   return (
     <Main>
@@ -23,7 +29,7 @@ const EstimatesInfos = ({ estimate }) => {
             )}
           </ChevronContainer>
         </TitleContainer>
-        <DeleteButtonContainer>
+        <DeleteButtonContainer onPress={handleDeleteEstimate}>
           <Icon name="delete" size={20} />
         </DeleteButtonContainer>
       </Header>
@@ -51,7 +57,7 @@ const EstimatesInfos = ({ estimate }) => {
             <AnswerListWrapper>
               {Estimate_has_Answer.length > 0 &&
                 Estimate_has_Answer.map((el) => (
-                  <AnswerDetailContainer>
+                  <AnswerDetailContainer key={el.Answer.id}>
                     <Text>{el.Answer.content}</Text>
                     <Text>{el.Answer.price}</Text>
                   </AnswerDetailContainer>

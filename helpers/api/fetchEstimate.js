@@ -24,6 +24,12 @@ const fetchEstimate = async (action, credentials, userName) => {
       .then((response) => response.data)
       .then((data) => (estimate = data))
       .catch((err) => (errors = err));
+  } else if (action === 'DELETE') {
+    await axios
+      .delete(`/api/estimates/${credentials}`)
+      .then((response) => response.data)
+      .then((data) => (estimate = data))
+      .catch((err) => (errors = err));
   }
 
   return { estimate, errors };
