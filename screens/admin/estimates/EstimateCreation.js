@@ -73,8 +73,8 @@ const EstimateCreation = () => {
       <ContentWrapper>
         <ButtonWrapper>
           <FormChoice
-            textLeft="Facture"
-            textRight="Devis"
+            textLeft="Devis"
+            textRight="Facture"
             actionLeft={() => {
               setFormToDisplay('ESTIMATE');
               setEstimate({ ...estimate, type: 'estimate' });

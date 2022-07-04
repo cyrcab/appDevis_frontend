@@ -5,7 +5,6 @@ import fetchEstimate from '../../../../helpers/api/fetchEstimate';
 const handleFetchEstimate = async (customer, answerList, userId, estimate) => {
   try {
     const idCustomer = await fetchCustomer('CREATE', customer);
-    console.log(idCustomer);
     const answerCount = await fetchAnswer('CREATE', [answerList], null, userId);
     const newEstimate = await fetchEstimate('CREATE', {
       ...estimate,
