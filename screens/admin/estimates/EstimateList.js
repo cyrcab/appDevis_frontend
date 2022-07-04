@@ -20,14 +20,11 @@ const EstimateList = () => {
     <Main>
       {estimates.length > 0 ? (
         <RenderEstimateInList estimates={estimates} />
-      ) : (
-        <Text>Lol</Text>
-      )}
+      ) : null}
     </Main>
   );
 };
 
 const Main = styled.ScrollView``;
-const Text = styled.Text``;
 
 export default EstimateList;

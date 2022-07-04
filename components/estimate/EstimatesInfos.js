@@ -4,16 +4,19 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const EstimatesInfos = ({ estimate }) => {
-  const { Category, Customer } = estimate;
-  const [isOpen, setIsOpen] = useState(false);
+  const { Category, Customer, Estimate_has_Answer } = estimate;
+  const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
+  const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
 
   return (
     <Main>
       <Header>
-        <TitleContainer onPress={() => setIsOpen(!isOpen)}>
+        <TitleContainer
+          onPress={() => setEstimateInfoIsOpen(!estimateInfoIsOpen)}
+        >
           <Text>{Customer.company} </Text>
           <ChevronContainer>
-            {isOpen ? (
+            {estimateInfoIsOpen ? (
               <Icon name="down" size={20} />
             ) : (
               <Icon name="right" size={20} />
@@ -21,10 +24,10 @@ const EstimatesInfos = ({ estimate }) => {
           </ChevronContainer>
         </TitleContainer>
         <DeleteButtonContainer>
-          <Icon name="delete" size={25} />
+          <Icon name="delete" size={20} />
         </DeleteButtonContainer>
       </Header>
-      {isOpen && (
+      {estimateInfoIsOpen && (
         <Body>
           <InfosContainer>
             <TextTitle>Type :</TextTitle>
@@ -35,9 +38,26 @@ const EstimatesInfos = ({ estimate }) => {
             <Text>{Category.name}</Text>
           </InfosContainer>
           <InfosContainer>
-            <TextTitle>Prix total :</TextTitle>
+            <TextTitle>Prix total</TextTitle>
+            <DisplayAnswers
+              onPress={() => setAnswerDetailsIsOpen(!answerDetailsIsOpen)}
+            >
+              <DisplayAnswersText>Détails</DisplayAnswersText>
+              <Icon name={answerDetailsIsOpen ? 'down' : 'right'} size={15} />
+            </DisplayAnswers>
             <Text>{estimate.price}</Text>
           </InfosContainer>
+          {answerDetailsIsOpen ? (
+            <AnswerListWrapper>
+              {Estimate_has_Answer.length > 0 &&
+                Estimate_has_Answer.map((el) => (
+                  <AnswerDetailContainer>
+                    <Text>{el.Answer.content}</Text>
+                    <Text>{el.Answer.price}</Text>
+                  </AnswerDetailContainer>
+                ))}
+            </AnswerListWrapper>
+          ) : null}
           <InfosContainer>
             <TextTitle>Nom du client :</TextTitle>
             <Text>{Customer.firstname + ' ' + Customer.lastname}</Text>
@@ -81,6 +101,25 @@ const TitleContainer = styled.TouchableOpacity`
   align-items: center;
   justify-content: space-between;
 `;
+
+const DisplayAnswers = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const AnswerListWrapper = styled.View`
+  display: flex;
+  border-bottom-width: 1px;
+  padding: 10px 3%;
+  border-bottom-color: rgba(31, 19, 0, 0.3);
+`;
+const AnswerDetailContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const DisplayAnswersText = styled.Text``;
+
 const ChevronContainer = styled.View``;
 const Text = styled.Text`
   font-size: 18px;
@@ -91,6 +130,9 @@ const InfosContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  border-bottom-width: 1px;
+  padding: 10px 0;
+  border-bottom-color: rgba(31, 19, 0, 0.3);
 `;
 const TextTitle = styled.Text`
   font-size: 18px;
