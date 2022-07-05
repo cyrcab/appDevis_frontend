@@ -10,7 +10,10 @@ import CategoryChoice from '../../../components/estimate/CategoryChoice';
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 
 import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
-import handleFetchEstimate from './function/handleFetchEstimate';
+import {
+  handleFetchEstimate,
+  fetchUpdateEstimate,
+} from './function/handleFetchEstimate';
 
 const EstimateCreation = ({ route }) => {
   const user = useSelector((state) => state.auth);
@@ -65,6 +68,7 @@ const EstimateCreation = ({ route }) => {
 
   useEffect(() => {
     if (
+      action === 'CREATE' &&
       customer.firstname !== null &&
       customer.lastname !== null &&
       customer.company !== null &&
@@ -75,7 +79,7 @@ const EstimateCreation = ({ route }) => {
     ) {
       setGenerateButton(true);
     }
-  }, [answerList.length, customer, estimate.category_id]);
+  }, [action, answerList.length, customer, estimate.category_id]);
 
   const handleCreateEstimate = () => {
     const estimateIsCreated = handleFetchEstimate(
@@ -89,7 +93,7 @@ const EstimateCreation = ({ route }) => {
     }
   };
   const handleUpdateEstimate = () => {
-    console.log('update');
+    fetchUpdateEstimate(answerList, userName, estimate.id, user.id);
   };
 
   return (
@@ -126,12 +130,14 @@ const EstimateCreation = ({ route }) => {
           <AnswerListEstimate
             answerList={answerList}
             setAnswerList={setAnswerList}
+            setGenerateButton={setGenerateButton}
             setAddingAnswerIsPressed={setAddingAnswerIsPressed}
           />
           {addingAnswerIsPressed ? (
             <AnswerEstimate
               setAddingAnswerIsPressed={setAddingAnswerIsPressed}
               answerList={answerList}
+              setGenerateButton={setGenerateButton}
               setAnswerList={setAnswerList}
             />
           ) : (

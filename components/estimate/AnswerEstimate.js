@@ -10,6 +10,7 @@ const AnswerEstimate = ({
   answerList,
   setAnswerList,
   setAddingAnswerIsPressed,
+  setGenerateButton,
 }) => {
   const user = useSelector((state) => state.auth);
   const [inputIsPressed, setInputIsPressed] = useState(false);
@@ -31,21 +32,33 @@ const AnswerEstimate = ({
   const handleAddingAnswer = () => {
     setAnswerList([...answerList, { ...answerData, user_id: user.id }]);
     setInputIsPressed(false);
+    setGenerateButton(true);
     setAddingAnswerIsPressed(false);
   };
 
   const handleUpdateAnswer = () => {
-    fetchAnswer('PUT', answerData, answer.id).then((response) => {
-      if (response.answer) {
-        setAnswerList(
-          answerList.map((el) =>
-            el.id === response.answer.id ? response.answer : el,
-          ),
-        );
-        setInputIsPressed(false);
-        setAddingAnswerIsPressed(false);
-      }
-    });
+    if (
+      answerData.content !== answer.content ||
+      answerData.price !== answer.price
+    ) {
+      setGenerateButton(true);
+      fetchAnswer('PUT', answerData, answer.id).then((response) => {
+        if (response.answer) {
+          setAnswerList(
+            answerList.map((el) =>
+              el.id === response.answer.answer.id
+                ? { ...el, ...response.answer.answer }
+                : el,
+            ),
+          );
+          setInputIsPressed(false);
+          setAddingAnswerIsPressed(false);
+        }
+      });
+    } else {
+      setInputIsPressed(false);
+      setGenerateButton(false);
+    }
   };
 
   const testInput = () => {

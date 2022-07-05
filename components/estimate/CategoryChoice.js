@@ -17,11 +17,17 @@ const CategoryChoice = ({ estimate, setEstimate }) => {
     fetchCategory('GET')
       .then((response) => setListChoice(response.category))
       .catch((err) => console.log(err));
-  }, []);
+    if (estimate.category_id) {
+      setCategory({
+        id: estimate.category_id,
+        name: estimate.Category.name,
+      });
+    }
+  }, [estimate]);
 
-  useEffect(() => {
-    setEstimate({ ...estimate, category_id: category.id });
-  }, [category]);
+  // useEffect(() => {
+  //   setEstimate({ ...estimate, category_id: category.id });
+  // }, [category]);
 
   return (
     <Main>

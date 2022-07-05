@@ -7,8 +7,7 @@ const fetchEstimate = async (action, credentials, userName, estimateId) => {
 
   if (acceptedAction.includes(action) === false) {
     errors = {
-      message:
-        'Merci de rentrer une action valable (CREATE, DELETE, UPDATE, GET)',
+      message: 'Merci de rentrer une action valable (CREATE, DELETE, PUT, GET)',
     };
   }
 

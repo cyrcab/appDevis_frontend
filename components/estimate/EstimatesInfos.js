@@ -71,10 +71,6 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
             <Text>{Customer.firstname + ' ' + Customer.lastname}</Text>
           </InfosContainer>
           <InfosContainer>
-            <TextTitle>Catégorie :</TextTitle>
-            <Text>{Category.name}</Text>
-          </InfosContainer>
-          <InfosContainer>
             <TextTitle>Mail du client :</TextTitle>
             <Text>{Customer.mail}</Text>
           </InfosContainer>
