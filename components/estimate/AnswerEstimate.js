@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
+
+import fetchAnswer from '../../helpers/api/fetchAnswer';
 // import DeleteButton from '../../components/styled-components/buttons/DeleteButton';
 
 const AnswerEstimate = ({
@@ -32,6 +34,27 @@ const AnswerEstimate = ({
     setAddingAnswerIsPressed(false);
   };
 
+  const handleUpdateAnswer = () => {
+    fetchAnswer('PUT', answerData, answer.id).then((response) => {
+      if (response.answer) {
+        setAnswerList(
+          answerList.map((el) =>
+            el.id === response.answer.id ? response.answer : el,
+          ),
+        );
+        setInputIsPressed(false);
+        setAddingAnswerIsPressed(false);
+      }
+    });
+  };
+
+  const testInput = () => {
+    if (answerData.content && answerData.price) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <Main>
       <InputContent
@@ -49,9 +72,8 @@ const AnswerEstimate = ({
         isPressed={inputIsPressed}
         onFocus={() => setInputIsPressed(true)}
         onEndEditing={
-          answerData.content && answerData.price ? handleAddingAnswer : null
+          answer && testInput() ? handleUpdateAnswer : handleAddingAnswer
         }
-        keyboardType="numeric"
         placeholder="Prix"
       />
       {/* <ButtonContainer>
