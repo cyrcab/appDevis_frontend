@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import styled from 'styled-components/native';
 
 // import des composants
@@ -8,9 +7,6 @@ import FastActionList from '../../components/fastActionHome/FastActionList';
 const Home = () => {
   return (
     <HomeContainer>
-      <View>
-        <Text>This is the Home Page</Text>
-      </View>
       <FastActionContainer>
         <Subtitle>Actions rapides</Subtitle>
         <FastActionList />
