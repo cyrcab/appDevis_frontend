@@ -16,7 +16,6 @@ const CategoryForm = ({ setListOfCategories, listOfCategories }) => {
 
   const handleCreateCategory = async () => {
     const response = await fetchCategory('CREATE', newCategory, id);
-    console.log(response);
     if (response.category) {
       setListOfCategories([...listOfCategories, response.category]);
       setNewCategory({ ...newCategory, name: '' });

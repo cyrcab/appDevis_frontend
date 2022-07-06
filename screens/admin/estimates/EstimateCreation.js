@@ -10,9 +10,12 @@ import CategoryChoice from '../../../components/estimate/CategoryChoice';
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 
 import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
-import handleFetchEstimate from './function/handleFetchEstimate';
+import {
+  handleFetchEstimate,
+  fetchUpdateEstimate,
+} from './function/handleFetchEstimate';
 
-const EstimateCreation = () => {
+const EstimateCreation = ({ route }) => {
   const user = useSelector((state) => state.auth);
   const userName = user.firstName + ' ' + user.lastName;
   const [formToDisplay, setFormToDisplay] = useState(null);
@@ -35,6 +38,27 @@ const EstimateCreation = () => {
     mail: null,
   });
   const [displayButtons, setDisplayButtons] = useState(false);
+  const [action, setAction] = useState('');
+
+  useEffect(() => {
+    if (route.params) {
+      const { estimate: estimateToUpdate } = route.params;
+      setEstimate(estimateToUpdate);
+      setFormToDisplay(
+        estimateToUpdate.type === 'estimate' ? 'ESTIMATE' : 'BILL',
+      );
+      setCustomer(estimateToUpdate.Customer);
+      setAnswerList(
+        estimateToUpdate.Estimate_has_Answer.map((el) => ({
+          ...el.Answer,
+        })),
+      );
+      setDisplayButtons(true);
+      setAction('UPDATE');
+    } else {
+      setAction('CREATE');
+    }
+  }, [route.params]);
 
   // ordre pour fetch
   // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
@@ -44,6 +68,7 @@ const EstimateCreation = () => {
 
   useEffect(() => {
     if (
+      action === 'CREATE' &&
       customer.firstname !== null &&
       customer.lastname !== null &&
       customer.company !== null &&
@@ -54,7 +79,7 @@ const EstimateCreation = () => {
     ) {
       setGenerateButton(true);
     }
-  }, [answerList.length, customer, estimate.category_id]);
+  }, [action, answerList.length, customer, estimate.category_id]);
 
   const handleCreateEstimate = () => {
     const estimateIsCreated = handleFetchEstimate(
@@ -67,14 +92,17 @@ const EstimateCreation = () => {
       setDisplayButtons(true);
     }
   };
+  const handleUpdateEstimate = () => {
+    fetchUpdateEstimate(answerList, userName, estimate.id, user.id);
+  };
 
   return (
     <Main>
       <ContentWrapper>
         <ButtonWrapper>
           <FormChoice
-            textLeft="Facture"
-            textRight="Devis"
+            textLeft="Devis"
+            textRight="Facture"
             actionLeft={() => {
               setFormToDisplay('ESTIMATE');
               setEstimate({ ...estimate, type: 'estimate' });
@@ -102,12 +130,14 @@ const EstimateCreation = () => {
           <AnswerListEstimate
             answerList={answerList}
             setAnswerList={setAnswerList}
+            setGenerateButton={setGenerateButton}
             setAddingAnswerIsPressed={setAddingAnswerIsPressed}
           />
           {addingAnswerIsPressed ? (
             <AnswerEstimate
               setAddingAnswerIsPressed={setAddingAnswerIsPressed}
               answerList={answerList}
+              setGenerateButton={setGenerateButton}
               setAnswerList={setAnswerList}
             />
           ) : (
@@ -120,18 +150,20 @@ const EstimateCreation = () => {
       </ContentWrapper>
       <ButtonContainer>
         <EstimateButton
-          text="Générer"
+          text={action === 'CREATE' ? 'Créer' : 'Modifier'}
           isActif={generateButton}
-          action={handleCreateEstimate}
+          action={
+            action === 'CREATE' ? handleCreateEstimate : handleUpdateEstimate
+          }
         />
       </ButtonContainer>
-      {displayButtons && (
+      {displayButtons && !estimate.price ? (
         <ActionButton>
           <EstimateButton text="Signer" isActif />
           <EstimateButton text="Partager" isActif />
           <EstimateButton text="Voir" isActif />
         </ActionButton>
-      )}
+      ) : null}
     </Main>
   );
 };

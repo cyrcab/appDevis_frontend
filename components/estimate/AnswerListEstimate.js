@@ -8,6 +8,7 @@ const AnswerListEstimate = ({
   answerList,
   setAnswerList,
   setAddingAnswerIsPressed,
+  setGenerateButton,
 }) => {
   const renderItem = ({ item }) => {
     return (
@@ -15,6 +16,7 @@ const AnswerListEstimate = ({
         answer={item}
         setAnswerList={setAnswerList}
         answerList={answerList}
+        setGenerateButton={setGenerateButton}
         setAddingAnswerIsPressed={setAddingAnswerIsPressed}
       />
     );
