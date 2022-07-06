@@ -157,13 +157,13 @@ const EstimateCreation = ({ route }) => {
           }
         />
       </ButtonContainer>
-      {displayButtons && (
+      {displayButtons && !estimate.price ? (
         <ActionButton>
           <EstimateButton text="Signer" isActif />
           <EstimateButton text="Partager" isActif />
           <EstimateButton text="Voir" isActif />
         </ActionButton>
-      )}
+      ) : null}
     </Main>
   );
 };

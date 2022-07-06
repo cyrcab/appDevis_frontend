@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import fetchAnswer from '../../helpers/api/fetchAnswer';
 import Icon from 'react-native-vector-icons/Feather';
+import { fetchUpdateEstimate } from '../../screens/admin/estimates/function/handleFetchEstimate';
 
 const AnswerEstimate = ({
   answer,
@@ -13,6 +14,7 @@ const AnswerEstimate = ({
   setGenerateButton,
 }) => {
   const user = useSelector((state) => state.auth);
+  const userName = user.firstName + ' ' + user.lastName;
   const [inputIsPressed, setInputIsPressed] = useState(false);
   const [answerData, setAnswerData] = useState({
     content: null,
@@ -37,24 +39,42 @@ const AnswerEstimate = ({
   };
 
   const handleUpdateAnswer = () => {
+    let arrayOfAnswerToFetch = [];
     if (
-      answerData.content !== answer.content ||
+      (answer && answerData.content !== answer.content) ||
       answerData.price !== answer.price
     ) {
-      setGenerateButton(true);
-      fetchAnswer('PUT', answerData, answer.id).then((response) => {
-        if (response.answer) {
-          setAnswerList(
-            answerList.map((el) =>
-              el.id === response.answer.answer.id
-                ? { ...el, ...response.answer.answer }
+      fetchAnswer('PUT', answerData, answer.id)
+        .then((response) => response.answer)
+        .then((answerUpdated) => {
+          if (answerUpdated) {
+            setAnswerList(
+              answerList.map((el) =>
+                el.id === answerUpdated.answer.id
+                  ? { ...el, ...answerUpdated.answer }
+                  : el,
+              ),
+            );
+            arrayOfAnswerToFetch = answerList.map((el) =>
+              el.id === answerUpdated.answer.id
+                ? { ...el, ...answerUpdated.answer }
                 : el,
-            ),
-          );
-          setInputIsPressed(false);
-          setAddingAnswerIsPressed(false);
-        }
-      });
+            );
+            const { estimate_id: estimateIdFetched } =
+              answerUpdated.answer.Estimate_has_Answer[0];
+            setInputIsPressed(false);
+            setAddingAnswerIsPressed(false);
+            return { estimateIdFetched, arrayOfAnswerToFetch };
+          }
+        })
+        .then((dataForUpdate) =>
+          fetchUpdateEstimate(
+            dataForUpdate.arrayOfAnswerToFetch,
+            userName,
+            dataForUpdate.estimateIdFetched,
+            user.id,
+          ),
+        );
     } else {
       setInputIsPressed(false);
       setGenerateButton(false);
@@ -62,17 +82,32 @@ const AnswerEstimate = ({
   };
 
   const handleDeleteAnswer = async () => {
+    let arrayOfAnswerToFetch = [];
     await fetchAnswer('DELETE', answerData, answer.id)
-      .then((response) => {
-        if (response.answer) {
+      .then((response) => response.answer)
+      .then((answerDeleted) => {
+        if (answerDeleted) {
           setAnswerList(
-            answerList.filter((el) => el.id !== response.answer.id),
+            answerList.filter((el) => el.id !== answerDeleted.answer.id),
           );
+          arrayOfAnswerToFetch = answerList.filter(
+            (el) => el.id !== answerDeleted.answer.id,
+          );
+          const { estimate_id: estimateIdFetched } =
+            answerDeleted.answer.Estimate_has_Answer[0];
           setInputIsPressed(false);
           setAddingAnswerIsPressed(false);
+          return { estimateIdFetched, arrayOfAnswerToFetch };
         }
       })
-      .then(() => handleUpdateAnswer());
+      .then((dataForDelete) =>
+        fetchUpdateEstimate(
+          dataForDelete.arrayOfAnswerToFetch,
+          userName,
+          dataForDelete.estimateIdFetched,
+          user.id,
+        ),
+      );
   };
 
   const testInput = () => {
