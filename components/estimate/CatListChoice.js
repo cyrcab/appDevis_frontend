@@ -6,6 +6,8 @@ const CatListChoice = ({
   setCategory,
   category,
   setSelectorIsOpen,
+  estimate,
+  setEstimate,
 }) => {
   return (
     <Main>
@@ -16,6 +18,7 @@ const CatListChoice = ({
               key={i}
               onPress={() => {
                 setCategory({ ...category, id: el.id, name: el.name });
+                setEstimate({ ...estimate, category_id: el.id });
                 setSelectorIsOpen(false);
               }}
             >

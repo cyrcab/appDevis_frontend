@@ -17,17 +17,13 @@ const CategoryChoice = ({ estimate, setEstimate }) => {
     fetchCategory('GET')
       .then((response) => setListChoice(response.category))
       .catch((err) => console.log(err));
-    if (estimate.category_id) {
+    if (estimate.category_id && estimate.price) {
       setCategory({
         id: estimate.category_id,
         name: estimate.Category.name,
       });
     }
   }, [estimate]);
-
-  // useEffect(() => {
-  //   setEstimate({ ...estimate, category_id: category.id });
-  // }, [category]);
 
   return (
     <Main>
@@ -41,6 +37,8 @@ const CategoryChoice = ({ estimate, setEstimate }) => {
         <CategoryLabelList>
           <CatListChoice
             choices={listChoice}
+            setEstimate={setEstimate}
+            estimate={estimate}
             setCategory={setCategory}
             category={category}
             setSelectorIsOpen={setSelectorIsOpen}

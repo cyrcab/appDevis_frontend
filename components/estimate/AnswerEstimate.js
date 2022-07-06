@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 
 import fetchAnswer from '../../helpers/api/fetchAnswer';
-// import DeleteButton from '../../components/styled-components/buttons/DeleteButton';
+import Icon from 'react-native-vector-icons/Feather';
 
 const AnswerEstimate = ({
   answer,
@@ -61,6 +61,20 @@ const AnswerEstimate = ({
     }
   };
 
+  const handleDeleteAnswer = async () => {
+    await fetchAnswer('DELETE', answerData, answer.id)
+      .then((response) => {
+        if (response.answer) {
+          setAnswerList(
+            answerList.filter((el) => el.id !== response.answer.id),
+          );
+          setInputIsPressed(false);
+          setAddingAnswerIsPressed(false);
+        }
+      })
+      .then(() => handleUpdateAnswer());
+  };
+
   const testInput = () => {
     if (answerData.content && answerData.price) {
       return true;
@@ -89,9 +103,9 @@ const AnswerEstimate = ({
         }
         placeholder="Prix"
       />
-      {/* <ButtonContainer>
-        <DeleteButton action={handleDeleteAnswer} />
-      </ButtonContainer> */}
+      <DeleteButton onPress={handleDeleteAnswer}>
+        <Icon name="x" size={20} color="#8c8787" />
+      </DeleteButton>
     </Main>
   );
 };
@@ -100,6 +114,7 @@ const Main = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 3%;
 `;
@@ -107,7 +122,7 @@ const InputContent = styled.TextInput`
   border: 1px solid black;
   padding: 3%;
   background: #fdfdff;
-  width: 80%;
+  width: 65%;
   border-radius: 5px;
   margin-bottom: ${(props) => (props.isPressed ? '60%' : '0')};
 `;
@@ -115,9 +130,14 @@ const InputPrice = styled.TextInput`
   border: 1px solid black;
   padding: 3%;
   background: #fdfdff;
-  width: 15%;
+  width: 25%;
   border-radius: 5px;
   margin-bottom: ${(props) => (props.isPressed ? '60%' : '0')};
+`;
+const DeleteButton = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 export default AnswerEstimate;

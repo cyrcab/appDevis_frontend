@@ -57,7 +57,7 @@ export const fetchUpdateEstimate = async (
         null,
         null,
         estimateId,
-      ).then((response) => console.log(response));
+      ).then((response) => response);
     });
     await fetchEstimate(
       'PUT',
