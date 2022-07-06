@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from '../../screens/admin/Home';
 import AccountStackScreen from '../../helpers/AccountStackScreen';
-import NotificationsStackScreen from '../../helpers/NotificationsStackScreen';
 import ParametersStackScreen from '../../helpers/ParametersStackScreen';
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavbar = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [nbrOfUserNotifications, setNbrOfUserNotification] = useState(2);
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -45,14 +41,6 @@ const BottomNavbar = () => {
         options={{
           title: 'App Devis',
           tabBarLabel: 'Accueil',
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={NotificationsStackScreen}
-        options={{
-          tabBarBadge:
-            nbrOfUserNotifications > 0 ? nbrOfUserNotifications : null,
         }}
       />
       <Tab.Screen name="Compte" component={AccountStackScreen} />
