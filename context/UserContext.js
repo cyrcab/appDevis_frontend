@@ -11,7 +11,6 @@ const UserProvider = ({ children }) => {
     isConnected: false,
     mail: null,
     role_id: null,
-    role_name: null,
   });
 
   return <Provider value={{ user, setUser }}>{children}</Provider>;

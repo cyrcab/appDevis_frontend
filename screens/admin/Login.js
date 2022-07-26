@@ -32,12 +32,13 @@ const Login = ({ navigation }) => {
       if (!response.data) {
         displayAlertError(response);
       }
-      const { accessToken, refreshToken } = response.data;
+      const { accessToken, refreshToken, userId } = response.data;
 
       authContext.setAuthState({
         accessToken,
         refreshToken,
         authenticated: true,
+        authenticatedUserId: userId,
       });
 
       saveItem(
@@ -49,7 +50,6 @@ const Login = ({ navigation }) => {
       );
     } catch (error) {
       displayAlertError(error.response);
-      console.error(error);
     }
   };
 

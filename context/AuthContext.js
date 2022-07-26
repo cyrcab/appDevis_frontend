@@ -9,6 +9,7 @@ const AuthProvider = ({ children }) => {
     accessToken: null,
     refreshToken: null,
     authenticated: null,
+    authenticatedUserId: null,
   });
 
   const logout = async () => {
@@ -17,6 +18,7 @@ const AuthProvider = ({ children }) => {
       accessToken: null,
       refreshToken: null,
       authenticated: false,
+      authenticatedUserId: null,
     });
   };
 

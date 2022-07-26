@@ -27,8 +27,6 @@ import Category from './screens/admin/category/Category';
 
 // context
 import { AuthContext } from '../appDevis_frontend/context/AuthContext';
-import { UserContext } from './context/UserContext';
-import { AxiosContext } from './context/AxiosContext';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -36,8 +34,6 @@ const Stack = createNativeStackNavigator();
 
 const AppContainer = () => {
   const authContext = useContext(AuthContext);
-  const userContext = useContext(UserContext);
-  const axiosContext = useContext(AxiosContext);
   const [status, setStatus] = useState('loading');
 
   const loadJWT = useCallback(async () => {
@@ -49,6 +45,7 @@ const AppContainer = () => {
         accessToken: jwt.accessToken || null,
         refreshToken: jwt.refreshToken || null,
         authenticated: jwt.authenticated !== null,
+        authenticatedUserId: jwt.authenticatedUserId || null,
       });
 
       setStatus('success');

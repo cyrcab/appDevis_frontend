@@ -50,12 +50,14 @@ const AxiosProvider = ({ children }) => {
         authContext.setAuthState({
           ...authContext.authState,
           accessToken: tokenRefreshResponse.accessToken,
+          authenticatedUserId: tokenRefreshResponse.data.userId,
         });
 
         await saveItem(
           '_token',
           JSON.stringify({
             accessToken: tokenRefreshResponse.data.accessToken,
+            authenticatedUserId: tokenRefreshResponse.data.userId,
             refreshToken: authContext.authState.refreshToken,
           }),
         );

@@ -4,9 +4,16 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AccountInfos = ({ user }) => {
-  const { mail, role_name, firstName, lastName } = user;
+  const { mail, firstName, lastName, role_id } = user;
 
   const nameToDisplay = firstName + ' ' + lastName;
+  let roleName;
+
+  if (role_id) {
+    if (role_id === 1) {
+      roleName = 'Admin';
+    }
+  }
 
   return (
     <Main>
@@ -16,7 +23,7 @@ const AccountInfos = ({ user }) => {
       <InfoContainer>
         <TextName>{mail}</TextName>
         <Text>{nameToDisplay.toUpperCase()}</Text>
-        <Text>{role_name ? role_name : user.Role.Name}</Text>
+        <Text>{roleName}</Text>
       </InfoContainer>
     </Main>
   );
