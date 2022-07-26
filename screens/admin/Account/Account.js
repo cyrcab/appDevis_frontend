@@ -1,14 +1,14 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
 
 import AccountInfos from '../../../components/account/AccountInfos';
 import AccountParameterList from '../../../components/parameters/ParameterList';
+import { UserContext } from '../../../context/UserContext';
 
 import { PARAMETERS } from '../../../app/datas/accountParametersList';
 
 const Account = () => {
-  const user = useSelector((state) => state.auth);
+  const { user } = useContext(UserContext);
 
   return (
     <Main>
