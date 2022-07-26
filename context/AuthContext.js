@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import * as Keychain from 'react-native-keychain';
+import { deleteItem } from '../helpers/secureStore';
 
 const AuthContext = createContext(null);
 const { Provider } = AuthContext;
@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   });
 
   const logout = async () => {
-    await Keychain.resetGenericPassword();
+    await deleteItem('_token');
     setAuthState({
       accessToken: null,
       refreshToken: null,

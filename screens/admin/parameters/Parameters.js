@@ -1,23 +1,37 @@
-import React from 'react';
-import { DISCONNECT } from '../../../features/userSlice';
-import { useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
 
 import ParameterList from '../../../components/parameters/ParameterList';
 import LogoutButton from '../../../components/styled-components/buttons/LogoutButton';
+import displayAlertError from '../../../helpers/Alert/errorAlert';
 import { PARAMETERS } from '../../../app/datas/parametersList';
+import { AuthContext } from '../../../context/AuthContext';
+import { AxiosContext } from '../../../context/AxiosContext';
 
 const Paramaters = () => {
-  const dispatch = useDispatch();
-  const disconnectUser = () => {
-    dispatch(DISCONNECT());
-  };
+  const authContext = useContext(AuthContext);
+  const axiosContext = useContext(AxiosContext);
 
+  const handleDeconnectUser = async () => {
+    try {
+      const tokenIsDeleted = await axiosContext.publicAxios.delete(
+        `/signout/${authContext.authState.refreshToken}`,
+      );
+
+      if (!tokenIsDeleted) {
+        return;
+      }
+
+      authContext.logout();
+    } catch (error) {
+      displayAlertError(error);
+    }
+  };
   return (
     <Main>
       <Title>Paramètres de l'application</Title>
       <ParameterList parameters={PARAMETERS} />
-      <LogoutButton onPress={disconnectUser} />
+      <LogoutButton onPress={handleDeconnectUser} />
     </Main>
   );
 };

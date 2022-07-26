@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { CONNECT } from '../../features/userSlice';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../../appDevis_frontend/context/AuthContext';
+import { AxiosContext } from '../../../appDevis_frontend/context/AxiosContext';
+import { saveItem } from '../../helpers/secureStore';
+import displayAlertError from '../../helpers/Alert/errorAlert';
+
 import {
   View,
   Text,
@@ -10,24 +13,43 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import connectUser from '../../helpers/authentification/connectUser';
 
 const Login = ({ navigation }) => {
-  const dispatch = useDispatch();
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
+  const authContext = useContext(AuthContext);
+  const { publicAxios } = useContext(AxiosContext);
+
   const handleLoginUser = async () => {
-    const user = await connectUser(mail, password);
-    if (Array.isArray(user) || !user.isConnected) {
-      setErrors([...user]);
-    } else {
-      dispatch(
-        CONNECT({
-          ...user,
+    try {
+      const response = await publicAxios.post('/signin', {
+        mail,
+        password,
+      });
+
+      if (!response.data) {
+        displayAlertError(response);
+      }
+      const { accessToken, refreshToken } = response.data;
+
+      authContext.setAuthState({
+        accessToken,
+        refreshToken,
+        authenticated: true,
+      });
+
+      saveItem(
+        '_token',
+        JSON.stringify({
+          accessToken,
+          refreshToken,
         }),
       );
+    } catch (error) {
+      displayAlertError(error.response);
+      console.error(error);
     }
   };
 

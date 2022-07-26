@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { getValueFor } from './helpers/secureStore';
 
 // import de la page de connexion
 import LoginStackScreen from './helpers/LoginStackScreen';
@@ -24,20 +25,52 @@ import CreateAccount from './screens/admin/Account/CreateAccount';
 // Page gestion catégories
 import Category from './screens/admin/category/Category';
 
-// import des outils pour redux
-import { useSelector } from 'react-redux';
+// context
+import { AuthContext } from '../appDevis_frontend/context/AuthContext';
+import { UserContext } from './context/UserContext';
+import { AxiosContext } from './context/AxiosContext';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
 const Stack = createNativeStackNavigator();
 
 const AppContainer = () => {
-  const user = useSelector((state) => state.auth);
+  const authContext = useContext(AuthContext);
+  const userContext = useContext(UserContext);
+  const axiosContext = useContext(AxiosContext);
+  const [status, setStatus] = useState('loading');
+
+  const loadJWT = useCallback(async () => {
+    try {
+      const value = await getValueFor('_token');
+      const jwt = JSON.parse(value);
+
+      authContext.setAuthState({
+        accessToken: jwt.accessToken || null,
+        refreshToken: jwt.refreshToken || null,
+        authenticated: jwt.authenticated !== null,
+      });
+
+      setStatus('success');
+    } catch (error) {
+      setStatus('error');
+      authContext.setAuthState({
+        accessToken: null,
+        refreshToken: null,
+        authenticated: false,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    loadJWT();
+  }, [loadJWT]);
 
   return (
     <NavigationContainer>
       <StatusBar barStyle="light-content" />
-      {user.isConnected ? (
+      {authContext.authState.authenticated ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,

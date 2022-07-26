@@ -1,32 +1,26 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ItemInfos = ({ title, link, autorisedRole }) => {
-  const user = useSelector((state) => state.auth);
   const navigation = useNavigation();
 
-  const userHadAutorisation = () => {
-    let isAutorised = true;
+  // const userHadAutorisation = () => {
+  //   let isAutorised = true;
 
-    if (autorisedRole) {
-      if (user.role_name.toLowerCase() !== autorisedRole.toLowerCase()) {
-        return (isAutorised = false);
-      }
-    }
-    return isAutorised;
-  };
+  //   if (autorisedRole) {
+  //     if (user.role_name.toLowerCase() !== autorisedRole.toLowerCase()) {
+  //       return (isAutorised = false);
+  //     }
+  //   }
+  //   return isAutorised;
+  // };
 
   return (
     <TouchableWrapper>
-      <Main
-        onPress={() => {
-          userHadAutorisation() ? navigation.navigate(link) : null;
-        }}
-      >
+      <Main onPress={() => navigation.navigate(link)}>
         <Content>{title}</Content>
         <Icon name="chevron-right" size={25} color="#A8A39A" />
       </Main>
