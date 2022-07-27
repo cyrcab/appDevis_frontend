@@ -18,14 +18,14 @@ const EstimateList = () => {
   const fetchData = useCallback(async () => {
     await authAxios
       .get('/api/files')
-      .then((data) => data.estimate)
+      .then((res) => res.data)
       .then((estimate) => {
         if (searchedWord !== '') {
           setEstimateList(
             estimate.filter(
               (e) =>
-                e.Customer.company.includes(searchedWord.toLowerCase()) ||
-                e.Customer.company.includes(searchedWord.toUpperCase()),
+                e.customer.company.includes(searchedWord.toLowerCase()) ||
+                e.customer.company.includes(searchedWord.toUpperCase()),
             ),
           );
         } else {
@@ -33,7 +33,7 @@ const EstimateList = () => {
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchedWord]);
 
   useEffect(() => {
     fetchData();

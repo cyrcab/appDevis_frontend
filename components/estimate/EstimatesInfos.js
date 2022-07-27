@@ -7,7 +7,7 @@ import fetchEstimate from '../../helpers/api/fetchEstimate';
 
 const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
   const navigation = useNavigation();
-  const { Category, Customer, Estimate_has_Answer } = estimate;
+  const { customer } = estimate;
   const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
   const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
 
@@ -22,7 +22,7 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
         <TitleContainer
           onPress={() => setEstimateInfoIsOpen(!estimateInfoIsOpen)}
         >
-          <Text>{Customer.company} </Text>
+          <Text>{customer.company} </Text>
           <ChevronContainer>
             {estimateInfoIsOpen ? (
               <Icon name="down" size={20} />
@@ -42,10 +42,6 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
             <Text>{estimate.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
           </InfosContainer>
           <InfosContainer>
-            <TextTitle>Catégorie :</TextTitle>
-            <Text>{Category.name}</Text>
-          </InfosContainer>
-          <InfosContainer>
             <TextTitle>Prix total</TextTitle>
             <DisplayAnswers
               onPress={() => setAnswerDetailsIsOpen(!answerDetailsIsOpen)}
@@ -54,29 +50,16 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
               <Icon name={answerDetailsIsOpen ? 'down' : 'right'} size={15} />
             </DisplayAnswers>
             <Text>{estimate.price}</Text>
-          </InfosContainer>
-          {answerDetailsIsOpen ? (
-            <AnswerListWrapper>
-              {Estimate_has_Answer.length > 0 &&
-                Estimate_has_Answer.map((el) => (
-                  <AnswerDetailContainer key={el.Answer.id}>
-                    <Text>{el.Answer.content}</Text>
-                    <Text>{el.Answer.price}</Text>
-                  </AnswerDetailContainer>
-                ))}
-            </AnswerListWrapper>
-          ) : null}
-          <InfosContainer>
             <TextTitle>Nom du client :</TextTitle>
-            <Text>{Customer.firstname + ' ' + Customer.lastname}</Text>
+            <Text>{customer.firstname + ' ' + customer.lastname}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Mail du client :</TextTitle>
-            <Text>{Customer.mail}</Text>
+            <Text>{customer.mail}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Numéro du client :</TextTitle>
-            <Text>{Customer.phone}</Text>
+            <Text>{customer.phone}</Text>
           </InfosContainer>
           <ButtonWrapper>
             <Button
