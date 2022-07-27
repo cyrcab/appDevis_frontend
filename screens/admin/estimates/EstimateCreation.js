@@ -130,7 +130,7 @@ const FileCreation = ({ route }) => {
         </FormContainer>
         <AnswerListWrapper>
           <TitleList>Liste des pack</TitleList>
-          <PackList list={packList} />
+          <PackList list={packList} setList={setPackList} />
           {/* {addingAnswerIsPressed ? (
             <AnswerEstimate
               setAddingAnswerIsPressed={setAddingAnswerIsPressed}
