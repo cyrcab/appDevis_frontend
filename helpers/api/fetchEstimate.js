@@ -1,6 +1,8 @@
-import axios from './axios.config';
+import { useContext } from 'react';
+import { AxiosContext } from '../../context/AxiosContext';
 
-const fetchEstimate = async (action, credentials, userName, estimateId) => {
+const FetchEstimate = async (action, credentials, userName, estimateId) => {
+  const { authAxios } = useContext(AxiosContext);
   const acceptedAction = ['CREATE', 'PUT', 'DELETE', 'GET'];
   let errors;
   let estimate;
@@ -12,25 +14,25 @@ const fetchEstimate = async (action, credentials, userName, estimateId) => {
   }
 
   if (action === 'GET') {
-    await axios
+    await authAxios
       .get('/api/estimates')
       .then((response) => response.data)
       .then((data) => (estimate = data))
       .catch((err) => (errors = err));
   } else if (action === 'CREATE') {
-    await axios
+    await authAxios
       .post('/api/estimates', { ...credentials })
       .then((response) => response.data)
       .then((data) => (estimate = data))
       .catch((err) => (errors = err));
   } else if (action === 'DELETE') {
-    await axios
+    await authAxios
       .delete(`/api/estimates/${credentials}`)
       .then((response) => response.data)
       .then((data) => (estimate = data))
       .catch((err) => (errors = err));
   } else if (action === 'PUT') {
-    await axios
+    await authAxios
       .put(`/api/estimates/${estimateId}`, { ...credentials })
       .then((response) => response.data)
       .then((data) => (estimate = data))
@@ -40,4 +42,4 @@ const fetchEstimate = async (action, credentials, userName, estimateId) => {
   return { estimate, errors };
 };
 
-export default fetchEstimate;
+export default FetchEstimate;

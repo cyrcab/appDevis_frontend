@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
+
+import { UserContext } from '../../../context/UserContext';
 
 import FormChoice from '../../../components/styled-components/buttons/FormChoice';
 import EstimateForm from '../../../components/estimate/EstimateForm';
@@ -16,8 +17,9 @@ import {
 } from './function/handleFetchEstimate';
 
 const EstimateCreation = ({ route }) => {
-  const user = useSelector((state) => state.auth);
+  const { user } = useContext(UserContext);
   const userName = user.firstName + ' ' + user.lastName;
+
   const [formToDisplay, setFormToDisplay] = useState(null);
   const [addingAnswerIsPressed, setAddingAnswerIsPressed] = useState(false);
   const [generateButton, setGenerateButton] = useState(false);

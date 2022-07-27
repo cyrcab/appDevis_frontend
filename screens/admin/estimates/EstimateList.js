@@ -1,48 +1,49 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from 'styled-components/native';
 import { RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { AxiosContext } from '../../../context/AxiosContext';
+
 import RenderEstimateInList from '../../../components/estimate/RenderEstimateInList';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
-import fetchEstimate from '../../../helpers/api/fetchEstimate';
-
 const EstimateList = () => {
+  const { authAxios } = useContext(AxiosContext);
   const navigation = useNavigation();
   const [estimateList, setEstimateList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [searchedWord, setSearchedWord] = useState('');
 
+  const fetchData = useCallback(async () => {
+    await authAxios
+      .get('/api/files')
+      .then((data) => data.estimate)
+      .then((estimate) => {
+        if (searchedWord !== '') {
+          setEstimateList(
+            estimate.filter(
+              (e) =>
+                e.Customer.company.includes(searchedWord.toLowerCase()) ||
+                e.Customer.company.includes(searchedWord.toUpperCase()),
+            ),
+          );
+        } else {
+          setEstimateList(estimate);
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchEstimate('GET')
-        .then((data) => data.estimate)
-        .then((estimate) => {
-          if (searchedWord !== '') {
-            setEstimateList(
-              estimate.filter(
-                (e) =>
-                  e.Customer.company.includes(searchedWord.toLowerCase()) ||
-                  e.Customer.company.includes(searchedWord.toUpperCase()),
-              ),
-            );
-          } else {
-            setEstimateList(estimate);
-          }
-        });
-    };
     fetchData();
-  }, [searchedWord]);
+  }, [fetchData]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    const fetchData = async () => {
-      const { estimate } = await fetchEstimate('GET');
-      setEstimateList(estimate);
-      setRefreshing(false);
-    };
     fetchData();
+    setRefreshing(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
