@@ -1,17 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
 import { AxiosContext } from '../../context/AxiosContext';
+import { UserContext } from '../../context/UserContext';
+import displayAlertError from '../../helpers/Alert/errorAlert';
 
 const OptionRender = ({
   option,
   setOptionList,
   optionList,
   setAddButtonIsPressed,
+  packId,
 }) => {
   const { authAxios } = useContext(AxiosContext);
+  const { user } = useContext(UserContext);
+  const [newOption, setNewOption] = useState({
+    content: null,
+    price_ht: null,
+    user_id: user.id,
+    pack_id: packId,
+  });
 
   const handleDeleteOption = () => {
     if (option) {
@@ -26,25 +36,56 @@ const OptionRender = ({
     }
   };
 
+  const handleAddOption = () => {
+    if (!newOption.content) {
+      displayAlertError("Merci de rentrer un nom d'option");
+      return;
+    }
+    if (!newOption.price_ht) {
+      displayAlertError('Merci de rentrer un prix');
+      return;
+    }
+    authAxios
+      .post('/api/options', newOption)
+      .then((res) => {
+        setOptionList(optionList.concat(res.data));
+        setAddButtonIsPressed(false);
+      })
+      .catch((err) => displayAlertError(err));
+  };
+
   return (
     <Main>
       <CrossContainer onPress={handleDeleteOption}>
         <Icon name="cross" size={30} color="rgba(31, 19, 0, 0.3)" />
       </CrossContainer>
       <Text>Nom de l'option</Text>
-      <InputName placeholder="Nom de l'option">
+      <InputName
+        placeholder="Nom de l'option"
+        onChangeText={(text) => setNewOption({ ...newOption, content: text })}
+        value={newOption.content}
+      >
         {option && option.content}
       </InputName>
       <PriceWrapper>
-        <PriceContainer>
-          <Text>Prix TTC</Text>
-          <InputPrice placeholder="Prix TTC de l'option">
-            {option && option.price_ttc}
-          </InputPrice>
-        </PriceContainer>
+        {option && (
+          <PriceContainer>
+            <Text>Prix TTC</Text>
+            <InputPrice placeholder="Prix TTC de l'option">
+              {option && option.price_ttc}
+            </InputPrice>
+          </PriceContainer>
+        )}
         <PriceContainer>
           <Text>Prix HT</Text>
-          <InputPrice placeholder="Prix HT de l'option">
+          <InputPrice
+            placeholder="Prix HT de l'option"
+            onChangeText={(text) =>
+              setNewOption({ ...newOption, price_ht: parseFloat(text) })
+            }
+            value={newOption.price_ht && newOption.price_ht.toString()}
+            onSubmitEditing={handleAddOption}
+          >
             {option && option.price_ht}
           </InputPrice>
         </PriceContainer>

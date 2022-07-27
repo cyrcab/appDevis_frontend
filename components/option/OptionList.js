@@ -14,7 +14,7 @@ const OptionList = ({ pack }) => {
 
   useEffect(() => {
     authAxios
-      .get(`/api/packs/23`)
+      .get(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((data) => setOptionList(data.option))
       .catch((err) => displayAlertError(err));
@@ -30,6 +30,7 @@ const OptionList = ({ pack }) => {
             <OptionRender
               key={el.id}
               option={el}
+              packId={pack.id}
               optionList={optionList}
               setOptionList={setOptionList}
               setAddButtonIsPressed={setAddButtonIsPressed}
@@ -40,6 +41,7 @@ const OptionList = ({ pack }) => {
         <OptionRender
           setAddButtonIsPressed={setAddButtonIsPressed}
           optionList={optionList}
+          packId={pack.id}
           setOptionList={setOptionList}
         />
       ) : (
