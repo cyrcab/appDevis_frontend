@@ -26,7 +26,7 @@ import CreateAccount from './screens/admin/Account/CreateAccount';
 import Category from './screens/admin/category/Category';
 
 // context
-import { AuthContext } from '../appDevis_frontend/context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
