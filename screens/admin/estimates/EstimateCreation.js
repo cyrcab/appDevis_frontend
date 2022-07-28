@@ -19,15 +19,12 @@ const FileCreation = ({ route }) => {
   const { authAxios } = useContext(AxiosContext);
 
   const [formToDisplay, setFormToDisplay] = useState(null);
-  const [addingAnswerIsPressed, setAddingAnswerIsPressed] = useState(false);
   const [generateButton, setGenerateButton] = useState(false);
-  const [optionList, setOptionList] = useState([]);
   const [packList, setPackList] = useState([]);
   const [file, setFile] = useState({
     type: null,
     user_id: user.id,
     created_by: userName,
-    customer_id: null,
     pack: {
       connect: [],
     },
@@ -91,16 +88,25 @@ const FileCreation = ({ route }) => {
   ]);
 
   const handleCreateFile = async () => {
-    await authAxios
-      .post('/api/customers', customer)
-      .then((res) => setFile({ ...file, customer_id: 12 }))
-      .then(() =>
-        authAxios
-          .post('/api/files', file)
-          .then((res) => console.log(res.data))
-          .catch((error) => displayAlertError(error)),
-      )
-      .catch((error) => displayAlertError(error));
+    try {
+      const newCustomer = await authAxios.post('/api/customers', customer);
+      if (newCustomer.data) {
+        const newFile = await authAxios.post('/api/files', {
+          ...file,
+          customer_id: newCustomer.data.id,
+        });
+
+        if (!newFile) {
+          displayAlertError(
+            "Une erreur s'est produite lors de la création du fichier",
+          );
+        }
+      } else {
+        displayAlertError("Une erreur s'est produite ");
+      }
+    } catch (error) {
+      displayAlertError(error);
+    }
     setDisplayButtons(true);
   };
 
