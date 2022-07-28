@@ -46,7 +46,10 @@ const OptionRender = ({
       return;
     }
     authAxios
-      .post('/api/options', newOption)
+      .post('/api/options', {
+        ...newOption,
+        price_ht: parseFloat(newOption.price_ht),
+      })
       .then((res) => {
         setOptionList(optionList.concat(res.data));
         setAddButtonIsPressed(false);
@@ -81,7 +84,7 @@ const OptionRender = ({
           <InputPrice
             placeholder="Prix HT de l'option"
             onChangeText={(text) =>
-              setNewOption({ ...newOption, price_ht: parseFloat(text) })
+              setNewOption({ ...newOption, price_ht: text })
             }
             value={newOption.price_ht && newOption.price_ht.toString()}
             onSubmitEditing={handleAddOption}

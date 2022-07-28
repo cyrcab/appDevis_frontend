@@ -28,7 +28,9 @@ const FileCreation = ({ route }) => {
     user_id: user.id,
     created_by: userName,
     customer_id: null,
-    price: null,
+    pack: {
+      connect: [],
+    },
   });
   const [customer, setCustomer] = useState({
     firstname: null,
@@ -53,37 +55,53 @@ const FileCreation = ({ route }) => {
     }
   }, [route.params]);
 
+  useEffect(() => {
+    const json = packList.map((el) => `{"id" : ${el.id}}`);
+    const obj = json.map((el) => JSON.parse(el));
+    setFile({ ...file, pack: { connect: obj } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packList]);
+
   // ordre pour fetch
   // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
   // 2. fetch les réponses ==> pour chaque réponse, récupéréer l'id pour le mettre dans le devis en bdd
   // + somme des tous les prix pour donner un prix total sur le devis
   // 3. fetch le devis / facture
 
-  // useEffect(() => {
-  //   if (
-  //     action === 'CREATE' &&
-  //     customer.firstname !== null &&
-  //     customer.lastname !== null &&
-  //     customer.company !== null &&
-  //     customer.phone !== null &&
-  //     customer.mail !== null &&
-  //     answerList.length > 0
-  //   ) {
-  //     setGenerateButton(true);
-  //   }
-  // }, [action, answerList.length, customer]);
+  useEffect(() => {
+    if (
+      action === 'CREATE' &&
+      customer.firstname !== null &&
+      customer.lastname !== null &&
+      customer.company !== null &&
+      customer.phone !== null &&
+      customer.mail !== null &&
+      packList.length > 0
+    ) {
+      setGenerateButton(true);
+    }
+  }, [
+    action,
+    customer.company,
+    customer.firstname,
+    customer.lastname,
+    customer.mail,
+    customer.phone,
+    packList.length,
+  ]);
 
   const handleCreateFile = async () => {
-    try {
-      const estimateCreated = authAxios.post('/api/files', file);
-      if (estimateCreated) {
-        setDisplayButtons(true);
-      } else {
-        displayAlertError('Une erreur est survenue, merci de réessayer');
-      }
-    } catch (error) {
-      displayAlertError(error);
-    }
+    await authAxios
+      .post('/api/customers', customer)
+      .then((res) => setFile({ ...file, customer_id: 12 }))
+      .then(() =>
+        authAxios
+          .post('/api/files', file)
+          .then((res) => console.log(res.data))
+          .catch((error) => displayAlertError(error)),
+      )
+      .catch((error) => displayAlertError(error));
+    setDisplayButtons(true);
   };
 
   // const handleUpdateEstimate = async () => {
