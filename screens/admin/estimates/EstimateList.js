@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components/native';
 import { RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-import { AxiosContext } from '../../../context/AxiosContext';
+import axios from '../../../helpers/api/axios.config';
 
 import RenderEstimateInList from '../../../components/estimate/RenderEstimateInList';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
 const EstimateList = () => {
-  const { authAxios } = useContext(AxiosContext);
   const navigation = useNavigation();
   const [estimateList, setEstimateList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [searchedWord, setSearchedWord] = useState('');
 
   const fetchData = useCallback(async () => {
-    await authAxios
+    await axios
       .get('/api/files')
       .then((res) => res.data)
       .then((estimate) => {

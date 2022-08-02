@@ -6,22 +6,12 @@ import LogoutButton from '../../../components/styled-components/buttons/LogoutBu
 import displayAlertError from '../../../helpers/Alert/errorAlert';
 import { PARAMETERS } from '../../../app/datas/parametersList';
 import { AuthContext } from '../../../context/AuthContext';
-import { AxiosContext } from '../../../context/AxiosContext';
 
 const Paramaters = () => {
   const authContext = useContext(AuthContext);
-  const axiosContext = useContext(AxiosContext);
 
   const handleDeconnectUser = async () => {
     try {
-      const tokenIsDeleted = await axiosContext.publicAxios.delete(
-        `/signout/${authContext.authState.refreshToken}`,
-      );
-
-      if (!tokenIsDeleted) {
-        return;
-      }
-
       authContext.logout();
     } catch (error) {
       displayAlertError(error);

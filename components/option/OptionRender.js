@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { AxiosContext } from '../../context/AxiosContext';
+import axios from '../../helpers/api/axios.config';
 import { UserContext } from '../../context/UserContext';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 
@@ -14,7 +14,6 @@ const OptionRender = ({
   setAddButtonIsPressed,
   packId,
 }) => {
-  const { authAxios } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
   const [newOption, setNewOption] = useState({
     content: null,
@@ -25,7 +24,7 @@ const OptionRender = ({
 
   const handleDeleteOption = () => {
     if (option) {
-      authAxios
+      axios
         .delete(`/api/options/${option.id}`)
         .then((res) => res.data)
         .then((optionDeleted) =>
@@ -45,7 +44,7 @@ const OptionRender = ({
       displayAlertError('Merci de rentrer un prix');
       return;
     }
-    authAxios
+    axios
       .post('/api/options', {
         ...newOption,
         price_ht: parseFloat(newOption.price_ht),

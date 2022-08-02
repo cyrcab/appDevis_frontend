@@ -5,14 +5,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 import OptionList from '../option/OptionList';
 
-import { AxiosContext } from '../../context/AxiosContext';
+import axios from '../../helpers/api/axios.config';
 
 const PackRender = ({ pack, setList, list }) => {
-  const { authAxios } = useContext(AxiosContext);
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleDeletePack = async () => {
-    authAxios
+  const handleDeletePack = () => {
+    axios
       .delete(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((packDeleted) =>

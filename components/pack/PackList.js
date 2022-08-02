@@ -4,24 +4,23 @@ import PackRender from './PackRender';
 import Icon from 'react-native-vector-icons/AntDesign';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 
-import { AxiosContext } from '../../context/AxiosContext';
+import axios from '../../helpers/api/axios.config';
 import { UserContext } from '../../context/UserContext';
 
 import AddButton from '../styled-components/buttons/AddButton';
 
 const PackList = ({ list, setList }) => {
-  const { authAxios } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
   const [packName, setPackName] = useState(null);
 
-  const fetchPackCreation = async () => {
+  const fetchPackCreation = () => {
     if (packName === null) {
       setAddButtonIsPressed(false);
       return;
     }
 
-    authAxios
+    axios
       .post('/api/packs', {
         name: packName,
         user_id: user.id,

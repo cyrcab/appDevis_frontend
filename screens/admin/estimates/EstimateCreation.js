@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
 
+import axios from '../../../helpers/api/axios.config';
 import { UserContext } from '../../../context/UserContext';
-import { AxiosContext } from '../../../context/AxiosContext';
 
 import PackList from '../../../components/pack/PackList';
 
@@ -16,7 +16,6 @@ import displayAlertError from '../../../helpers/Alert/errorAlert';
 const FileCreation = ({ route }) => {
   const { user } = useContext(UserContext);
   const userName = user.firstName + ' ' + user.lastName;
-  const { authAxios } = useContext(AxiosContext);
 
   const [formToDisplay, setFormToDisplay] = useState(null);
   const [generateButton, setGenerateButton] = useState(false);
@@ -89,9 +88,9 @@ const FileCreation = ({ route }) => {
 
   const handleCreateFile = async () => {
     try {
-      const newCustomer = await authAxios.post('/api/customers', customer);
+      const newCustomer = await axios.post('/api/customers', customer);
       if (newCustomer.data) {
-        const newFile = await authAxios.post('/api/files', {
+        const newFile = await axios.post('/api/files', {
           ...file,
           customer_id: newCustomer.data.id,
         });
