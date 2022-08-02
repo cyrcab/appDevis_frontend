@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 import AddButton from '../styled-components/buttons/AddButton';
 
 import axios from '../../helpers/api/axios.config';
-import { UserContext } from '../../context/UserContext';
 import OptionRender from './OptionRender';
 
 const OptionList = ({ pack }) => {

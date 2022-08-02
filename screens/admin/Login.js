@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
       setUser({ ...user, ...connection.data });
       setAuthState({ authenticated: true });
     } catch (error) {
-      displayAlertError(error.response.data.message);
+      setAuthState({ authenticated: false });
     }
   };
 

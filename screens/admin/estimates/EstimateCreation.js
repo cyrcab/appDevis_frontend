@@ -58,12 +58,6 @@ const FileCreation = ({ route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packList]);
 
-  // ordre pour fetch
-  // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
-  // 2. fetch les réponses ==> pour chaque réponse, récupéréer l'id pour le mettre dans le devis en bdd
-  // + somme des tous les prix pour donner un prix total sur le devis
-  // 3. fetch le devis / facture
-
   useEffect(() => {
     if (
       action === 'CREATE' &&

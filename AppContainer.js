@@ -43,10 +43,10 @@ const AppContainer = () => {
       .get('/check-token')
       .then((res) => res.data)
       .then((userChecked) => {
-        setUser({ ...user, userChecked });
+        setUser({ ...user, ...userChecked });
         authContext.setAuthState({ authenticated: true });
       })
-      .catch((error) => console.error({ ...error }));
+      .catch((error) => authContext.setAuthState({ authenticated: false }));
   };
 
   useEffect(() => {

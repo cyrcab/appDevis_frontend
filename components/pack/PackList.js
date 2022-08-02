@@ -15,7 +15,7 @@ const PackList = ({ list, setList }) => {
   const [packName, setPackName] = useState(null);
 
   const fetchPackCreation = () => {
-    if (packName === null) {
+    if (packName.length === null) {
       setAddButtonIsPressed(false);
       return;
     }

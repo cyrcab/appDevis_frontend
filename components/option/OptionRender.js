@@ -1,6 +1,10 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 
+import { Platform } from 'react-native';
+
+import DuoButton from '../styled-components/buttons/DuoButton';
+
 import Icon from 'react-native-vector-icons/Entypo';
 
 import axios from '../../helpers/api/axios.config';
@@ -16,8 +20,8 @@ const OptionRender = ({
 }) => {
   const { user } = useContext(UserContext);
   const [newOption, setNewOption] = useState({
-    content: null,
-    price_ht: null,
+    content: option ? option.content : null,
+    price_ht: option ? option.price_ht : null,
     user_id: user.id,
     pack_id: packId,
   });
@@ -53,8 +57,10 @@ const OptionRender = ({
         setOptionList(optionList.concat(res.data));
         setAddButtonIsPressed(false);
       })
-      .catch((err) => displayAlertError(err));
+      .catch((err) => console.error(err));
   };
+
+  console.log(newOption);
 
   return (
     <Main>
@@ -66,16 +72,15 @@ const OptionRender = ({
         placeholder="Nom de l'option"
         onChangeText={(text) => setNewOption({ ...newOption, content: text })}
         value={newOption.content}
-      >
-        {option && option.content}
-      </InputName>
+      />
       <PriceWrapper>
         {option && (
           <PriceContainer>
             <Text>Prix TTC</Text>
-            <InputPrice placeholder="Prix TTC de l'option">
-              {option && option.price_ttc}
-            </InputPrice>
+            <InputPrice
+              placeholder="Prix TTC de l'option"
+              value={option.price_ttc}
+            />
           </PriceContainer>
         )}
         <PriceContainer>
@@ -85,12 +90,15 @@ const OptionRender = ({
             onChangeText={(text) =>
               setNewOption({ ...newOption, price_ht: text })
             }
-            value={newOption.price_ht && newOption.price_ht.toString()}
-            onSubmitEditing={handleAddOption}
-          >
-            {option && option.price_ht}
-          </InputPrice>
+            value={newOption.price_ht}
+          />
         </PriceContainer>
+        <DuoButton
+          textLeft="Annuler"
+          textRight="Confirmer"
+          actionRight={() => handleAddOption()}
+          righIsClickable={true}
+        />
       </PriceWrapper>
     </Main>
   );
@@ -113,12 +121,14 @@ const InputName = styled.TextInput`
   font-weight: 600;
   border-radius: 5px;
 `;
+
 const InputPrice = styled.TextInput`
   font-size: 15px;
   border: 1px solid #1f1300;
   border-radius: 5px;
   padding: 2% 5%;
 `;
+
 const Text = styled.Text`
   margin-bottom: 5px;
   font-weight: 600;

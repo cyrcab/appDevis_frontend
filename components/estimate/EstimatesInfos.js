@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
-import fetchEstimate from '../../helpers/api/fetchEstimate';
+import axios from '../../helpers/api/axios.config';
 
 const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
   const navigation = useNavigation();
@@ -12,8 +12,13 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
   const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
-    setEstimateList(estimateList.filter((el) => el.id !== estimate.id));
-    fetchEstimate('DELETE', estimate.id);
+    axios
+      .delete(`/api/files/${estimate.id}`)
+      .then((res) => res.data)
+      .then((deletedFile) =>
+        setEstimateList(estimateList.filter((el) => el.id !== deletedFile.id)),
+      )
+      .catch((err) => console.error(err));
   };
 
   return (
