@@ -1,28 +1,21 @@
 import React from 'react';
-import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import ItemInfos from '../account/ItemInfos';
 
 const ParameterList = ({ parameters }) => {
-  const renderItem = ({ item }) => {
-    return (
-      <ItemInfos
-        title={item.title}
-        link={item.link}
-        autorisedRole={item.autorisedRole}
-      />
-    );
-  };
-
   return (
     <ListWrapper>
-      <FlatList
-        data={parameters}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        horizontal="false"
-      />
+      {parameters.length > 0
+        ? parameters.map((el, i) => (
+            <ItemInfos
+              key={i}
+              title={el.title}
+              link={el.link}
+              autorisedRole={el.autorisedRole}
+            />
+          ))
+        : null}
     </ListWrapper>
   );
 };

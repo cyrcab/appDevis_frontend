@@ -7,8 +7,9 @@ const RenderEstimateInList = ({ estimateList, setEstimateList }) => {
   return (
     <Main>
       {estimateList.length > 0
-        ? estimateList.map((el) => (
+        ? estimateList.map((el, i) => (
             <EstimatesInfos
+              key={i}
               file={el}
               setEstimateList={setEstimateList}
               estimateList={estimateList}

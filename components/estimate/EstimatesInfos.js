@@ -9,7 +9,6 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   const navigation = useNavigation();
   const { customer } = file;
   const [fileInfoOpen, setFileInfoOpen] = useState(false);
-  const [packDetailsOpen, setPackDetailsOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
     axios
@@ -100,13 +99,6 @@ const TitleContainer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
 `;
-
-const DisplayAnswers = styled.TouchableOpacity`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const DisplayAnswersText = styled.Text``;
 
 const ChevronContainer = styled.View``;
 const Text = styled.Text`
