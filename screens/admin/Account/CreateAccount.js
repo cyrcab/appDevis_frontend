@@ -3,8 +3,6 @@ import styled from 'styled-components/native';
 import { Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { createUser } from '../../../helpers/api/fetchApi';
-
 import UserCreation from '../../../components/user/UserCreation';
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
@@ -35,19 +33,19 @@ const CreateAccount = () => {
     handleButtonStatus();
   }, [newUser.firstName, newUser.lastName, newUser.mail, newUser.role_id]);
 
-  const handleCreateUser = async () => {
-    const response = await createUser(newUser);
+  // const handleCreateUser = async () => {
+  //   const response = await createUser(newUser);
 
-    const { errors, userDatas } = response;
-    if (errors) {
-      const { isCreated } = errors;
-      showAlertInfo(isCreated);
-    }
-    if (userDatas) {
-      const { isCreated } = userDatas;
-      showAlertInfo(isCreated);
-    }
-  };
+  //   const { errors, userDatas } = response;
+  //   if (errors) {
+  //     const { isCreated } = errors;
+  //     showAlertInfo(isCreated);
+  //   }
+  //   if (userDatas) {
+  //     const { isCreated } = userDatas;
+  //     showAlertInfo(isCreated);
+  //   }
+  // };
 
   const showAlertInfo = (condition) => {
     if (condition === true) {
@@ -86,7 +84,7 @@ const CreateAccount = () => {
         <FirstButton
           text="Créer"
           isClickable={isClickable}
-          action={handleCreateUser}
+          // action={handleCreateUser}
         />
       </ButtonContainer>
     </Main>

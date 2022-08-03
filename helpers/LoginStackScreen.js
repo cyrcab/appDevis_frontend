@@ -18,7 +18,13 @@ const LoginStackScreen = () => {
       }}
     >
       <LoginStack.Screen name="Login" component={Login} />
-      <LoginStack.Screen name="Reset Password" component={ResetPass} />
+      <LoginStack.Screen
+        name="Reset Password"
+        component={ResetPass}
+        options={{
+          headerShown: true,
+        }}
+      />
     </LoginStack.Navigator>
   );
 };
