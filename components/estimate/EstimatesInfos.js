@@ -45,14 +45,8 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
             <Text>{file.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
           </InfosContainer>
           <InfosContainer>
-            <TextTitle>Prix total</TextTitle>
-            <DisplayAnswers
-              onPress={() => setPackDetailsOpen(!packDetailsOpen)}
-            >
-              <DisplayAnswersText>Détails</DisplayAnswersText>
-              <Icon name={packDetailsOpen ? 'down' : 'right'} size={15} />
-            </DisplayAnswers>
-            <Text>{file.price}</Text>
+            <TextTitle>Prix total :</TextTitle>
+            <Text>{file.price_ht} € / HT</Text>
             <TextTitle>Nom du client :</TextTitle>
             <Text>{customer.firstname + ' ' + customer.lastname}</Text>
           </InfosContainer>
@@ -88,14 +82,12 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
 };
 
 const Main = styled.View`
-  display: flex;
-  width: 100%;
   box-shadow: 0px 0px 2px rgba(255, 255, 255, 1);
 `;
 const Header = styled.View`
   display: flex;
-  width: 100%;
   flex-direction: row;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 5% 3%;
@@ -104,8 +96,8 @@ const Header = styled.View`
 const TitleContainer = styled.TouchableOpacity`
   width: 50%;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  flex-direction: row;
   justify-content: space-between;
 `;
 
@@ -113,17 +105,6 @@ const DisplayAnswers = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-const AnswerListWrapper = styled.View`
-  display: flex;
-  border-bottom-width: 1px;
-  padding: 10px 3%;
-  border-bottom-color: rgba(31, 19, 0, 0.3);
-`;
-const AnswerDetailContainer = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `;
 const DisplayAnswersText = styled.Text``;
 
@@ -134,7 +115,6 @@ const Text = styled.Text`
 `;
 const InfosContainer = styled.View`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   border-bottom-width: 1px;
@@ -159,8 +139,8 @@ const Body = styled.View`
 
 const ButtonWrapper = styled.View`
   display: flex;
-  flex-direction: row;
   margin-top: 2%;
+  flex-direction: row;
   justify-content: space-between;
 `;
 const Button = styled.TouchableOpacity`

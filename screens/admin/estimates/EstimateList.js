@@ -79,12 +79,8 @@ const EstimateList = () => {
   );
 };
 
-const Main = styled.SafeAreaView`
-  height: 100%;
-`;
-const ListContainer = styled.ScrollView`
-  box-shadow: 0px 3px 5px rgba(31, 19, 0, 0.3);
-`;
+const Main = styled.SafeAreaView``;
+const ListContainer = styled.ScrollView``;
 const Text = styled.Text`
   font-size: 18px;
 `;
