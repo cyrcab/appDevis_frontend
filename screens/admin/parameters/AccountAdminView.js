@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { deleteUser } from '../../../helpers/api/fetchApi';
+// import { deleteUser } from '../../../helpers/api/fetchApi';
 import AccountInfos from '../../../components/account/AccountInfos';
 import AccountParameterList from '../../../components/parameters/ParameterList';
 import DeleteButton from '../../../components/styled-components/buttons/DeleteButton';
@@ -14,19 +14,19 @@ const AccountAdminView = ({ route }) => {
   const navigation = useNavigation();
   const { user } = route.params;
 
-  const handleDeleteUser = async () => {
-    const response = await deleteUser(user.id);
+  // const handleDeleteUser = async () => {
+  //   const response = await deleteUser(user.id);
 
-    const { errors, userDatas } = response;
-    if (errors) {
-      const { isDeleted } = errors;
-      showAlertInfo(isDeleted);
-    }
-    if (userDatas) {
-      const { isDeleted } = userDatas;
-      showAlertInfo(isDeleted);
-    }
-  };
+  //   const { errors, userDatas } = response;
+  //   if (errors) {
+  //     const { isDeleted } = errors;
+  //     showAlertInfo(isDeleted);
+  //   }
+  //   if (userDatas) {
+  //     const { isDeleted } = userDatas;
+  //     showAlertInfo(isDeleted);
+  //   }
+  // };
 
   const showAlertInfo = (condition) => {
     if (condition === true) {
@@ -68,7 +68,7 @@ const AccountAdminView = ({ route }) => {
         },
         {
           text: 'Continuer',
-          onPress: () => handleDeleteUser(),
+          // onPress: () => handleDeleteUser(),
         },
       ],
     );

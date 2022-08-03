@@ -10,7 +10,6 @@ import LoginStackScreen from './helpers/LoginStackScreen';
 // Pages situées sur l'accueil de l'application
 import EstimateCreation from './screens/admin/estimates/EstimateCreation';
 import EstimateList from './screens/admin/estimates/EstimateList';
-import CategoryList from './screens/admin/category/CategoryList';
 
 // Pages de gestion des différents paramètres
 import AccountListPage from './screens/admin/parameters/AccountListPage';
@@ -21,9 +20,6 @@ import displayAlertError from './helpers/Alert/errorAlert';
 
 // Pages de création de contenu
 import CreateAccount from './screens/admin/Account/CreateAccount';
-
-// Page gestion catégories
-import Category from './screens/admin/category/Category';
 
 // context
 import { AuthContext } from './context/AuthContext';
@@ -84,24 +80,6 @@ const AppContainer = () => {
               headerShown: true,
             }}
           />
-
-          {/* Categories + questions */}
-          <Stack.Screen
-            name="Liste des catégories"
-            component={CategoryList}
-            options={{
-              headerShown: true,
-            }}
-          />
-          <Stack.Screen
-            name="Category"
-            component={Category}
-            options={{
-              headerShown: true,
-              title: 'Liste des questions',
-            }}
-          />
-          {/* Parameters */}
 
           <Stack.Screen
             name="Liste des utilisateurs"

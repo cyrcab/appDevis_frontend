@@ -12,11 +12,6 @@ const FastActionList = () => {
         link="Liste des devis"
       />
       <FastAction title="Faire un devis" logo="plus" link="Création de devis" />
-      <FastAction
-        title="Liste des catégories"
-        logo="flask"
-        link="Liste des catégories"
-      />
     </MainContainer>
   );
 };
