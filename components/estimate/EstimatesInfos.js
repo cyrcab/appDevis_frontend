@@ -5,15 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from '../../helpers/api/axios.config';
 
-const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
+const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   const navigation = useNavigation();
-  const { customer } = estimate;
-  const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
-  const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
+  const { customer } = file;
+  const [fileInfoOpen, setFileInfoOpen] = useState(false);
+  const [packDetailsOpen, setPackDetailsOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
     axios
-      .delete(`/api/files/${estimate.id}`)
+      .delete(`/api/files/${file.id}`)
       .then((res) => res.data)
       .then((deletedFile) =>
         setEstimateList(estimateList.filter((el) => el.id !== deletedFile.id)),
@@ -24,12 +24,10 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
   return (
     <Main>
       <Header>
-        <TitleContainer
-          onPress={() => setEstimateInfoIsOpen(!estimateInfoIsOpen)}
-        >
+        <TitleContainer onPress={() => setFileInfoOpen(!fileInfoOpen)}>
           <Text>{customer.company} </Text>
           <ChevronContainer>
-            {estimateInfoIsOpen ? (
+            {fileInfoOpen ? (
               <Icon name="down" size={20} />
             ) : (
               <Icon name="right" size={20} />
@@ -40,21 +38,21 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
           <Icon name="delete" size={20} />
         </DeleteButtonContainer>
       </Header>
-      {estimateInfoIsOpen && (
+      {fileInfoOpen && (
         <Body>
           <InfosContainer>
             <TextTitle>Type :</TextTitle>
-            <Text>{estimate.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
+            <Text>{file.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Prix total</TextTitle>
             <DisplayAnswers
-              onPress={() => setAnswerDetailsIsOpen(!answerDetailsIsOpen)}
+              onPress={() => setPackDetailsOpen(!packDetailsOpen)}
             >
               <DisplayAnswersText>Détails</DisplayAnswersText>
-              <Icon name={answerDetailsIsOpen ? 'down' : 'right'} size={15} />
+              <Icon name={packDetailsOpen ? 'down' : 'right'} size={15} />
             </DisplayAnswers>
-            <Text>{estimate.price}</Text>
+            <Text>{file.price}</Text>
             <TextTitle>Nom du client :</TextTitle>
             <Text>{customer.firstname + ' ' + customer.lastname}</Text>
           </InfosContainer>
@@ -70,7 +68,7 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
             <Button
               onPress={() =>
                 navigation.navigate('Création de devis', {
-                  estimate: estimate,
+                  file: file,
                 })
               }
             >

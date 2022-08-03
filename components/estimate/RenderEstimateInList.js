@@ -8,7 +8,7 @@ const RenderEstimateInList = ({ estimateList, setEstimateList }) => {
   const renderItem = ({ item }) => {
     return (
       <EstimatesInfos
-        estimate={item}
+        file={item}
         setEstimateList={setEstimateList}
         estimateList={estimateList}
       />

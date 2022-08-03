@@ -8,7 +8,6 @@ import PackList from '../../../components/pack/PackList';
 
 import FormChoice from '../../../components/styled-components/buttons/FormChoice';
 import EstimateForm from '../../../components/estimate/EstimateForm';
-import AddButton from '../../../components/styled-components/buttons/AddButton';
 
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
 import displayAlertError from '../../../helpers/Alert/errorAlert';
@@ -103,21 +102,18 @@ const FileCreation = ({ route }) => {
     setDisplayButtons(true);
   };
 
-  // const handleUpdateEstimate = async () => {
-  //   try {
-  //     const estimateUpdated = authAxios.put(
-  //       `api/files/${estimate.id}`,
-  //       estimate,
-  //     );
-  //     if (estimateUpdated) {
-  //       setDisplayButtons(true);
-  //     } else {
-  //       displayAlertError('Une erreur est survenue, merci de réessayer');
-  //     }
-  //   } catch (error) {
-  //     displayAlertError(error);
-  //   }
-  // };
+  const handleUpdateEstimate = async () => {
+    try {
+      const estimateUpdated = axios.put(`api/files/${file.id}`, file);
+      if (estimateUpdated) {
+        setDisplayButtons(true);
+      } else {
+        displayAlertError('Une erreur est survenue, merci de réessayer');
+      }
+    } catch (error) {
+      displayAlertError(error);
+    }
+  };
 
   return (
     <Main>
@@ -148,26 +144,13 @@ const FileCreation = ({ route }) => {
         <AnswerListWrapper>
           <TitleList>Liste des pack</TitleList>
           <PackList list={packList} setList={setPackList} />
-          {/* {addingAnswerIsPressed ? (
-            <AnswerEstimate
-              setAddingAnswerIsPressed={setAddingAnswerIsPressed}
-              answerList={answerList}
-              setGenerateButton={setGenerateButton}
-              setAnswerList={setAnswerList}
-            />
-          ) : (
-            <AddButton
-              text="Ajouter une réponse"
-              action={() => setAddingAnswerIsPressed(!addingAnswerIsPressed)}
-            />
-          )} */}
         </AnswerListWrapper>
       </ContentWrapper>
       <ButtonContainer>
         <EstimateButton
           text={action === 'CREATE' ? 'Créer' : 'Modifier'}
           isActif={generateButton}
-          action={handleCreateFile}
+          action={action === 'CREATE' ? handleCreateFile : handleUpdateEstimate}
         />
       </ButtonContainer>
       {displayButtons && !file.price ? (

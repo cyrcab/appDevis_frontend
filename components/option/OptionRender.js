@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 
-import { Platform } from 'react-native';
-
 import DuoButton from '../styled-components/buttons/DuoButton';
 
 import Icon from 'react-native-vector-icons/Entypo';
@@ -22,6 +20,7 @@ const OptionRender = ({
   const [newOption, setNewOption] = useState({
     content: option ? option.content : null,
     price_ht: option ? option.price_ht : null,
+    price_ttc: option ? option.price_ttc : null,
     user_id: user.id,
     pack_id: packId,
   });
@@ -50,8 +49,10 @@ const OptionRender = ({
     }
     axios
       .post('/api/options', {
-        ...newOption,
+        pack_id: newOption.pack_id,
         price_ht: parseFloat(newOption.price_ht),
+        content: newOption.content,
+        user_id: newOption.user_id,
       })
       .then((res) => {
         setOptionList(optionList.concat(res.data));
@@ -60,7 +61,18 @@ const OptionRender = ({
       .catch((err) => console.error(err));
   };
 
-  console.log(newOption);
+  const handleUpdateOption = () => {
+    axios
+      .put(`/api/options/${option.id}`, {
+        content: newOption.content,
+        price_ht: parseFloat(newOption.price_ht),
+        user_id: user.id,
+      })
+      .then((res) => res.data)
+      .then((optionUpdated) =>
+        setNewOption({ ...newOption, ...optionUpdated }),
+      );
+  };
 
   return (
     <Main>
@@ -79,7 +91,7 @@ const OptionRender = ({
             <Text>Prix TTC</Text>
             <InputPrice
               placeholder="Prix TTC de l'option"
-              value={option.price_ttc}
+              value={newOption.price_ttc}
             />
           </PriceContainer>
         )}
@@ -95,8 +107,11 @@ const OptionRender = ({
         </PriceContainer>
         <DuoButton
           textLeft="Annuler"
-          textRight="Confirmer"
-          actionRight={() => handleAddOption()}
+          textRight={option ? 'Modifier' : 'Créer'}
+          actionLeft={() => setAddButtonIsPressed(false)}
+          actionRight={() =>
+            option ? handleUpdateOption() : handleAddOption()
+          }
           righIsClickable={true}
         />
       </PriceWrapper>
