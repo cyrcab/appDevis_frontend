@@ -14,15 +14,14 @@ import displayAlertError from '../../../helpers/Alert/errorAlert';
 
 const FileCreation = ({ route }) => {
   const { user } = useContext(UserContext);
-  const userName = user.firstName + ' ' + user.lastName;
 
   const [formToDisplay, setFormToDisplay] = useState(null);
   const [generateButton, setGenerateButton] = useState(false);
   const [packList, setPackList] = useState([]);
   const [file, setFile] = useState({
-    type: null,
+    type: route.params ? route.params.file.type : null,
     user_id: user.id,
-    created_by: userName,
+    reduction: route.params ? route.params.file.reduction : null,
     pack: {
       connect: [],
     },
@@ -41,6 +40,7 @@ const FileCreation = ({ route }) => {
     if (route.params) {
       const { file: fileToUpdate } = route.params;
       setFile(fileToUpdate);
+      setPackList(fileToUpdate.pack);
       setFormToDisplay(fileToUpdate.type === 'estimate' ? 'ESTIMATE' : 'BILL');
       setCustomer(fileToUpdate.customer);
       setDisplayButtons(true);
@@ -57,6 +57,8 @@ const FileCreation = ({ route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packList]);
 
+  console.log(file);
+
   useEffect(() => {
     if (
       action === 'CREATE' &&
@@ -67,6 +69,8 @@ const FileCreation = ({ route }) => {
       customer.mail !== null &&
       packList.length > 0
     ) {
+      setGenerateButton(true);
+    } else if (action === 'UPDATE') {
       setGenerateButton(true);
     }
   }, [
@@ -104,7 +108,10 @@ const FileCreation = ({ route }) => {
 
   const handleUpdateEstimate = async () => {
     try {
-      const estimateUpdated = axios.put(`api/files/${file.id}`, file);
+      const estimateUpdated = axios.put(
+        `api/files/${route.params.file.id}`,
+        file,
+      );
       if (estimateUpdated) {
         setDisplayButtons(true);
       } else {
@@ -145,6 +152,9 @@ const FileCreation = ({ route }) => {
           <TitleList>Liste des pack</TitleList>
           <PackList list={packList} setList={setPackList} />
         </AnswerListWrapper>
+        <InputContainer>
+          <Input />
+        </InputContainer>
       </ContentWrapper>
       <ButtonContainer>
         <EstimateButton
@@ -155,7 +165,6 @@ const FileCreation = ({ route }) => {
       </ButtonContainer>
       {displayButtons && !file.price ? (
         <ActionButton>
-          <EstimateButton text="Signer" isActif />
           <EstimateButton text="Partager" isActif />
           <EstimateButton text="Voir" isActif />
         </ActionButton>
@@ -203,5 +212,7 @@ const ActionButton = styled.View`
   justify-content: space-between;
   margin-bottom: 10%;
 `;
+const InputContainer = styled.View``;
+const Input = styled.TextInput``;
 
 export default FileCreation;
