@@ -108,10 +108,10 @@ const FileCreation = ({ route }) => {
 
   const handleUpdateEstimate = async () => {
     try {
-      const estimateUpdated = axios.put(
-        `api/files/${route.params.file.id}`,
-        file,
-      );
+      const estimateUpdated = axios.put(`api/files/${route.params.file.id}`, {
+        ...file,
+        reduction: parseFloat(file.reduction),
+      });
       if (estimateUpdated) {
         setDisplayButtons(true);
       } else {
@@ -153,7 +153,11 @@ const FileCreation = ({ route }) => {
           <PackList list={packList} setList={setPackList} />
         </AnswerListWrapper>
         <InputContainer>
-          <Input />
+          <Input
+            placeholder="Ajouter une réduction"
+            onChangeText={(text) => setFile({ ...file, reduction: text })}
+            value={file.reduction !== 0 ? file.reduction : null}
+          />
         </InputContainer>
       </ContentWrapper>
       <ButtonContainer>
@@ -212,7 +216,17 @@ const ActionButton = styled.View`
   justify-content: space-between;
   margin-bottom: 10%;
 `;
-const InputContainer = styled.View``;
-const Input = styled.TextInput``;
+const InputContainer = styled.View`
+  width: 90%;
+`;
+const Input = styled.TextInput`
+  margin: 2% 0;
+  font-size: 15px;
+  border: 1px solid rgba(31, 19, 0, 0.3);
+  background: #fdfdff;
+  padding: 2% 5%;
+  font-weight: 600;
+  border-radius: 5px;
+`;
 
 export default FileCreation;
