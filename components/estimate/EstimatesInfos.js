@@ -3,28 +3,31 @@ import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
-import fetchEstimate from '../../helpers/api/fetchEstimate';
+import axios from '../../helpers/api/axios.config';
 
-const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
+const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   const navigation = useNavigation();
-  const { Category, Customer, Estimate_has_Answer } = estimate;
-  const [estimateInfoIsOpen, setEstimateInfoIsOpen] = useState(false);
-  const [answerDetailsIsOpen, setAnswerDetailsIsOpen] = useState(false);
+  const { customer } = file;
+  const [fileInfoOpen, setFileInfoOpen] = useState(false);
+  const [packDetailsOpen, setPackDetailsOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
-    setEstimateList(estimateList.filter((el) => el.id !== estimate.id));
-    fetchEstimate('DELETE', estimate.id);
+    axios
+      .delete(`/api/files/${file.id}`)
+      .then((res) => res.data)
+      .then((deletedFile) =>
+        setEstimateList(estimateList.filter((el) => el.id !== deletedFile.id)),
+      )
+      .catch((err) => console.error(err));
   };
 
   return (
     <Main>
       <Header>
-        <TitleContainer
-          onPress={() => setEstimateInfoIsOpen(!estimateInfoIsOpen)}
-        >
-          <Text>{Customer.company} </Text>
+        <TitleContainer onPress={() => setFileInfoOpen(!fileInfoOpen)}>
+          <Text>{customer.company} </Text>
           <ChevronContainer>
-            {estimateInfoIsOpen ? (
+            {fileInfoOpen ? (
               <Icon name="down" size={20} />
             ) : (
               <Icon name="right" size={20} />
@@ -35,54 +38,37 @@ const EstimatesInfos = ({ estimate, estimateList, setEstimateList }) => {
           <Icon name="delete" size={20} />
         </DeleteButtonContainer>
       </Header>
-      {estimateInfoIsOpen && (
+      {fileInfoOpen && (
         <Body>
           <InfosContainer>
             <TextTitle>Type :</TextTitle>
-            <Text>{estimate.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
-          </InfosContainer>
-          <InfosContainer>
-            <TextTitle>Catégorie :</TextTitle>
-            <Text>{Category.name}</Text>
+            <Text>{file.type === 'estimate' ? 'Devis' : 'Facture'}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Prix total</TextTitle>
             <DisplayAnswers
-              onPress={() => setAnswerDetailsIsOpen(!answerDetailsIsOpen)}
+              onPress={() => setPackDetailsOpen(!packDetailsOpen)}
             >
               <DisplayAnswersText>Détails</DisplayAnswersText>
-              <Icon name={answerDetailsIsOpen ? 'down' : 'right'} size={15} />
+              <Icon name={packDetailsOpen ? 'down' : 'right'} size={15} />
             </DisplayAnswers>
-            <Text>{estimate.price}</Text>
-          </InfosContainer>
-          {answerDetailsIsOpen ? (
-            <AnswerListWrapper>
-              {Estimate_has_Answer.length > 0 &&
-                Estimate_has_Answer.map((el) => (
-                  <AnswerDetailContainer key={el.Answer.id}>
-                    <Text>{el.Answer.content}</Text>
-                    <Text>{el.Answer.price}</Text>
-                  </AnswerDetailContainer>
-                ))}
-            </AnswerListWrapper>
-          ) : null}
-          <InfosContainer>
+            <Text>{file.price}</Text>
             <TextTitle>Nom du client :</TextTitle>
-            <Text>{Customer.firstname + ' ' + Customer.lastname}</Text>
+            <Text>{customer.firstname + ' ' + customer.lastname}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Mail du client :</TextTitle>
-            <Text>{Customer.mail}</Text>
+            <Text>{customer.mail}</Text>
           </InfosContainer>
           <InfosContainer>
             <TextTitle>Numéro du client :</TextTitle>
-            <Text>{Customer.phone}</Text>
+            <Text>{customer.phone}</Text>
           </InfosContainer>
           <ButtonWrapper>
             <Button
               onPress={() =>
                 navigation.navigate('Création de devis', {
-                  estimate: estimate,
+                  file: file,
                 })
               }
             >

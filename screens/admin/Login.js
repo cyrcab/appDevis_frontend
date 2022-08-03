@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../../appDevis_frontend/context/AuthContext';
-import { AxiosContext } from '../../../appDevis_frontend/context/AxiosContext';
-import { saveItem } from '../../helpers/secureStore';
+import { UserContext } from '../../context/UserContext';
 import displayAlertError from '../../helpers/Alert/errorAlert';
+
+import axios from '../../helpers/api/axios.config';
 
 import {
   View,
@@ -19,37 +20,43 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  const authContext = useContext(AuthContext);
-  const { publicAxios } = useContext(AxiosContext);
+  const { setAuthState } = useContext(AuthContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleLoginUser = async () => {
     try {
-      const response = await publicAxios.post('/signin', {
-        mail,
-        password,
-      });
-
-      if (!response.data) {
-        displayAlertError(response);
+      if (!mail) {
+        setErrors(
+          errors.concat({
+            errorCode: 2,
+            message: 'Merci de rentrer une adresse mail',
+          }),
+        );
       }
-      const { accessToken, refreshToken, userId } = response.data;
+      if (!password) {
+        setErrors(
+          errors.concat({
+            errorCode: 3,
+            message: 'Merci de rentrer un mot de passe',
+          }),
+        );
+      }
 
-      authContext.setAuthState({
-        accessToken,
-        refreshToken,
-        authenticated: true,
-        authenticatedUserId: userId,
+      const connection = await axios.post('/signin', {
+        mail: mail,
+        password: password,
       });
 
-      saveItem(
-        '_token',
-        JSON.stringify({
-          accessToken,
-          refreshToken,
-        }),
-      );
+      if (!connection) {
+        displayAlertError(
+          'Une erreur est survenue durant la connexion, merci de réessayer',
+        );
+      }
+
+      setUser({ ...user, ...connection.data });
+      setAuthState({ authenticated: true });
     } catch (error) {
-      displayAlertError(error.response);
+      setAuthState({ authenticated: false });
     }
   };
 

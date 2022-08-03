@@ -1,8 +1,7 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getValueFor } from './helpers/secureStore';
 
 // import de la page de connexion
 import LoginStackScreen from './helpers/LoginStackScreen';
@@ -18,6 +17,7 @@ import AccountListPage from './screens/admin/parameters/AccountListPage';
 import AccountAdminView from './screens/admin/parameters/AccountAdminView';
 import UpdateMail from './screens/admin/Account/UpdateMail';
 import UpdatePassword from './screens/admin/Account/UpdatePassword';
+import displayAlertError from './helpers/Alert/errorAlert';
 
 // Pages de création de contenu
 import CreateAccount from './screens/admin/Account/CreateAccount';
@@ -26,7 +26,9 @@ import CreateAccount from './screens/admin/Account/CreateAccount';
 import Category from './screens/admin/category/Category';
 
 // context
-import { AuthContext } from '../appDevis_frontend/context/AuthContext';
+import { AuthContext } from './context/AuthContext';
+import { UserContext } from './context/UserContext';
+import axios from './helpers/api/axios.config';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -34,35 +36,25 @@ const Stack = createNativeStackNavigator();
 
 const AppContainer = () => {
   const authContext = useContext(AuthContext);
-  const [status, setStatus] = useState('loading');
+  const { user, setUser } = useContext(UserContext);
 
-  const loadJWT = useCallback(async () => {
-    try {
-      const value = await getValueFor('_token');
-      const jwt = JSON.parse(value);
+  const checkConnection = () => {
+    axios
+      .get('/check-token')
+      .then((res) => res.data)
+      .then((userChecked) => {
+        setUser({ ...user, ...userChecked });
+        authContext.setAuthState({ authenticated: true });
+      })
+      .catch((error) => authContext.setAuthState({ authenticated: false }));
+  };
 
-      authContext.setAuthState({
-        accessToken: jwt.accessToken || null,
-        refreshToken: jwt.refreshToken || null,
-        authenticated: jwt.authenticated !== null,
-        authenticatedUserId: jwt.authenticatedUserId || null,
-      });
-
-      setStatus('success');
-    } catch (error) {
-      setStatus('error');
-      authContext.setAuthState({
-        accessToken: null,
-        refreshToken: null,
-        authenticated: false,
-      });
+  useEffect(() => {
+    if (!authContext.authState.authenticated) {
+      checkConnection();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    loadJWT();
-  }, [loadJWT]);
 
   return (
     <NavigationContainer>

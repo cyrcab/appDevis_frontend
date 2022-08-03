@@ -1,35 +1,30 @@
 import React, { createContext, useState } from 'react';
-import { deleteItem } from '../helpers/secureStore';
+import axios from '../helpers/api/axios.config';
+import displayAlertError from '../helpers/Alert/errorAlert';
 
 const AuthContext = createContext(null);
 const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
-    accessToken: null,
-    refreshToken: null,
     authenticated: null,
-    authenticatedUserId: null,
   });
 
   const logout = async () => {
-    await deleteItem('_token');
-    setAuthState({
-      accessToken: null,
-      refreshToken: null,
-      authenticated: false,
-      authenticatedUserId: null,
-    });
-  };
+    try {
+      const response = await axios.post('/signout');
 
-  const getAccessToken = () => {
-    return authState.accessToken;
+      if (response.status === 200) {
+        setAuthState({
+          authenticated: false,
+        });
+      }
+    } catch (error) {
+      displayAlertError(error);
+    }
   };
-
   return (
-    <Provider value={{ authState, setAuthState, getAccessToken, logout }}>
-      {children}
-    </Provider>
+    <Provider value={{ authState, setAuthState, logout }}>{children}</Provider>
   );
 };
 

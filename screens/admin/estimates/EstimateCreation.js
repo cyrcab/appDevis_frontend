@@ -1,34 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
+
+import axios from '../../../helpers/api/axios.config';
+import { UserContext } from '../../../context/UserContext';
+
+import PackList from '../../../components/pack/PackList';
 
 import FormChoice from '../../../components/styled-components/buttons/FormChoice';
 import EstimateForm from '../../../components/estimate/EstimateForm';
-import AddButton from '../../../components/styled-components/buttons/AddButton';
-import AnswerListEstimate from '../../../components/estimate/AnswerListEstimate';
-import CategoryChoice from '../../../components/estimate/CategoryChoice';
+
 import EstimateButton from '../../../components/styled-components/buttons/EstimateButton';
+import displayAlertError from '../../../helpers/Alert/errorAlert';
 
-import AnswerEstimate from '../../../components/estimate/AnswerEstimate';
-import {
-  handleFetchEstimate,
-  fetchUpdateEstimate,
-} from './function/handleFetchEstimate';
+const FileCreation = ({ route }) => {
+  const { user } = useContext(UserContext);
 
-const EstimateCreation = ({ route }) => {
-  const user = useSelector((state) => state.auth);
-  const userName = user.firstName + ' ' + user.lastName;
   const [formToDisplay, setFormToDisplay] = useState(null);
-  const [addingAnswerIsPressed, setAddingAnswerIsPressed] = useState(false);
   const [generateButton, setGenerateButton] = useState(false);
-  const [answerList, setAnswerList] = useState([]);
-  const [estimate, setEstimate] = useState({
-    category_id: null,
-    type: null,
+  const [packList, setPackList] = useState([]);
+  const [file, setFile] = useState({
+    type: route.params ? route.params.file.type : null,
     user_id: user.id,
-    created_by: userName,
-    customer_id: null,
-    price: null,
+    reduction: route.params ? route.params.file.reduction : null,
+    pack: {
+      connect: [],
+    },
   });
   const [customer, setCustomer] = useState({
     firstname: null,
@@ -42,17 +38,11 @@ const EstimateCreation = ({ route }) => {
 
   useEffect(() => {
     if (route.params) {
-      const { estimate: estimateToUpdate } = route.params;
-      setEstimate(estimateToUpdate);
-      setFormToDisplay(
-        estimateToUpdate.type === 'estimate' ? 'ESTIMATE' : 'BILL',
-      );
-      setCustomer(estimateToUpdate.Customer);
-      setAnswerList(
-        estimateToUpdate.Estimate_has_Answer.map((el) => ({
-          ...el.Answer,
-        })),
-      );
+      const { file: fileToUpdate } = route.params;
+      setFile(fileToUpdate);
+      setPackList(fileToUpdate.pack);
+      setFormToDisplay(fileToUpdate.type === 'estimate' ? 'ESTIMATE' : 'BILL');
+      setCustomer(fileToUpdate.customer);
       setDisplayButtons(true);
       setAction('UPDATE');
     } else {
@@ -60,11 +50,14 @@ const EstimateCreation = ({ route }) => {
     }
   }, [route.params]);
 
-  // ordre pour fetch
-  // 1. fetch customer --> récupérer l'id pour le mettre dans le devis ✅
-  // 2. fetch les réponses ==> pour chaque réponse, récupéréer l'id pour le mettre dans le devis en bdd
-  // + somme des tous les prix pour donner un prix total sur le devis
-  // 3. fetch le devis / facture
+  useEffect(() => {
+    const json = packList.map((el) => `{"id" : ${el.id}}`);
+    const obj = json.map((el) => JSON.parse(el));
+    setFile({ ...file, pack: { connect: obj } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packList]);
+
+  console.log(file);
 
   useEffect(() => {
     if (
@@ -74,26 +67,59 @@ const EstimateCreation = ({ route }) => {
       customer.company !== null &&
       customer.phone !== null &&
       customer.mail !== null &&
-      estimate.category_id !== null &&
-      answerList.length > 0
+      packList.length > 0
     ) {
       setGenerateButton(true);
+    } else if (action === 'UPDATE') {
+      setGenerateButton(true);
     }
-  }, [action, answerList.length, customer, estimate.category_id]);
+  }, [
+    action,
+    customer.company,
+    customer.firstname,
+    customer.lastname,
+    customer.mail,
+    customer.phone,
+    packList.length,
+  ]);
 
-  const handleCreateEstimate = () => {
-    const estimateIsCreated = handleFetchEstimate(
-      customer,
-      answerList,
-      user.id,
-      estimate,
-    );
-    if (estimateIsCreated) {
-      setDisplayButtons(true);
+  const handleCreateFile = async () => {
+    try {
+      const newCustomer = await axios.post('/api/customers', customer);
+      if (newCustomer.data) {
+        const newFile = await axios.post('/api/files', {
+          ...file,
+          customer_id: newCustomer.data.id,
+        });
+
+        if (!newFile) {
+          displayAlertError(
+            "Une erreur s'est produite lors de la création du fichier",
+          );
+        }
+      } else {
+        displayAlertError("Une erreur s'est produite ");
+      }
+    } catch (error) {
+      displayAlertError(error);
     }
+    setDisplayButtons(true);
   };
-  const handleUpdateEstimate = () => {
-    fetchUpdateEstimate(answerList, userName, estimate.id, user.id);
+
+  const handleUpdateEstimate = async () => {
+    try {
+      const estimateUpdated = axios.put(`api/files/${route.params.file.id}`, {
+        ...file,
+        reduction: parseFloat(file.reduction),
+      });
+      if (estimateUpdated) {
+        setDisplayButtons(true);
+      } else {
+        displayAlertError('Une erreur est survenue, merci de réessayer');
+      }
+    } catch (error) {
+      displayAlertError(error);
+    }
   };
 
   return (
@@ -105,11 +131,11 @@ const EstimateCreation = ({ route }) => {
             textRight="Facture"
             actionLeft={() => {
               setFormToDisplay('ESTIMATE');
-              setEstimate({ ...estimate, type: 'estimate' });
+              setFile({ ...file, type: 'estimate' });
             }}
             actionRight={() => {
               setFormToDisplay('BILL');
-              setEstimate({ ...estimate, type: 'bill' });
+              setFile({ ...file, type: 'bill' });
             }}
           />
         </ButtonWrapper>
@@ -122,44 +148,27 @@ const EstimateCreation = ({ route }) => {
             />
           )}
         </FormContainer>
-        <SelectorContainer>
-          <CategoryChoice estimate={estimate} setEstimate={setEstimate} />
-        </SelectorContainer>
         <AnswerListWrapper>
-          <TitleList>Liste des options à ajouter</TitleList>
-          <AnswerListEstimate
-            answerList={answerList}
-            setAnswerList={setAnswerList}
-            setGenerateButton={setGenerateButton}
-            setAddingAnswerIsPressed={setAddingAnswerIsPressed}
-          />
-          {addingAnswerIsPressed ? (
-            <AnswerEstimate
-              setAddingAnswerIsPressed={setAddingAnswerIsPressed}
-              answerList={answerList}
-              setGenerateButton={setGenerateButton}
-              setAnswerList={setAnswerList}
-            />
-          ) : (
-            <AddButton
-              text="Ajouter une réponse"
-              action={() => setAddingAnswerIsPressed(!addingAnswerIsPressed)}
-            />
-          )}
+          <TitleList>Liste des pack</TitleList>
+          <PackList list={packList} setList={setPackList} />
         </AnswerListWrapper>
+        <InputContainer>
+          <Input
+            placeholder="Ajouter une réduction"
+            onChangeText={(text) => setFile({ ...file, reduction: text })}
+            value={file.reduction !== 0 ? file.reduction : null}
+          />
+        </InputContainer>
       </ContentWrapper>
       <ButtonContainer>
         <EstimateButton
           text={action === 'CREATE' ? 'Créer' : 'Modifier'}
           isActif={generateButton}
-          action={
-            action === 'CREATE' ? handleCreateEstimate : handleUpdateEstimate
-          }
+          action={action === 'CREATE' ? handleCreateFile : handleUpdateEstimate}
         />
       </ButtonContainer>
-      {displayButtons && !estimate.price ? (
+      {displayButtons && !file.price ? (
         <ActionButton>
-          <EstimateButton text="Signer" isActif />
           <EstimateButton text="Partager" isActif />
           <EstimateButton text="Voir" isActif />
         </ActionButton>
@@ -188,10 +197,6 @@ const AnswerListWrapper = styled.View`
   width: 90%;
   margin-top: 5%;
 `;
-const SelectorContainer = styled.View`
-  width: 90%;
-  margin-top: 5%;
-`;
 const TitleList = styled.Text`
   font-size: 18px;
   font-weight: bold;
@@ -211,5 +216,17 @@ const ActionButton = styled.View`
   justify-content: space-between;
   margin-bottom: 10%;
 `;
+const InputContainer = styled.View`
+  width: 90%;
+`;
+const Input = styled.TextInput`
+  margin: 2% 0;
+  font-size: 15px;
+  border: 1px solid rgba(31, 19, 0, 0.3);
+  background: #fdfdff;
+  padding: 2% 5%;
+  font-weight: 600;
+  border-radius: 5px;
+`;
 
-export default EstimateCreation;
+export default FileCreation;

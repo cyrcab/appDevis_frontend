@@ -1,6 +1,6 @@
 import axios from './axios.config';
 
-const fetchEstimate = async (action, credentials, userName, estimateId) => {
+const FetchEstimate = async (action, credentials, userName, estimateId) => {
   const acceptedAction = ['CREATE', 'PUT', 'DELETE', 'GET'];
   let errors;
   let estimate;
@@ -40,4 +40,4 @@ const fetchEstimate = async (action, credentials, userName, estimateId) => {
   return { estimate, errors };
 };
 
-export default fetchEstimate;
+export default FetchEstimate;

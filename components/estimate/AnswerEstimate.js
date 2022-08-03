@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { useSelector } from 'react-redux';
 
 import fetchAnswer from '../../helpers/api/fetchAnswer';
 import Icon from 'react-native-vector-icons/Feather';
@@ -13,8 +12,6 @@ const AnswerEstimate = ({
   setAddingAnswerIsPressed,
   setGenerateButton,
 }) => {
-  const user = useSelector((state) => state.auth);
-  const userName = user.firstName + ' ' + user.lastName;
   const [inputIsPressed, setInputIsPressed] = useState(false);
   const [answerData, setAnswerData] = useState({
     content: null,
