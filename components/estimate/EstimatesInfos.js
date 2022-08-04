@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from '../../helpers/api/axios.config';
@@ -18,6 +19,10 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
         setEstimateList(estimateList.filter((el) => el.id !== deletedFile.id)),
       )
       .catch((err) => console.error(err));
+  };
+
+  const handleSeePdf = async () => {
+    await WebBrowser.openBrowserAsync('http://192.168.1.24:5001/test.pdf');
   };
 
   return (
@@ -67,7 +72,7 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
             >
               <ButtonText>Modifier</ButtonText>
             </Button>
-            <Button>
+            <Button onPress={handleSeePdf}>
               <ButtonText>Voir</ButtonText>
             </Button>
             <Button>

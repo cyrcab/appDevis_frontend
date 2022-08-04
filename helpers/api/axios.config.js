@@ -2,7 +2,7 @@ import axiosDefault from 'axios';
 import { API_URL } from '@env';
 
 const axios = axiosDefault.create({
-  baseURL: 'http://192.168.1.10:5001',
+  baseURL: 'http://192.168.1.24:5001',
   withCredentials: true,
   // baseURL: 'http://192.168.1.16:5001',
 });
