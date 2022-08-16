@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "appDevis_frontend",
-    "slug": "appDevis_frontend",
+    "slug": "appdevis",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cyrcab.appdevis"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "owner": "cyrcab"
   }
 }
