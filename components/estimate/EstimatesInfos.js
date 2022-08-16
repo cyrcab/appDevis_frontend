@@ -22,7 +22,8 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   };
 
   const handleSeePdf = async () => {
-    await WebBrowser.openBrowserAsync('http://192.168.1.24:5001/test.pdf');
+    await axios.post('/upload-pdf', file);
+    await WebBrowser.openBrowserAsync('http://172.20.10.2:5001/test.pdf');
   };
 
   return (
