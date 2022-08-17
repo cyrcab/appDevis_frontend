@@ -16,15 +16,14 @@ import AccountListPage from './screens/admin/parameters/AccountListPage';
 import AccountAdminView from './screens/admin/parameters/AccountAdminView';
 import UpdateMail from './screens/admin/Account/UpdateMail';
 import UpdatePassword from './screens/admin/Account/UpdatePassword';
-import displayAlertError from './helpers/Alert/errorAlert';
 
 // Pages de création de contenu
 import CreateAccount from './screens/admin/Account/CreateAccount';
 
 // context
 import { AuthContext } from './context/AuthContext';
-import { UserContext } from './context/UserContext';
-import axios from './helpers/api/axios.config';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BottomNavBar from './components/navBar/BottomNavbar';
 
@@ -32,17 +31,24 @@ const Stack = createNativeStackNavigator();
 
 const AppContainer = () => {
   const authContext = useContext(AuthContext);
-  const { user, setUser } = useContext(UserContext);
 
-  const checkConnection = () => {
-    axios
-      .get('/check-token')
-      .then((res) => res.data)
-      .then((userChecked) => {
-        setUser({ ...user, ...userChecked });
-        authContext.setAuthState({ authenticated: true });
-      })
-      .catch((error) => authContext.setAuthState({ authenticated: false }));
+  const checkConnection = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@storage_Key');
+      const jwt = JSON.parse(value);
+
+      authContext.setAuthState({
+        accessToken: jwt.accessToken || null,
+        refreshToken: jwt.refreshToken || null,
+        authenticated: jwt.accessToken !== null,
+      });
+    } catch (error) {
+      authContext.setAuthState({
+        accessToken: null,
+        refreshToken: null,
+        authenticated: false,
+      });
+    }
   };
 
   useEffect(() => {
