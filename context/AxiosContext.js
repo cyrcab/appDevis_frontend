@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import { UserContext } from './UserContext';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,13 +11,14 @@ const { Provider } = AxiosContext;
 
 const AxiosProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
+  const { user, setUser } = useContext(UserContext);
 
   const authAxios = axios.create({
-    baseURL: 'http://localhost:5001/',
+    baseURL: 'http://192.168.1.10:5001',
   });
 
   const publicAxios = axios.create({
-    baseURL: 'http://localhost:5001/',
+    baseURL: 'http://192.168.1.10:5001',
   });
 
   authAxios.interceptors.request.use(
@@ -40,12 +42,12 @@ const AxiosProvider = ({ children }) => {
     const options = {
       method: 'POST',
       data,
-      url: 'http://localhost:5001/refresh-token',
+      url: 'http://192.168.1.10:5001/refresh-token',
     };
 
     return axios(options)
       .then(async (tokenRefreshResponse) => {
-        failedRequest.response.config.headers.Authorization =
+        failedRequest.response.config.headers.authorization =
           'Bearer ' + tokenRefreshResponse.data.accessToken;
 
         authContext.setAuthState({
@@ -58,22 +60,23 @@ const AxiosProvider = ({ children }) => {
           JSON.stringify({
             accessToken: tokenRefreshResponse.data.accessToken,
             refreshToken: authContext.authState.refreshToken,
+            user_id: tokenRefreshResponse.data.user.id,
           }),
         );
 
         return Promise.resolve();
       })
-      .catch((e) =>
+      .catch((e) => {
         authContext.setAuthState({
           accessToken: null,
           refreshToken: null,
-        }),
-      );
+        });
+      });
   };
 
   createAuthRefreshInterceptor(authAxios, refreshAuthLogic, {});
 
-  return <Provider value={(authAxios, publicAxios)}>{children}</Provider>;
+  return <Provider value={{ authAxios, publicAxios }}>{children}</Provider>;
 };
 
 export { AxiosContext, AxiosProvider };

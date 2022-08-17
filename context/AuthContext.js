@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
-import axios from '../helpers/api/axios.config';
 import displayAlertError from '../helpers/Alert/errorAlert';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthContext = createContext(null);
 const { Provider } = AuthContext;
@@ -14,15 +14,12 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.post('/signout');
-
-      if (response.status === 200) {
-        setAuthState({
-          accessToken: null,
-          refreshToken: null,
-          authenticated: false,
-        });
-      }
+      await AsyncStorage.removeItem('@storage_Key');
+      setAuthState({
+        accessToken: null,
+        refreshToken: null,
+        authenticated: false,
+      });
     } catch (error) {
       displayAlertError(error);
     }

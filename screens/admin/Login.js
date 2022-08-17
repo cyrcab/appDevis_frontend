@@ -1,9 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../../appDevis_frontend/context/AuthContext';
 import { UserContext } from '../../context/UserContext';
-import displayAlertError from '../../helpers/Alert/errorAlert';
-
-import axios from '../../helpers/api/axios.config';
+import { AxiosContext } from '../../context/AxiosContext';
 
 import {
   View,
@@ -14,6 +12,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const [mail, setMail] = useState('');
@@ -22,6 +21,7 @@ const Login = ({ navigation }) => {
 
   const { setAuthState } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
+  const { publicAxios } = useContext(AxiosContext);
 
   const handleLoginUser = async () => {
     try {
@@ -42,19 +42,36 @@ const Login = ({ navigation }) => {
         );
       }
 
-      const connection = await axios.post('/signin', {
+      const connection = await publicAxios.post('/signin', {
         mail: mail,
         password: password,
       });
 
-      if (!connection) {
-        displayAlertError(
-          'Une erreur est survenue durant la connexion, merci de réessayer',
-        );
-      }
+      const {
+        accessToken,
+        refreshToken,
+        user: userConnected,
+      } = connection.data;
 
-      setUser({ ...user, ...connection.data });
-      setAuthState({ authenticated: true });
+      setUser({
+        ...user,
+        ...userConnected,
+      });
+
+      setAuthState({
+        accessToken,
+        refreshToken,
+        authenticated: true,
+      });
+
+      await AsyncStorage.setItem(
+        '@storage_Key',
+        JSON.stringify({
+          accessToken,
+          refreshToken,
+          user_id: userConnected.id,
+        }),
+      );
     } catch (error) {
       setAuthState({ authenticated: false });
     }
