@@ -68,6 +68,7 @@ const AxiosProvider = ({ children }) => {
         authContext.setAuthState({
           accessToken: null,
           refreshToken: null,
+          authenticated: false,
         });
       });
   };
