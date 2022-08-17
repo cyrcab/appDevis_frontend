@@ -7,6 +7,8 @@ const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
+    accessToken: null,
+    refreshToken: null,
     authenticated: null,
   });
 
@@ -16,6 +18,8 @@ const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         setAuthState({
+          accessToken: null,
+          refreshToken: null,
           authenticated: false,
         });
       }
@@ -23,8 +27,15 @@ const AuthProvider = ({ children }) => {
       displayAlertError(error);
     }
   };
+
+  const getAccessToken = () => {
+    return authState.accessToken;
+  };
+
   return (
-    <Provider value={{ authState, setAuthState, logout }}>{children}</Provider>
+    <Provider value={{ authState, setAuthState, logout, getAccessToken }}>
+      {children}
+    </Provider>
   );
 };
 
