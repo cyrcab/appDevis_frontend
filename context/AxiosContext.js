@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '@env';
 
 const AxiosContext = createContext();
 
@@ -12,11 +13,11 @@ const AxiosProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: 'http://192.168.1.10:5001',
+    baseURL: API_URL,
   });
 
   const publicAxios = axios.create({
-    baseURL: 'http://192.168.1.10:5001',
+    baseURL: API_URL,
   });
 
   authAxios.interceptors.request.use(
