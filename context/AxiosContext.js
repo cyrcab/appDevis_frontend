@@ -3,7 +3,6 @@ import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from '@env';
 
 const AxiosContext = createContext();
 
@@ -13,11 +12,11 @@ const AxiosProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: API_URL,
+    baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   const publicAxios = axios.create({
-    baseURL: API_URL,
+    baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   authAxios.interceptors.request.use(
