@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Alert, Text } from 'react-native';
 
+
+
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
 const UpdateMail = () => {
   const [mail, setMail] = useState({
     value: '',
-    isCorrect: true,
+    isCorrect: false,
   });
   const [isEnterMail, setIsEnterMail] = useState(false);
   // const [areTheSame, setAreTheSame] = useState(false);

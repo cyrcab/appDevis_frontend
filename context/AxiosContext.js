@@ -12,11 +12,13 @@ const AxiosProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: 'https://app-devis-test.herokuapp.com',
+    baseURL: 'http://192.168.1.11:5001',
+    // baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   const publicAxios = axios.create({
-    baseURL: 'https://app-devis-test.herokuapp.com',
+    baseURL: 'http://192.168.1.11:5001',
+    // baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   authAxios.interceptors.request.use(
@@ -40,7 +42,7 @@ const AxiosProvider = ({ children }) => {
     const options = {
       method: 'POST',
       data,
-      url: 'https://app-devis-test.herokuapp.com/refresh-token',
+      url: 'http://192.168.1.10:5001/refresh-token',
     };
 
     return axios(options)
