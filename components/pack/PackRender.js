@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import displayAlertError from '../../helpers/Alert/errorAlert';
 import OptionList from '../option/OptionList';
 
-import axios from '../../helpers/api/axios.config';
+import { AxiosContext } from '../../context/AxiosContext';
 
 const PackRender = ({ pack, setList, list }) => {
+  const { authContext } = useContext(AxiosContext);
   const [isVisible, setIsVisible] = useState(false);
 
   const handleDeletePack = () => {
-    axios
+    authContext
       .delete(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((packDeleted) =>

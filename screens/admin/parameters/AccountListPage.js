@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
-import axios from '../../../helpers/api/axios.config';
 import { useNavigation } from '@react-navigation/native';
+
+import { AxiosContext } from '../../../context/AxiosContext';
 
 import UserList from '../../../components/parameters/UserList';
 import AddButton from '../../../components/styled-components/buttons/AddButton';
@@ -10,12 +11,13 @@ import SearchBar from '../../../components/styled-components/SearchBar';
 import displayAlertError from '../../../helpers/Alert/errorAlert';
 
 const AccountListPage = () => {
+  const { authAxios } = useContext(AxiosContext);
   const navigation = useNavigation();
   const [userList, setUserList] = useState([]);
   const [searchedWord, setSearchedWord] = useState('');
 
   useEffect(() => {
-    axios
+    authAxios
       .get('/api/users')
       .then((response) => response.data)
       .then((data) => {
@@ -34,6 +36,8 @@ const AccountListPage = () => {
         }
       })
       .catch((err) => displayAlertError(err));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchedWord]);
 
   return (

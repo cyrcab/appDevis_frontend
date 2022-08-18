@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from 'styled-components/native';
-import { RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from '../../../helpers/api/axios.config';
+import { AxiosContext } from '../../../context/AxiosContext';
 
 import RenderEstimateInList from '../../../components/estimate/RenderEstimateInList';
 import SearchBar from '../../../components/styled-components/SearchBar';
 
 const EstimateList = () => {
   const navigation = useNavigation();
+  const { authAxios } = useContext(AxiosContext);
   const [estimateList, setEstimateList] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
   const [searchedWord, setSearchedWord] = useState('');
 
   const fetchData = useCallback(async () => {
-    await axios
+    await authAxios
       .get('/api/files')
       .then((res) => res.data)
       .then((estimate) => {
@@ -37,20 +36,9 @@ const EstimateList = () => {
     fetchData();
   }, [fetchData]);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchData();
-    setRefreshing(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Main>
-      <ListContainer
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+      <ListContainer>
         <FilterContainer>
           <SearchContainer>
             {/* recherche par le nom de la boîte */}
