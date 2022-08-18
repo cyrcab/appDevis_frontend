@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+import { DEFAULT_PASSWORD } from '@env';
+
+import { AxiosContext } from '../../../context/AxiosContext';
 
 import UserCreation from '../../../components/user/UserCreation';
 import FirstButton from '../../../components/styled-components/buttons/FirstButton';
 
 const CreateAccount = () => {
+  const { authAxios } = useContext(AxiosContext);
   const navigation = useNavigation();
   const [newUser, setNewUser] = useState({
     mail: null,
@@ -32,19 +36,17 @@ const CreateAccount = () => {
     handleButtonStatus();
   }, [newUser.firstName, newUser.lastName, newUser.mail, newUser.role_id]);
 
-  // const handleCreateUser = async () => {
-  //   const response = await createUser(newUser);
-
-  //   const { errors, userDatas } = response;
-  //   if (errors) {
-  //     const { isCreated } = errors;
-  //     showAlertInfo(isCreated);
-  //   }
-  //   if (userDatas) {
-  //     const { isCreated } = userDatas;
-  //     showAlertInfo(isCreated);
-  //   }
-  // };
+  const handleCreateUser = async () => {
+    try {
+      await authAxios.post('/api/users', {
+        ...newUser,
+        role_id: parseInt(newUser.role_id, 10),
+        password: DEFAULT_PASSWORD,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Main>
@@ -55,7 +57,7 @@ const CreateAccount = () => {
         <FirstButton
           text="Créer"
           isClickable={isClickable}
-          // action={handleCreateUser}
+          action={handleCreateUser}
         />
       </ButtonContainer>
     </Main>
