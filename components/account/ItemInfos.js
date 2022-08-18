@@ -1,26 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+
+import { UserContext } from '../../context/UserContext';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ItemInfos = ({ title, link, autorisedRole }) => {
+  const { user } = useContext(UserContext);
   const navigation = useNavigation();
-
-  // const userHadAutorisation = () => {
-  //   let isAutorised = true;
-
-  //   if (autorisedRole) {
-  //     if (user.role_name.toLowerCase() !== autorisedRole.toLowerCase()) {
-  //       return (isAutorised = false);
-  //     }
-  //   }
-  //   return isAutorised;
-  // };
 
   return (
     <TouchableWrapper>
-      <Main onPress={() => navigation.navigate(link)}>
+      <Main
+        onPress={() =>
+          user.role_id === autorisedRole ? navigation.navigate(link) : null
+        }
+      >
         <Content>{title}</Content>
         <Icon name="chevron-right" size={25} color="#A8A39A" />
       </Main>

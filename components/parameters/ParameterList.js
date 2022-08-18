@@ -12,7 +12,7 @@ const ParameterList = ({ parameters }) => {
               key={i}
               title={el.title}
               link={el.link}
-              autorisedRole={el.autorisedRole}
+              autorisedRole={el.authorised_role}
             />
           ))
         : null}
