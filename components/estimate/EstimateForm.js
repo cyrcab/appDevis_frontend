@@ -65,7 +65,6 @@ const Main = styled.View`
   background: #fdfdff;
   width: 100%;
   border-radius: 5px;
-  margin-bottom: ${(props) => (props.isFocus ? '60%' : '0')};
 `;
 const EstimateInfos = styled.View`
   display: flex;

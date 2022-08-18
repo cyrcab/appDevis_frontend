@@ -35,7 +35,7 @@ const Home = () => {
   return (
     <HomeContainer>
       <TextPresentationContainer>
-        <TextPresentation>Bienvenue {user?.firstName}</TextPresentation>
+        <TextPresentation>Bonjour {user?.firstName}</TextPresentation>
       </TextPresentationContainer>
       <FastActionContainer>
         <FastActionList />
@@ -59,7 +59,7 @@ const FastActionContainer = styled.View`
 `;
 
 const TextPresentation = styled.Text`
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 500;
   text-align: center;
   margin-top: 5%;
