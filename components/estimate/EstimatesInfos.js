@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 
 import Icon from 'react-native-vector-icons/AntDesign';
-import axios from '../../helpers/api/axios.config';
+
+import { AxiosContext } from '../../context/AxiosContext';
 
 const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
+  const { authContext } = useContext(AxiosContext);
   const navigation = useNavigation();
   const { customer } = file;
   const [fileInfoOpen, setFileInfoOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
-    axios
+    authContext
       .delete(`/api/files/${file.id}`)
       .then((res) => res.data)
       .then((deletedFile) =>
@@ -22,8 +24,10 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   };
 
   const handleSeePdf = async () => {
-    await axios.post('/upload-pdf', file);
-    await WebBrowser.openBrowserAsync('http://172.20.10.2:5001/test.pdf');
+    await authContext.post('/upload-pdf', file);
+    await WebBrowser.openBrowserAsync(
+      'https://app-devis-test.herokuapp.com/test.pdf',
+    );
   };
 
   return (

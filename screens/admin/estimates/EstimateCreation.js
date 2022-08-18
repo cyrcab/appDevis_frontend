@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
 
-import axios from '../../../helpers/api/axios.config';
 import { UserContext } from '../../../context/UserContext';
+
+import { AxiosContext } from '../../../context/AxiosContext';
 
 import PackList from '../../../components/pack/PackList';
 
@@ -13,6 +14,7 @@ import EstimateButton from '../../../components/styled-components/buttons/Estima
 import displayAlertError from '../../../helpers/Alert/errorAlert';
 
 const FileCreation = ({ route }) => {
+  const { authAxios } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
 
   const [formToDisplay, setFormToDisplay] = useState(null);
@@ -57,8 +59,6 @@ const FileCreation = ({ route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [packList]);
 
-  console.log(file);
-
   useEffect(() => {
     if (
       action === 'CREATE' &&
@@ -85,9 +85,9 @@ const FileCreation = ({ route }) => {
 
   const handleCreateFile = async () => {
     try {
-      const newCustomer = await axios.post('/api/customers', customer);
+      const newCustomer = await authAxios.post('/api/customers', customer);
       if (newCustomer.data) {
-        const newFile = await axios.post('/api/files', {
+        const newFile = await authAxios.post('/api/files', {
           ...file,
           customer_id: newCustomer.data.id,
         });
@@ -108,10 +108,13 @@ const FileCreation = ({ route }) => {
 
   const handleUpdateEstimate = async () => {
     try {
-      const estimateUpdated = axios.put(`api/files/${route.params.file.id}`, {
-        ...file,
-        reduction: parseFloat(file.reduction),
-      });
+      const estimateUpdated = authAxios.put(
+        `api/files/${route.params.file.id}`,
+        {
+          ...file,
+          reduction: parseFloat(file.reduction),
+        },
+      );
       if (estimateUpdated) {
         setDisplayButtons(true);
       } else {

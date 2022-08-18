@@ -5,8 +5,9 @@ import DuoButton from '../styled-components/buttons/DuoButton';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
-import axios from '../../helpers/api/axios.config';
 import { UserContext } from '../../context/UserContext';
+import { AxiosContext } from '../../context/AxiosContext';
+
 import displayAlertError from '../../helpers/Alert/errorAlert';
 
 const OptionRender = ({
@@ -16,6 +17,7 @@ const OptionRender = ({
   setAddButtonIsPressed,
   packId,
 }) => {
+  const { authContext } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
   const [newOption, setNewOption] = useState({
     content: option ? option.content : null,
@@ -27,7 +29,7 @@ const OptionRender = ({
 
   const handleDeleteOption = () => {
     if (option) {
-      axios
+      authContext
         .delete(`/api/options/${option.id}`)
         .then((res) => res.data)
         .then((optionDeleted) =>
@@ -47,7 +49,7 @@ const OptionRender = ({
       displayAlertError('Merci de rentrer un prix');
       return;
     }
-    axios
+    authContext
       .post('/api/options', {
         pack_id: newOption.pack_id,
         price_ht: parseFloat(newOption.price_ht),
@@ -62,7 +64,7 @@ const OptionRender = ({
   };
 
   const handleUpdateOption = () => {
-    axios
+    authContext
       .put(`/api/options/${option.id}`, {
         content: newOption.content,
         price_ht: parseFloat(newOption.price_ht),

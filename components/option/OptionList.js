@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components/native';
 import displayAlertError from '../../helpers/Alert/errorAlert';
 import AddButton from '../styled-components/buttons/AddButton';
 
-import axios from '../../helpers/api/axios.config';
 import OptionRender from './OptionRender';
 
+import { AxiosContext } from '../../context/AxiosContext';
+
 const OptionList = ({ pack }) => {
+  const { authContext } = useContext(AxiosContext);
   const [optionList, setOptionList] = useState([]);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
 
   useEffect(() => {
-    axios
+    authContext
       .get(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((data) => setOptionList(data.option))
