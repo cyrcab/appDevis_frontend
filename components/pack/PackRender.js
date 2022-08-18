@@ -8,11 +8,11 @@ import OptionList from '../option/OptionList';
 import { AxiosContext } from '../../context/AxiosContext';
 
 const PackRender = ({ pack, setList, list }) => {
-  const { authContext } = useContext(AxiosContext);
+  const { authAxios } = useContext(AxiosContext);
   const [isVisible, setIsVisible] = useState(false);
 
   const handleDeletePack = () => {
-    authContext
+    authAxios
       .delete(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((packDeleted) =>
