@@ -1,23 +1,17 @@
 import React from 'react';
-import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 
 import RenderUsersInList from './RenderUsersInList';
 
 const UserList = ({ elems }) => {
-  const renderItem = ({ item }) => {
-    return <RenderUsersInList user={item} iconName="user" />;
-  };
-
   if (elems[0] !== undefined) {
     return (
       <ListWrapper>
-        <FlatList
-          data={elems}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          horizontal="false"
-        />
+        {elems.length > 0
+          ? elems.map((el, i) => (
+              <RenderUsersInList key={i} user={el} iconName="user" />
+            ))
+          : null}
       </ListWrapper>
     );
   }
@@ -27,6 +21,7 @@ const UserList = ({ elems }) => {
 
 const ListWrapper = styled.View`
   border-top-width: 1px;
+  border-color: rgba(31, 19, 0, 0.3);
 `;
 const InfosText = styled.Text``;
 

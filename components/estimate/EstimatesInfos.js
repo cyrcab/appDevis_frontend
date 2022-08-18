@@ -90,9 +90,7 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   );
 };
 
-const Main = styled.View`
-  box-shadow: 0px 0px 2px rgba(255, 255, 255, 1);
-`;
+const Main = styled.View``;
 const Header = styled.View`
   display: flex;
   flex-direction: row;
@@ -100,7 +98,10 @@ const Header = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 5% 3%;
-  background: #f092ff;
+  background: #fdfdff;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-color: rgba(31, 19, 0, 0.3);
 `;
 const TitleContainer = styled.TouchableOpacity`
   width: 50%;

@@ -39,12 +39,13 @@ const IconContainer = styled.View`
   padding: 2%;
   display: flex;
   align-items: center;
-  margin-bottom: 2%;
   border-radius: 10px;
 `;
 const Title = styled.Text`
   font-size: 18px;
-  margin-left: 5%;
+  margin-left: 20%;
+  font-weight: 600;
+  color: #1f1300;
 `;
 
 export default FastAction;

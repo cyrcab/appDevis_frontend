@@ -24,6 +24,7 @@ const Home = () => {
       });
     } catch (error) {
       await AsyncStorage.removeItem('@storage_Key');
+      authAxios.setAuthState({ ...authAxios.authState, authenticated: false });
     }
   };
 
@@ -34,8 +35,10 @@ const Home = () => {
 
   return (
     <HomeContainer>
+      <TextPresentationContainer>
+        <TextPresentation>Bonjour {user?.firstName}</TextPresentation>
+      </TextPresentationContainer>
       <FastActionContainer>
-        <Subtitle>Actions rapides</Subtitle>
         <FastActionList />
       </FastActionContainer>
     </HomeContainer>
@@ -49,17 +52,24 @@ const HomeContainer = styled.SafeAreaView`
 `;
 
 const FastActionContainer = styled.View`
-  height: 60%;
+  margin-top: 10%;
+  height: 60%
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const Subtitle = styled.Text`
-  align-self: flex-start;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 2% 2%;
+const TextPresentation = styled.Text`
+  font-size: 25px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 5%;
+`;
+
+const TextPresentationContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 `;
 
 export default Home;
