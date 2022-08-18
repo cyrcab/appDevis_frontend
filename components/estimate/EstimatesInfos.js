@@ -8,13 +8,13 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { AxiosContext } from '../../context/AxiosContext';
 
 const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
-  const { authContext } = useContext(AxiosContext);
+  const { authAxios } = useContext(AxiosContext);
   const navigation = useNavigation();
   const { customer } = file;
   const [fileInfoOpen, setFileInfoOpen] = useState(false);
 
   const handleDeleteEstimate = () => {
-    authContext
+    authAxios
       .delete(`/api/files/${file.id}`)
       .then((res) => res.data)
       .then((deletedFile) =>
@@ -24,7 +24,7 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
   };
 
   const handleSeePdf = async () => {
-    await authContext.post('/upload-pdf', file);
+    await authAxios.post('/upload-pdf', file);
     await WebBrowser.openBrowserAsync(
       'https://app-devis-test.herokuapp.com/test.pdf',
     );

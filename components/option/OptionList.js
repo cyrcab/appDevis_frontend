@@ -8,12 +8,12 @@ import OptionRender from './OptionRender';
 import { AxiosContext } from '../../context/AxiosContext';
 
 const OptionList = ({ pack }) => {
-  const { authContext } = useContext(AxiosContext);
+  const { authAxios } = useContext(AxiosContext);
   const [optionList, setOptionList] = useState([]);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
 
   useEffect(() => {
-    authContext
+    authAxios
       .get(`/api/packs/${pack.id}`)
       .then((res) => res.data)
       .then((data) => setOptionList(data.option))

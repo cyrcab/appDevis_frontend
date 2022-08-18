@@ -10,7 +10,7 @@ import { UserContext } from '../../context/UserContext';
 import AddButton from '../styled-components/buttons/AddButton';
 
 const PackList = ({ list, setList }) => {
-  const { authContext } = useContext(AxiosContext);
+  const { authAxios } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
   const [addButtonIsPressed, setAddButtonIsPressed] = useState(false);
   const [packName, setPackName] = useState(null);
@@ -21,7 +21,7 @@ const PackList = ({ list, setList }) => {
       return;
     }
 
-    authContext
+    authAxios
       .post('/api/packs', {
         name: packName,
         user_id: user.id,
