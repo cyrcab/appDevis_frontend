@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const RenderUsersInList = ({ user, iconName }) => {
   const navigation = useNavigation();
+  const [roleToDisplay, setRoleToDisplay] = useState();
+
+  useEffect(() => {
+    if (user.role_id === 1) {
+      setRoleToDisplay('Super Administrateur');
+    } else if (user.role_id === 2) {
+      setRoleToDisplay('Administrateur');
+    } else {
+      setRoleToDisplay('Invité');
+    }
+  }, [user.role_id]);
 
   return (
     <Main>
@@ -15,12 +26,7 @@ const RenderUsersInList = ({ user, iconName }) => {
         <InfoName>
           {user.firstName} {user.lastName}
         </InfoName>
-        <Role>{user.Role.Name}</Role>
-        <EstimateNumber>
-          {user._count.Estimate === 0
-            ? 'Pas encore de devis effectué'
-            : `${user._count.Estimate} devis effectués`}
-        </EstimateNumber>
+        <Role>{roleToDisplay && roleToDisplay}</Role>
       </InfosSection>
       <Params
         onPress={() =>
@@ -43,16 +49,14 @@ const Main = styled.View`
   justify-content: space-between;
   padding: 20px 10px;
   border-bottom-width: 1px;
+  border-color: rgba(31, 19, 0, 0.3);
+  background: #fdfdff;
 `;
 const IconWrapper = styled.View`
   width: 20%;
 `;
 const InfoName = styled.Text`
   align-self: flex-start;
-  font-weight: 600;
-`;
-const EstimateNumber = styled.Text`
-  color: #ff9b42;
   font-weight: 600;
 `;
 const Role = styled.Text`

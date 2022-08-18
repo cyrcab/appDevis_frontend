@@ -40,7 +40,8 @@ const AxiosProvider = ({ children }) => {
     const options = {
       method: 'POST',
       data,
-      url: 'http://192.168.1.10:5001/refresh-token',
+
+      url: 'https://app-devis-test.herokuapp.com/refresh-token',
     };
 
     return axios(options)

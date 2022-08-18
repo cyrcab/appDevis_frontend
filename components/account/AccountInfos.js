@@ -11,7 +11,13 @@ const AccountInfos = ({ user }) => {
 
   if (role_id) {
     if (role_id === 1) {
+      roleName = 'Super admin';
+    }
+    if (role_id === 2) {
       roleName = 'Admin';
+    }
+    if (role_id === 3) {
+      roleName = 'Invité';
     }
   }
 

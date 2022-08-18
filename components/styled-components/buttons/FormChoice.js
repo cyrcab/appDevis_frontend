@@ -40,14 +40,14 @@ const Button = styled.TouchableOpacity`
   width: 45%;
   border: 1px solid black;
   padding: 3%;
-  background: ${(props) => (props.isActive ? '#083D77' : '#EFEFEF')};
+  background: ${(props) => (props.isActive ? '#083D77' : '#fdfdff')};
   border-radius: 5px;
 `;
 const ButtonText = styled.Text`
   font-size: 18px;
   text-align: center;
   font-weight: 500;
-  color: ${(props) => (props.isActive ? '#EFEFEF' : '#1F1300')};
+  color: ${(props) => (props.isActive ? '#fdfdff' : '#1F1300')};
 `;
 
 export default FormChoice;

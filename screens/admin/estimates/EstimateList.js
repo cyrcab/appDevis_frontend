@@ -94,7 +94,6 @@ const SearchContainer = styled.View`
 `;
 const FilterContainer = styled.View`
   width: 100%;
-  ${'' /* height: 10%; */}
   margin: 5% 0;
   display: flex;
   align-items: center;

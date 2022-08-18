@@ -17,7 +17,7 @@ const OptionRender = ({
   setAddButtonIsPressed,
   packId,
 }) => {
-  const { authContext } = useContext(AxiosContext);
+  const { authAxios } = useContext(AxiosContext);
   const { user } = useContext(UserContext);
   const [newOption, setNewOption] = useState({
     content: option ? option.content : null,
@@ -29,7 +29,7 @@ const OptionRender = ({
 
   const handleDeleteOption = () => {
     if (option) {
-      authContext
+      authAxios
         .delete(`/api/options/${option.id}`)
         .then((res) => res.data)
         .then((optionDeleted) =>
@@ -49,7 +49,7 @@ const OptionRender = ({
       displayAlertError('Merci de rentrer un prix');
       return;
     }
-    authContext
+    authAxios
       .post('/api/options', {
         pack_id: newOption.pack_id,
         price_ht: parseFloat(newOption.price_ht),
@@ -64,7 +64,7 @@ const OptionRender = ({
   };
 
   const handleUpdateOption = () => {
-    authContext
+    authAxios
       .put(`/api/options/${option.id}`, {
         content: newOption.content,
         price_ht: parseFloat(newOption.price_ht),
