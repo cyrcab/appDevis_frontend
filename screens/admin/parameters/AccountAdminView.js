@@ -28,34 +28,6 @@ const AccountAdminView = ({ route }) => {
   //   }
   // };
 
-  const showAlertInfo = (condition) => {
-    if (condition === true) {
-      return Alert.alert(
-        "L'utilisateur a bien été supprimé ✅",
-        "L'utilisateur a été supprimé avec succès.",
-        [
-          {
-            text: 'Suivant',
-            onPress: () => navigation.navigate('Liste des utilisateurs'),
-            style: 'default',
-          },
-        ],
-      );
-    } else {
-      return Alert.alert(
-        'Utilisateur introuvable ❌',
-        "L'utilisateur a peut être déjà été supprimé",
-        [
-          {
-            text: 'Suivant',
-            onPress: () => navigation.navigate('Liste des utilisateurs'),
-            style: 'default',
-          },
-        ],
-      );
-    }
-  };
-
   const deleteConfirmation = () => {
     Alert.alert(
       "Suppression d'un utilisateur",
