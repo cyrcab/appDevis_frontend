@@ -19,11 +19,11 @@ const Button = styled.TouchableOpacity`
     props.isClickable ? props.style.colorActive : props.style.colorInactive};
   width: 100%;
   height: 100%;
-  padding: 15px 20px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 4px 5px 5px rgba(31, 19, 0, 0.5);
+  border-radius: 35px;
 `;
 const ButtonText = styled.Text`
   font-size: 20px;

@@ -114,25 +114,26 @@ const Main = styled.View`
   justify-content: center;
 `;
 const InputContainer = styled.View`
-  width: 70%;
+  width: 80%;
   margin-bottom: 6%;
 `;
 const Input = styled.TextInput`
   font-size: 20px;
   padding: 10px;
   background: #fdfdff;
-  border: 2px solid black;
+  border: 1px solid black;
   margin-top: 10px;
+  border-radius: 5px;
 `;
 const TextInput = styled.Text`
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
 `;
 const Title = styled.Text`
   font-size: 25px;
-  font-weight: 700;
-  margin-bottom: 20%;
-  width: 60%;
+  font-weight: 600;
+  margin-bottom: 10%;
+  width: 70%;
   text-align: center;
 `;
 const ButtonContainer = styled.View`
