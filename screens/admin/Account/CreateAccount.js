@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import UserCreation from '../../../components/user/UserCreation';
@@ -20,10 +19,10 @@ const CreateAccount = () => {
   useEffect(() => {
     const handleButtonStatus = () => {
       if (
-        (newUser.firstName &&
-          newUser.lastName &&
-          newUser.mail &&
-          newUser.role_id) !== null
+        newUser.firstName !== null &&
+        newUser.lastName !== null &&
+        newUser.mail !== null &&
+        newUser.role_id !== 'default'
       ) {
         setIsClickable(true);
       } else {
@@ -47,36 +46,8 @@ const CreateAccount = () => {
   //   }
   // };
 
-  const showAlertInfo = (condition) => {
-    if (condition === true) {
-      return Alert.alert(
-        "L'utilisateur a bien été créé ✅",
-        "L'utilisateur a été créé avec succès, un mail avec ses indentifiants de connexion vient de lui être envoyé",
-        [
-          {
-            text: 'Suivant',
-            onPress: () => navigation.navigate('Liste des utilisateurs'),
-            style: 'default',
-          },
-        ],
-      );
-    } else {
-      return Alert.alert(
-        'Le mail est déjà utilisé ❌',
-        "Merci d'essayer à nouveau avec un mail qui n'est pas encore utilisé",
-        [
-          {
-            text: 'Cancel',
-            onPress: () => setNewUser({ ...newUser, mail: null }),
-            style: 'default',
-          },
-        ],
-      );
-    }
-  };
-
   return (
-    <Main behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <Main>
       <FormContainer>
         <UserCreation newUser={newUser} setNewUser={setNewUser} />
       </FormContainer>
@@ -91,7 +62,7 @@ const CreateAccount = () => {
   );
 };
 
-const Main = styled.KeyboardAvoidingView`
+const Main = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;

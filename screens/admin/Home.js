@@ -24,6 +24,7 @@ const Home = () => {
       });
     } catch (error) {
       await AsyncStorage.removeItem('@storage_Key');
+      authAxios.setAuthState({ ...authAxios.authState, authenticated: false });
     }
   };
 

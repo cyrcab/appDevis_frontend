@@ -14,7 +14,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
           placeholder="Nom"
           autoCapitalize="words"
           placeholderTextColor="#1f1300"
-          value={lastName}
+          value={lastName ? lastName : null}
           onChangeText={(input) => setNewUser({ ...newUser, lastName: input })}
         />
       </InputContainer>
@@ -25,7 +25,7 @@ const UserCreation = ({ newUser, setNewUser }) => {
           placeholder="Prénom"
           autoCapitalize="words"
           placeholderTextColor="#1f1300"
-          value={firstName}
+          value={firstName ? firstName : null}
           onChangeText={(input) => setNewUser({ ...newUser, firstName: input })}
         />
       </InputContainer>
@@ -37,23 +37,22 @@ const UserCreation = ({ newUser, setNewUser }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           placeholderTextColor="#1f1300"
-          value={mail}
+          value={mail ? mail : null}
           onChangeText={(input) => setNewUser({ ...newUser, mail: input })}
         />
       </InputContainer>
       <SelectWrapper>
         <TitleWrapper>Role de l'utilisateur</TitleWrapper>
         <Picker
-          numberOfLines={2}
-          selectedValue={role_id}
+          selectedValue={role_id ? role_id : 'default'}
           onValueChange={(itemValue, itemIndex) =>
             setNewUser({ ...newUser, role_id: itemValue })
           }
         >
-          <Picker.Item label="Sélectionnez un role" value={null} />
-          <Picker.Item label="Admin" value={1} />
-          <Picker.Item label="Commercial" value={2} />
-          <Picker.Item label="consultant" value={3} />
+          <Picker.Item label="Sélectionnez un role" value="default" />
+          <Picker.Item label="Super Admin" value={1} />
+          <Picker.Item label="Admin" value={2} />
+          <Picker.Item label="Invité" value={3} />
         </Picker>
       </SelectWrapper>
     </Main>
