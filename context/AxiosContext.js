@@ -12,11 +12,11 @@ const AxiosProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: 'http://localhost:5001',
+    baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   const publicAxios = axios.create({
-    baseURL: 'http://localhost:5001',
+    baseURL: 'https://app-devis-test.herokuapp.com',
   });
 
   authAxios.interceptors.request.use(

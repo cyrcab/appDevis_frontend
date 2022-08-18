@@ -25,7 +25,9 @@ const EstimatesInfos = ({ file, estimateList, setEstimateList }) => {
 
   const handleSeePdf = async () => {
     await authContext.post('/upload-pdf', file);
-    await WebBrowser.openBrowserAsync('http://172.20.10.2:5001/test.pdf');
+    await WebBrowser.openBrowserAsync(
+      'https://app-devis-test.herokuapp.com/test.pdf',
+    );
   };
 
   return (
