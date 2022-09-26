@@ -73,6 +73,7 @@ const Login = ({ navigation }) => {
         }),
       );
     } catch (error) {
+      console.error(error);
       setAuthState({ authenticated: false });
     }
   };

@@ -5,11 +5,11 @@ const { Provider } = UserContext;
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    id: null,
-    firstName: null,
-    lastName: null,
-    mail: null,
-    role_id: null,
+    id: 1,
+    firstName: 'Cyril',
+    lastName: 'Cabrolier',
+    mail: 'exemple@mail.fr',
+    role_id: '1',
   });
 
   return <Provider value={{ user, setUser }}>{children}</Provider>;
